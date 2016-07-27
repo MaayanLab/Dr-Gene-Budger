@@ -1,0 +1,68 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container">
+    <form action = "/DGB/" method = "post">
+        <fieldset>
+            <legend><strong>Enter a Gene Symbol</strong></legend>
+                {{ form.hidden_tag() }}
+
+
+                <div class="radio">
+                    {{ form.expression.label }} {{ form.expression }}<br>
+                </div>
+                <div class="radio">
+                    {{ form.dataset.label }} {{ form.dataset }}<br>
+                </div>
+
+                <div id = "the-basics" class="form-group">
+                    {{ form.symbol(class="typeahead", placeholder="Gene Symbol") }}
+                    <br>
+                </div>
+                <div>
+                    {{ form.submit }}
+                </div>
+        </fieldset>
+    </form>
+
+</div>
+
+<div>
+    <script>
+    $.getJSON('/DGB/static/js/array.json', function(arr){
+        var substringMatcher = function(strs) {
+          return function findMatches(q, cb) {
+            var matches, substringRegex;
+
+            // an array that will be populated with substring matches
+            matches = [];
+
+            // regex used to determine if a string contains the substring `q`
+            substrRegex = new RegExp(q, 'i');
+
+            // iterate through the pool of strings and for any string that
+            // contains the substring `q`, add it to the `matches` array
+            $.each(strs, function(i, str) {
+              if (substrRegex.test(str)) {
+                matches.push(str);
+              }
+            });
+
+            cb(matches);
+          };
+        };
+
+        $('#the-basics .typeahead').typeahead({
+          hint: true,
+          highlight: true,
+          minLength: 1,
+        },
+        {
+          name: 'arr',
+          source: substringMatcher(arr),
+          limit: 8
+        });
+    });
+    </script>
+</div>
+
+{% endblock %}

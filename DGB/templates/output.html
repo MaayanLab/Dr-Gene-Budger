@@ -1,0 +1,111 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="container">
+    <h1>
+        <strong>
+            Results
+        </strong>
+    </h1>
+    <h1><a href="{{ gene_url }}">{{ symbol }}</a> : {{ pattern }}</h1>
+
+    {% if L1000 %}
+        <br>
+        <font size="3">L1000</font>
+        <table id="L1000" class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Drug Name</th>
+                    <th>LINCS sig_id</th>
+                    <th>LINCS pert_id</th>
+                    <th>Time</th>
+                    <th>Time Unit</th>
+                    <th>Dose</th>
+                    <th>Dose Unit</th>
+                    <th>p-value</th>
+                    <th>Fold Change</th>
+                </tr>
+            </thead>
+
+            <tbody>
+            {% for row in rows %}
+            <!--Here, I use the phrase "if L1000" in order to test the if statement. Use percentile value of row[7] later on-->
+                <tr>
+                    <td>{{ row[0] }}</td>
+                    <td>{{ row[1] }}</td>
+                    <td>{{ row[2] }}</td>
+                    <td>{{ row[3] }}</td>
+                    <td>{{ row[4] }}</td>
+                    <td>{{ row[5] }}</td>
+                    <td>µM</td>
+                    <td>{{ row[6] }}</td>
+                    <td>{{ row[7] }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+
+        </table>
+
+        <script>
+            $(function(){
+            $("#L1000").dataTable();
+            })
+        </script>
+    {% endif %}
+
+
+    {% if CREEDS %}
+        <br>
+        <font size="3">CREEDS</font>
+        <table id="CREEDS" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Drug Name</th>
+                    <th>GEO ID</th>
+                    <th>Drugbank ID</th>
+                    <th>PubChem ID</th>
+                    <th>p-value</th>
+                    <th>Fold Change</th>
+                </tr>
+            </thead>
+
+            <tbody>
+            {% for row in creedsrows %}
+                <tr>
+                    <td>{{ row[0] }}</td>
+
+                    {% if row[6] != None %}
+                        <td><a href="{{ row[6] }}">{{ row[1] }}</a></td>
+                    {% else %}
+                        <td>N/A</td>
+                    {% endif %}
+
+                    {% if row[7] != None %}
+                        <td><a href="{{ row[7] }}">{{ row[2] }}</a></td>
+                    {% else %}
+                        <td>N/A</td>
+                    {% endif %}
+
+                    {% if row[8] != None %}
+                        <td><a href="{{ row[8] }}">{{ row[3] }}</a></td>
+                    {% else %}
+                        <td>N/A</td>
+                    {% endif %}
+
+                    <td>{{ row[4] }}</td>
+                    <td>{{ row[5] }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <script>
+            $(function(){
+            $("#CREEDS").dataTable();
+            })
+        </script>
+    {% endif %}
+    <br>
+</div>
+{% endblock %}

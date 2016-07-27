@@ -4,11 +4,11 @@ from flask_sqlalchemy import SQLAlchemy
 from forms import *
 from orm import *
 from flask_bootstrap import Bootstrap
-from config import BASE_URL
+from config import BASE_URL, SECRET_KEY
 
 
 app = Flask(__name__, static_url_path=BASE_URL + '/static')
-app.config.from_object('config')
+app.secret_key = SECRET_KEY
 Bootstrap(app)
 
 

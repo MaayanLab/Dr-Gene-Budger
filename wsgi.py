@@ -1,1 +1,1 @@
-from DGB import views as application
+from DGB.views import app as application

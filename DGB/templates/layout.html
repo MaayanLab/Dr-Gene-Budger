@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Dr. Gene Budger</title>
+        <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" >
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+        <script type=text/javascript src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+        <script type=text/javascript src="{{ url_for('static', filename='js/typeahead.js') }}"></script>
+        <link href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css" rel="stylesheet" >
+        <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
+    </head>
+
+    <body>
+        <header>
+            <div class="container">
+                <strong>
+                    <nav class="navbar navbar-default">
+                        <div class="container-fluid">
+                            <div class="navbar-header">
+                                <a class="navbar-brand">Dr. Gene Budger</a>
+                            </div>
+                            <ul class="nav navbar-nav">
+                                    <li><a href="{{ url_for('home') }}">Home</a></li>
+                                    <li><a href="{{ url_for('documentation') }}">Documentation</a></li>
+                            </ul>
+                        </div>
+                    </nav>
+                </strong>
+            </div>
+        </header>
+
+        <div>
+            {% with messages = get_flashed_messages() %}
+              {% if messages %}
+                <script>
+                  var messages = {{ messages | safe }};
+                  for (var i=0; i<messages.length; i++) {
+                    alert(messages[i]);
+                  }
+                </script>
+              {% endif %}
+            {% endwith %}
+            {% block content %}
+            {% endblock %}
+
+        </div>
+    </body>
+</html>

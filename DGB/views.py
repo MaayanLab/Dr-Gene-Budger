@@ -8,8 +8,6 @@ from config import BASE_URL
 
 
 app = Flask(__name__, static_url_path=BASE_URL + '/static')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://Kevin:Kevin@127.0.0.1:3306/sql_testing'
-db = SQLAlchemy(app)
 app.config.from_object('config')
 Bootstrap(app)
 

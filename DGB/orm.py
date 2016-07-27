@@ -11,7 +11,7 @@ class _Base(object):
     """Base class for SQLAlchemy model classes."""
     __table_args__ = {'mysql_engine': 'InnoDB'}
 
-engine = create_engine('mysql://Kevin:Kevin@127.0.0.1:3306/creeds')
+engine = create_engine('mysql://dgb:dgb@amp.pharm.mssm.edu:3306/dgb')
 Session = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 session = Session()
 
@@ -42,7 +42,7 @@ class Association(Base):
 
 
 class creedsSignature(Base):
-    __tablename__ = '(creeds)signature'
+    __tablename__ = 'creeds_signature'
     id = Column(Integer, primary_key=True)
     drug_name = Column(String(50))
     geo_id = Column(String(50))
@@ -52,9 +52,9 @@ class creedsSignature(Base):
 
 
 class creedsAssociation(Base):
-    __tablename__ = '(creeds)association'
+    __tablename__ = 'creeds_association'
     id = Column(Integer, primary_key=True)
-    signature_fk = Column(Integer, ForeignKey('(creeds)signature.id'))
+    signature_fk = Column(Integer, ForeignKey('creeds_signature.id'))
     gene_symbol = Column(String(25))
     p_value = Column(Float)
     fold_change = Column(Float)

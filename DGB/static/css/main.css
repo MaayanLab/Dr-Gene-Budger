@@ -1,3 +1,85 @@
+
+
+/*
+ * Stylesheets for Layout, Body, Footer, etc
+ */
+
+html, body {
+   margin:0;
+   padding:0;
+   min-height:100vh;
+   display: flex;
+   flex-direction: column;
+}
+
+header {
+   padding:10px;
+   background: #eee;
+}
+
+main {
+   display: flex;
+   flex: 1 0 auto;
+}
+
+footer {
+    background: #eee;
+    color: #444;
+    padding-top: 13px;
+    padding-bottom: 13px;
+}
+
+share {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    -webkit-justify-content: flex-end;
+    justify-content: flex-end;
+}
+
+textbox {
+    display: flex;
+    flex-direction: row-reverse;
+    flex-grow: 1;
+}
+
+
+#navbar-wrapper {
+    background-color: #343844;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+    height: 50px;
+    padding: 10px;
+    position: relative;
+}
+
+#navbar-wrapper #menu {
+    background-color: #343844;
+    margin-bottom: 20px;
+    position: relative;
+    top: 7px;
+    text-transform: uppercase;
+}
+.navbar-dgb {
+    float: left;
+    height: 50px;
+    padding: 15px 15px;
+    padding-top: 15px;
+    padding-right: 15px;
+    padding-bottom: 15px;
+    padding-left: 0px;
+    font-size: 18px;
+    line-height: 20px;
+}
+
+.navbar-static-top {
+    z-index: 1000;
+    border-width: 0 0 1px;
+}
+
+
+
+
 /*
  * Stylesheets for Typeahead (taken from http://stackoverflow.com/questions/20198247/twitters-typeahead-js-suggestions-are-not-styled-have-no-border-transparent-b)
  */
@@ -13,7 +95,7 @@
 }
 
 .tt-menu {    /* used to be tt-dropdown-menu in older versions */
-  width: 422px;
+  width: 175px;
   margin-top: 4px;
   padding: 4px 0;
   background-color: #fff;
@@ -40,4 +122,17 @@
 
 .tt-suggestion p {
   margin: 0;
+}
+
+
+@media (min-width: 979px) {
+  ul.nav li.dropdown:hover > ul.dropdown-menu {
+    display: block;
+  }
+}
+
+html,
+body {
+  height: 100%;
+  font-size: 13px;
 }

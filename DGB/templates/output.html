@@ -9,11 +9,33 @@
         </strong>
     </h1>
     <h1><a href="{{ gene_url }}">{{ symbol }}</a> : {{ pattern }}</h1>
+    <style>
+        #r1 {background-color:rgba(182, 12, 12, 0.05);}
+        #r2 {background-color:rgba(182, 12, 12, 0.15);}
+        #r3 {background-color:rgba(182, 12, 12, 0.25);}
+        #r4 {background-color:rgba(182, 12, 12, 0.35);}
+        #r5 {background-color:rgba(182, 12, 12, 0.45);}
+        #r6 {background-color:rgba(182, 12, 12, 0.55);}
+        #r7 {background-color:rgba(182, 12, 12, 0.65);}
+        #r8 {background-color:rgba(182, 12, 12, 0.75);}
+        #r9 {background-color:rgba(182, 12, 12, 0.85);}
+        #r10 {background-color:rgba(182, 12, 12, 0.95);}
+        #g1 {background-color:rgba(49, 134, 29, 0.05);}
+        #g2 {background-color:rgba(49, 134, 29, 0.15);}
+        #g3 {background-color:rgba(49, 134, 29, 0.25);}
+        #g4 {background-color:rgba(49, 134, 29, 0.35);}
+        #g5 {background-color:rgba(49, 134, 29, 0.45);}
+        #g6 {background-color:rgba(49, 134, 29, 0.55);}
+        #g7 {background-color:rgba(49, 134, 29, 0.65);}
+        #g8 {background-color:rgba(49, 134, 29, 0.75);}
+        #g9 {background-color:rgba(49, 134, 29, 0.85);}
+        #g10 {background-color:rgba(49, 134, 29, 0.95);}
+    </style>
 
     {% if L1000 %}
         <br>
         <font size="3">L1000</font>
-        <table id="L1000" class="table table-hover">
+        <table id="L1000" class="table table-hover datatable">
             <thead>
                 <tr>
                     <th>Drug Name</th>
@@ -29,9 +51,19 @@
             </thead>
 
             <tbody>
+            {% set count = 0 %}
+
             {% for row in rows %}
-            <!--Here, I use the phrase "if L1000" in order to test the if statement. Use percentile value of row[7] later on-->
-                <tr>
+
+                {% set ldecile = ldeciles[count] %}
+                {% set count = count + 1 %}
+
+                {% if pattern is equalto 'Up-Regulated' %}
+                    <tr id = "g{{ ldecile }}">
+                {% else %}
+                    <tr id = "r{{ ldecile }}">
+                {% endif %}
+
                     <td>{{ row[0] }}</td>
                     <td>{{ row[1] }}</td>
                     <td>{{ row[2] }}</td>
@@ -47,18 +79,14 @@
 
         </table>
 
-        <script>
-            $(function(){
-            $("#L1000").dataTable();
-            })
-        </script>
+
     {% endif %}
 
 
     {% if CREEDS %}
         <br>
         <font size="3">CREEDS</font>
-        <table id="CREEDS" class="table table-striped">
+        <table id="CREEDS" class="table table-hover datatable">
             <thead>
                 <tr>
                     <th>Drug Name</th>
@@ -71,8 +99,19 @@
             </thead>
 
             <tbody>
+            {% set count = 0 %}
+
             {% for row in creedsrows %}
-                <tr>
+
+                {% set cdecile = cdeciles[count] %}
+                {% set count = count + 1 %}
+
+                {% if pattern is equalto 'Up-Regulated' %}
+                    <tr id = "g{{ cdecile }}">
+                {% else %}
+                    <tr id = "r{{ cdecile }}">
+                {% endif %}
+
                     <td>{{ row[0] }}</td>
 
                     {% if row[6] != None %}
@@ -100,12 +139,15 @@
             </tbody>
         </table>
 
-        <script>
-            $(function(){
-            $("#CREEDS").dataTable();
-            })
-        </script>
+
     {% endif %}
     <br>
 </div>
+
+
+<script>
+$(document).ready(function() {
+    $(".datatable").dataTable();
+});
+</script>
 {% endblock %}

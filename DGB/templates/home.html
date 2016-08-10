@@ -3,24 +3,32 @@
 <div class="container">
     <form action = "/DGB/" method = "post">
         <fieldset>
-            <legend><strong>Enter a Gene Symbol</strong></legend>
+            <legend><strong>Enter the symbol of a gene you wish to perturb</strong></legend>
                 {{ form.hidden_tag() }}
 
+                <div class="pull-left">
+                    <div class="radio">
+                        {{ form.expression.label }} {{ form.expression }}<br>
+                    </div>
+                    <div class="radio">
+                        {{ form.dataset.label }} {{ form.dataset }}<br>
+                    </div>
 
-                <div class="radio">
-                    {{ form.expression.label }} {{ form.expression }}<br>
-                </div>
-                <div class="radio">
-                    {{ form.dataset.label }} {{ form.dataset }}<br>
+                    <div>
+                        {{ form.submit }}
+                    </div>
                 </div>
 
-                <div id = "the-basics" class="form-group">
-                    {{ form.symbol(class="typeahead", placeholder="Gene Symbol") }}
-                    <br>
-                </div>
-                <div>
-                    {{ form.submit }}
-                </div>
+                <textbox>
+
+                    <div id = "the-basics" class="radio">
+                        Gene Symbol<br>
+                        {{ form.symbol(class="typeahead", placeholder="Gene Symbol") }}
+                        <br>
+                    </div>
+                </textbox>
+
+
         </fieldset>
     </form>
 

@@ -1,6 +1,5 @@
 # coding=utf-8
 from flask import Flask, render_template, flash, request
-from flask_sqlalchemy import SQLAlchemy
 from forms import *
 from orm import *
 from flask_bootstrap import Bootstrap
@@ -37,24 +36,33 @@ def home():
             if L1000:
                 result = lincs_rows(symbol, expression)
                 rows = result[0]
-                pattern = result[1]
+                ldeciles = result[1]
+                pattern = result[2]
             if CREEDS:
                 result = creeds_rows(symbol, expression)
                 creedsrows = result[0]
-                pattern = result[1]
+                cdeciles = result[1]
+                pattern = result[2]
+
+            # Here, we create a boolean called upregulated because jinja if statements can only test true/false
+            upregulated = False
+            if pattern == 'Up-Regulated':
+                upregulated = True
 
             # Concatenate a string which will hyperlink the gene symbol to its respective Harmonizome page.
             gene_url = 'http://amp.pharm.mssm.edu/Harmonizome/gene/' + symbol
             # Determine which datasets to send to the output page in order to draw the tables.
             if dataset == 'L1000':
-                return render_template('output.html', form=form, symbol=symbol, rows=rows,
-                                       pattern=pattern, L1000=L1000, CREEDS=CREEDS, gene_url=gene_url)
+                return render_template('output.html', form=form, symbol=symbol, rows=rows, pattern=pattern, L1000=L1000,
+                                       CREEDS=CREEDS, gene_url=gene_url, upregulated=upregulated, ldeciles=ldeciles)
             elif dataset == 'CREEDS':
-                return render_template('output.html', form=form, symbol=symbol, creedsrows=creedsrows,
-                                       pattern=pattern, L1000=L1000, CREEDS=CREEDS, gene_url=gene_url)
+                return render_template('output.html', form=form, symbol=symbol,
+                                       creedsrows=creedsrows, pattern=pattern, L1000=L1000, CREEDS=CREEDS,
+                                       gene_url=gene_url, upregulated=upregulated, cdeciles=cdeciles)
             elif dataset == 'Both':
                 return render_template('output.html', form=form, symbol=symbol, rows=rows, creedsrows=creedsrows,
-                                       pattern=pattern, L1000=L1000, CREEDS=CREEDS, gene_url=gene_url)
+                                       pattern=pattern, L1000=L1000, ldeciles=ldeciles, CREEDS=CREEDS,
+                                       cdeciles=cdeciles, gene_url=gene_url, upregulated=upregulated)
 
     else:
         form = GeneForm()

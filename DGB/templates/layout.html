@@ -28,13 +28,13 @@
                         <span class="icon-bar"></span>
                     </button>
                     <a class="navbar-brand" title="Dr. Gene Budger: Identify drugs to increase or decrease expression of target genes" href="">
-                        Dr. Gene Budger</a>
+                        Dr. Gene Budger: Identify drugs to increase or decrease expression of target genes</a>
                 </div>
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
                         <li><a href="{{ url_for('home') }}">Home</a></li>
                         <li><a href="{{ url_for('documentation') }}">Documentation</a></li>
-                        <li><a href="{{ url_for('documentation') }}">Statistics</a></li>
+                        <li><a href="{{ url_for('statistics') }}">Statistics</a></li>
                     </ul>
 
                 </div>
@@ -63,9 +63,10 @@
     </main>
 
 
-    <footer style="width: 100%;" class="footer">
+    <footer style="width: 100%; padding-top: 0;" class="footer">
         <div class="container">
             <div class="row">
+                <br>
                 <div class="col-sm-6">
                     <ul id="contact" class="list-inline">
                         <li>
@@ -92,19 +93,21 @@
                     </div>
                 </div>
                 <share>
-                    <div id="share" class="col-sm-6 hide-on-mobile push-right">
-                        <a href="https://www.linkedin.com/shareArticle?url=http://amp.pharm.mssm.edu/DGB/" target="_blank">
-                            <img src="http://amp.pharm.mssm.edu/DGB/static/image/share/linkedin.png" height="24" width="24">
-                        </a>
-                        <a href="https://plus.google.com/share?url=http://amp.pharm.mssm.edu/DGB/" target="_blank">
-                            <img src="http://amp.pharm.mssm.edu/DGB/static/image/share/googleplus.png" height="24" width="24">
-                        </a>
-                        <a href="http://www.facebook.com/sharer/sharer.php?u=http://amp.pharm.mssm.edu/DGB/" target="_blank">
-                            <img src="http://amp.pharm.mssm.edu/DGB/static/image/share/facebook.png" height="24" width="24">
-                        </a>
-                        <a href="http://twitter.com/share" target="_blank">
-                            <img src="http://amp.pharm.mssm.edu/DGB/static/image/share/twitter.png" height="24" width="24">
-                        </a>
+                    <div id="share" class="col-sm-6 hide-on-mobile">
+                        <span style="float: right">
+                            <a href="https://www.linkedin.com/shareArticle?url=http://amp.pharm.mssm.edu/DGB/" target="_blank" class="push-right">
+                                <img src="http://amp.pharm.mssm.edu/DGB/static/image/share/linkedin.png" height="24" width="24">
+                            </a>
+                            <a href="https://plus.google.com/share?url=http://amp.pharm.mssm.edu/DGB/" target="_blank">
+                                <img src="http://amp.pharm.mssm.edu/DGB/static/image/share/googleplus.png" height="24" width="24">
+                            </a>
+                            <a href="http://www.facebook.com/sharer/sharer.php?u=http://amp.pharm.mssm.edu/DGB/" target="_blank">
+                                <img src="http://amp.pharm.mssm.edu/DGB/static/image/share/facebook.png" height="24" width="24">
+                            </a>
+                            <a href="http://twitter.com/share" target="_blank">
+                                <img src="http://amp.pharm.mssm.edu/DGB/static/image/share/twitter.png" height="24" width="24">
+                            </a>
+                        </span>
                     </div>
                 </share>
             </div>

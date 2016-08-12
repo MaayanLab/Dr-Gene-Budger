@@ -5,8 +5,7 @@ from sqlalchemy import ForeignKey, Column, Integer, String, Float, Binary
 from sqlalchemy.orm import relationship
 from sqlalchemy.orm import sessionmaker
 import math
-import time
-import sys
+import json
 
 
 def init():
@@ -17,7 +16,7 @@ def init():
         __table_args__ = {'mysql_engine': 'InnoDB'}
 
     engine = create_engine('mysql://dgb:dgb@amp.pharm.mssm.edu:3306/dgb')
-    # engine = create_engine('mysql://Kevin:Kevin@amp.pharm.mssm.edu/dgb')
+    # engine = create_engine('mysql://Kevin:Kevin@127.0.0.1:3306/creeds')
     Session = sessionmaker(autocommit=False, autoflush=True, bind=engine)
     global session
     session = Session()
@@ -68,8 +67,7 @@ def init():
 
     global creedsSignature
     class creedsSignature(Base):
-        # __tablename__ = 'creeds_signature'
-        __tablename__ = '(creeds)signature'
+        __tablename__ = 'creeds_signature'
         id = Column(Integer, primary_key=True)
         drug_name = Column(String(50))
         geo_id = Column(String(50))
@@ -80,11 +78,9 @@ def init():
 
     global creedsAssociation
     class creedsAssociation(Base):
-        # __tablename__ = 'creeds_association'
-        __tablename__ = '(creeds)association'
+        __tablename__ = 'creeds_association'
         id = Column(Integer, primary_key=True)
-        # signature_fk = Column(Integer, ForeignKey('creeds_signature.id'))
-        signature_fk = Column(Integer, ForeignKey('(creeds)signature.id'))
+        signature_fk = Column(Integer, ForeignKey('creeds_signature.id'))
         gene_symbol = Column(String(25))
         p_value = Column(Float)
         fold_change = Column(Float)
@@ -134,6 +130,16 @@ def get_or_create(session, model, **kwargs):
         session.add(instance)
         session.commit()
         return instance
+
+
+# This function performs error-checking on the user's gene symbol input.
+def symbol_validate(symbol):
+    with open('/DGB/static/js/array.json') as array:
+        symbols = json.loads(array)
+        if symbol in symbols:
+            return True
+        else:
+            return False
 
 
 # A function to split a list with at least 10 elements into deciles.
@@ -212,8 +218,6 @@ def lincs_rows(symbol, expression):
     associations = association[0:]
     rows = [None] * total_count
 
-    print 'starting...'
-    start = time.time()
     for i in xrange(total_count):
         entry = associations[i]
         row = None

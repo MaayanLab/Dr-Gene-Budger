@@ -15,9 +15,13 @@ Bootstrap(app)
 def home():
     if request.method == 'POST':
         # Create form and handle submissions.
+
         form = GeneForm(request.form)
         if not form.validate_on_submit():
             flash('All fields are required.')
+            return render_template('home.html', form=form)
+        elif symbol_validate(request.form['symbol']) is False:
+            flash('Enter a valid gene symbol.')
             return render_template('home.html', form=form)
         else:
             symbol = request.form['symbol']
@@ -52,6 +56,7 @@ def home():
             # Concatenate a string which will hyperlink the gene symbol to its respective Harmonizome page.
             gene_url = 'http://amp.pharm.mssm.edu/Harmonizome/gene/' + symbol
             # Determine which datasets to send to the output page in order to draw the tables.
+
             if dataset == 'L1000':
                 return render_template('output.html', form=form, symbol=symbol, rows=rows, pattern=pattern, L1000=L1000,
                                        CREEDS=CREEDS, gene_url=gene_url, upregulated=upregulated, ldeciles=ldeciles)
@@ -78,6 +83,9 @@ def layout():
 def documentation():
     return render_template('documentation.html')
 
+@app.route(BASE_URL + '/statistics/')
+def statistics():
+    return render_template('statistics.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

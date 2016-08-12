@@ -1,6 +1,5 @@
 from flask_wtf import Form
 from wtforms import StringField, SubmitField, RadioField
-
 from wtforms import validators  # ValidationError
 
 

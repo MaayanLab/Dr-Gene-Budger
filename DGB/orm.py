@@ -134,12 +134,12 @@ def get_or_create(session, model, **kwargs):
 
 # This function performs error-checking on the user's gene symbol input.
 def symbol_validate(symbol):
-    with open('/DGB/static/js/array.json') as array:
-        symbols = json.loads(array)
-        if symbol in symbols:
-            return True
-        else:
-            return False
+    # with open('static/js/array.json') as array:
+    symbols = json.load(open('DGB/static/js/array.json', 'r'))
+    return symbol in symbols
+    #     return True
+    # else:
+    #     return False
 
 
 # A function to split a list with at least 10 elements into deciles.

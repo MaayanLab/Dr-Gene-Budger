@@ -35,7 +35,7 @@
     {% if L1000 %}
         <br>
         <font size="3">L1000</font>
-        <table id="L1000" class="table table-hover datatable">
+        <table id="L1000" class="table table-hover datatable dn">
             <thead>
                 <tr>
                     <th>Drug Name</th>
@@ -86,7 +86,7 @@
     {% if CREEDS %}
         <br>
         <font size="3">CREEDS</font>
-        <table id="CREEDS" class="table table-hover datatable">
+        <table id="CREEDS" class="table table-hover datatable dn">
             <thead>
                 <tr>
                     <th>Drug Name</th>
@@ -147,7 +147,10 @@
 <script>
   $(document).ready(function() {
     $(".datatable").dataTable({
-      "order": [[7, "asc"]]
+      "order": [[7, "asc"]],
+      "fnInitComplete": function() {
+        $(".datatable").removeClass('dn');
+      }
     });
   });
 </script>

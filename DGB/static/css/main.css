@@ -136,3 +136,7 @@ body {
   height: 100%;
   font-size: 13px;
 }
+
+.dn {
+  display: none;
+}

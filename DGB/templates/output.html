@@ -144,10 +144,11 @@
     <br>
 </div>
 
-
 <script>
-$(document).ready(function() {
-    $(".datatable").dataTable();
-});
+  $(document).ready(function() {
+    $(".datatable").dataTable({
+      "order": [[7, "asc"]]
+    });
+  });
 </script>
 {% endblock %}

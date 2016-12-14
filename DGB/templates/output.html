@@ -146,10 +146,17 @@
 
 <script>
   $(document).ready(function() {
-    $(".datatable").dataTable({
+    $("#L1000").dataTable({
       "order": [[7, "asc"]],
       "fnInitComplete": function() {
-        $(".datatable").removeClass('dn');
+        $("#L1000").removeClass('dn');
+      }
+    });
+
+    $("#CREEDS").dataTable({
+      "order": [[4, "asc"]],
+      "fnInitComplete": function() {
+        $("#CREEDS").removeClass('dn');
       }
     });
   });

@@ -1,12 +1,15 @@
 # coding=utf-8
-from flask import Flask, render_template, flash, request
+from flask import Flask, render_template, flash, request, jsonify
+from flask_cors import CORS, cross_origin
 from forms import *
 from orm import *
 from flask_bootstrap import Bootstrap
 from config import BASE_URL, SECRET_KEY
+import pdb
 
 
 app = Flask(__name__, static_url_path=BASE_URL + '/static')
+cors = CORS(app, resources={r"/api/": {"origins": "*"}})
 app.secret_key = SECRET_KEY
 Bootstrap(app)
 
@@ -15,7 +18,6 @@ Bootstrap(app)
 def home():
     if request.method == 'POST':
         # Create form and handle submissions.
-
         form = GeneForm(request.form)
         if not form.validate_on_submit():
             flash('All fields are required.')
@@ -78,7 +80,6 @@ def home():
 def layout():
     return render_template('layout.html')
 
-
 @app.route(BASE_URL + '/documentation/')
 def documentation():
     return render_template('documentation.html')
@@ -87,6 +88,30 @@ def documentation():
 def statistics():
     return render_template('statistics.html')
 
+
+# Mobile Side
+# Accepts GET and POST requests and returns JSON
+@app.route(BASE_URL + '/api/v1/', methods=['GET', 'POST'])
+def res():
+    if request.method == 'POST':
+        symbol = request.form['symbol']
+        expression = request.form['expression']
+        dataset = request.form['dataset']
+
+        if (dataset == 'Both'):
+            res = do_something(request.form)
+        elif (dataset == 'L1000'):
+            res = do_something(request.form)
+        elif (dataset == 'CREEDS'):
+            res = do_something(request.form)
+        else:
+            # Do same as if dataset were 'Both' by default
+
+        return jsonify(**res)
+
+    # pdb.set_trace()
+    # myDict = {'a': 2, 'b': 3}
+    # return jsonify(**myDict)
+
 if __name__ == '__main__':
     app.run(debug=True)
-

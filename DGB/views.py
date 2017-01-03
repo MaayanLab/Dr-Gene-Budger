@@ -88,30 +88,29 @@ def documentation():
 def statistics():
     return render_template('statistics.html')
 
-
 # Mobile Side
 # Accepts GET and POST requests and returns JSON
-@app.route(BASE_URL + '/api/v1/', methods=['GET', 'POST'])
-def res():
-    if request.method == 'POST':
-        symbol = request.form['symbol']
-        expression = request.form['expression']
-        dataset = request.form['dataset']
-
-        if (dataset == 'Both'):
-            res = do_something(request.form)
-        elif (dataset == 'L1000'):
-            res = do_something(request.form)
-        elif (dataset == 'CREEDS'):
-            res = do_something(request.form)
-        else:
-            # Do same as if dataset were 'Both' by default
-
-        return jsonify(**res)
-
-    # pdb.set_trace()
-    # myDict = {'a': 2, 'b': 3}
-    # return jsonify(**myDict)
+@app.route(BASE_URL + '/api/v1/', methods = ['GET', 'POST'])
+def api_res():
+    if request.method == 'GET':
+        myDict = {'a': 5, 'b': 6}
+        return jsonify(**myDict)
+    elif request.method == 'POST':
+        pdb.set_trace()
+        json_dict = request.get_json()
+        symbol = json_dict['symbol']
+        # symbol = request.form['symbol']
+        # expression = request.form['expression']
+        # dataset = request.form['dataset']
+        #
+        # if (dataset == 'L1000'):
+        #     res = do_something(request.form)
+        # elif (dataset == 'CREEDS'):
+        #     res = do_something(request.form)
+        # else:
+        #     # Do same as if dataset were 'Both' by default
+        #     res = do_something(request.form)
+        # return jsonify(**res)
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -1,5 +1,6 @@
 # coding=utf-8
 from flask import Flask, render_template, flash, request, jsonify
+import json
 from flask_cors import CORS, cross_origin
 from forms import *
 from orm import *
@@ -88,29 +89,59 @@ def documentation():
 def statistics():
     return render_template('statistics.html')
 
+# NOTE
 # Mobile Side
 # Accepts GET and POST requests and returns JSON
+# Mobile App needs to send POST request to this app in JSON format
 @app.route(BASE_URL + '/api/v1/', methods = ['GET', 'POST'])
 def api_res():
     if request.method == 'GET':
-        myDict = {'a': 5, 'b': 6}
+        myDict = {'a': 7, 'b': 6}
         return jsonify(**myDict)
     elif request.method == 'POST':
-        pdb.set_trace()
-        json_dict = request.get_json()
-        symbol = json_dict['symbol']
-        # symbol = request.form['symbol']
-        # expression = request.form['expression']
-        # dataset = request.form['dataset']
-        #
-        # if (dataset == 'L1000'):
-        #     res = do_something(request.form)
-        # elif (dataset == 'CREEDS'):
-        #     res = do_something(request.form)
-        # else:
-        #     # Do same as if dataset were 'Both' by default
-        #     res = do_something(request.form)
-        # return jsonify(**res)
+        jsonData = request.get_json()
+        symbol = jsonData['symbol']
+        expression = jsonData['expression']
+        dataset = jsonData['dataset']
+
+        def do_something(symbol, expression):
+            return { "Type": "L1000", "Analysis": symbol[::-1] }
+            # return lincs_rows(symbol, expression)
+
+        def do_something_else(symbol, expression):
+            return { "Type": "CREEDS", "Analysis": symbol[::-1] }
+            # return creeds_rows(symbol, expression)
+        def do_both(symbol, expression):
+            return { "Type": "BOTH!", "Analysis": symbol[::-1] }
+
+
+        if (dataset == 'L1000'):
+            res = do_something(symbol, expression)
+        elif (dataset == 'CREEDS'):
+            res = do_something_else(symbol, expression)
+            # DEBUGGER
+        else:
+            res = do_both(symbol, expression)
+        return jsonify(**res)
+
+# EXAMPLE
+@app.route(BASE_URL + '/echo', methods = ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'])
+def api_echo():
+    if request.method == 'GET':
+        return "ECHO: GET\n"
+
+    elif request.method == 'POST':
+        return "ECHO: POST\n"
+
+    elif request.method == 'PATCH':
+        return "ECHO: PACTH\n"
+
+    elif request.method == 'PUT':
+        return "ECHO: PUT\n"
+
+    elif request.method == 'DELETE':
+        return "ECHO: DELETE"
+
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -6,7 +6,9 @@ from forms import *
 from orm import *
 from flask_bootstrap import Bootstrap
 from config import BASE_URL, SECRET_KEY
+from api_methods import *
 import pdb
+
 
 
 app = Flask(__name__, static_url_path=BASE_URL + '/static')
@@ -104,24 +106,13 @@ def api_res():
         expression = jsonData['expression']
         dataset = jsonData['dataset']
 
-        def do_something(symbol, expression):
-            return { "Type": "L1000", "Analysis": symbol[::-1] }
-            # return lincs_rows(symbol, expression)
-
-        def do_something_else(symbol, expression):
-            return { "Type": "CREEDS", "Analysis": symbol[::-1] }
-            # return creeds_rows(symbol, expression)
-        def do_both(symbol, expression):
-            return { "Type": "BOTH!", "Analysis": symbol[::-1] }
-
-
         if (dataset == 'L1000'):
-            res = do_something(symbol, expression)
+            res = find_l1000(symbol, expression)
         elif (dataset == 'CREEDS'):
-            res = do_something_else(symbol, expression)
-            # DEBUGGER
+            res = find_creeds(symbol, expression)
         else:
-            res = do_both(symbol, expression)
+            res = find_both(symbol, expression)
+
         return jsonify(**res)
 
 # EXAMPLE

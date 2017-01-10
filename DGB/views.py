@@ -91,25 +91,25 @@ def statistics():
 # Mobile Side
 # Accepts GET and POST requests and returns JSON
 # Mobile App needs to send POST request to this app in JSON format
-@app.route(BASE_URL + '/api/v1/', methods = ['GET', 'POST'])
+@app.route(BASE_URL + '/api/v1/', methods = ['POST'])
 def api_res():
-    if request.method == 'GET':
-        myDict = {'a': 7, 'b': 6}
-        return jsonify(**myDict)
-    elif request.method == 'POST':
+    if request.method == 'POST':
         jsonData = request.get_json()
-        symbol = jsonData['symbol']
-        expression = jsonData['expression']
-        dataset = jsonData['dataset']
+        symbol = jsonData['symbol'].upper()
+        expression = jsonData['expression'].upper()
+        dataset = jsonData['dataset'].upper()
 
         if (dataset == 'L1000'):
-            res = combined_dataset_query(symbol, expression, dataset)
+            l1000 = combined_dataset_query(symbol, expression, dataset)
+            creeds = []
         elif (dataset == 'CREEDS'):
-            res = combined_dataset_query(symbol, expression, dataset)
+            l1000 = []
+            creeds = combined_dataset_query(symbol, expression, dataset)
         else:
-            res = find_both(symbol, expression)
+            l1000 = combined_dataset_query(symbol, expression, "L1000")
+            creeds = combined_dataset_query(symbol, expression, "CREEDS")
 
-        return jsonify(results=res)
+        return jsonify(l1000=l1000, creeds=creeds)
 
 if __name__ == '__main__':
     app.run(debug=True)

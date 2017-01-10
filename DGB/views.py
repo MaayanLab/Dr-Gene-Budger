@@ -103,9 +103,9 @@ def api_res():
         dataset = jsonData['dataset']
 
         if (dataset == 'L1000'):
-            res = find_l1000(symbol, expression)
+            res = combined_dataset_query(symbol, expression, dataset)
         elif (dataset == 'CREEDS'):
-            res = find_creeds(symbol, expression)
+            res = combined_dataset_query(symbol, expression, dataset)
         else:
             res = find_both(symbol, expression)
 

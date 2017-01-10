@@ -209,10 +209,14 @@ def decile_calculate(array):
 
 # ======================================= API =====================================================
 
-def get_or_create_API_L1000(session, **kwargs):
+def get_or_create_API(session, dataset,**kwargs):
     # init a instance if not exists
     # http://stackoverflow.com/questions/2546207/does-sqlalchemy-have-an-equivalent-of-djangos-get-or-create
-    instance = session.query(Association, Signature).filter_by(**kwargs).join(Signature, Association.signature_fk==Signature.id)
+    if (dataset == 'L1000'):
+        instance = session.query(Association, Signature).filter_by(**kwargs).join(Signature, Association.signature_fk==Signature.id)
+    else:
+        instance = session.query(creedsAssociation, creedsSignature).filter_by(**kwargs).join(creedsSignature, creedsAssociation.signature_fk==creedsSignature.id)
+
     if instance:
         return instance
     else:
@@ -221,25 +225,64 @@ def get_or_create_API_L1000(session, **kwargs):
         session.commit()
         return instance
 
-def find_l1000(symbol, expression):
+def combined_dataset_query(symbol, expression, dataset):
     init()
-    association = get_or_create_API_L1000(session, gene_symbol=symbol)
-    #Convert association result into Mapping and filter for up/down regulation via fold-change
+    association = get_or_create_API(session, dataset, gene_symbol=symbol)
+
+    if (dataset == 'L1000'):
+        assoc_table_name = 'Association'
+        sig_table_name = 'Signature'
+    else:
+        assoc_table_name = 'creedsAssociation'
+        sig_table_name = 'creedsSignature'
+
     res = []
     for entry in association:
-        association = entry.Association.__dict__
+        association = getattr(entry, assoc_table_name).__dict__
         if (expression == 'Up' and association['fold_change'] >= 0) or \
                 (expression == 'Down' and association['fold_change'] <= 0):
-            signature = entry.Signature.__dict__
+            signature = getattr(entry, sig_table_name).__dict__
             dictret = dict(association)
             dictret.update(dict(signature))
             for e in ['_sa_instance_state', 'signature_fk', 'id']:
                 dictret.pop(e, None)
             res.append(dictret)
     return res
-
-def find_creeds(symbol, expression):
-    return { "Type": "CREEDS", "Analysis": symbol[::-1] }
+#
+#
+# def find_l1000(symbol, expression):
+#     init()
+#     association = get_or_create_API(session, 'L1000', gene_symbol=symbol)
+#     #Convert association result into Mapping and filter for up/down regulation via fold-change
+#     res = []
+#     for entry in association:
+#         association = entry.Association.__dict__
+#         if (expression == 'Up' and association['fold_change'] >= 0) or \
+#                 (expression == 'Down' and association['fold_change'] <= 0):
+#             signature = entry.Signature.__dict__
+#             dictret = dict(association)
+#             dictret.update(dict(signature))
+#             for e in ['_sa_instance_state', 'signature_fk', 'id']:
+#                 dictret.pop(e, None)
+#             res.append(dictret)
+#     return res
+#
+# def find_creeds(symbol, expression):
+#     init()
+#     association = get_or_create_API(session, 'CREEDS', gene_symbol=symbol)
+#     res = []
+#     for entry in association:
+#         pdb.set_trace()
+#         association = entry.creedsAssociation.__dict__
+#         if (expression == 'Up' and association['fold_change'] >= 0) or \
+#                 (expression == 'Down' and association['fold_change'] <= 0):
+#             signature = entry.creedsSignature.__dict__
+#             dictret = dict(association)
+#             dictret.update(dict(signature))
+#             for e in ['_sa_instance_state', 'signature_fk', 'id']:
+#                 dictret.pop(e, None)
+#             res.append(dictret)
+#     return res
 
 def find_both(symbol, expression):
     return { "Type": "BOTH!", "Analysis": symbol[::-1] }

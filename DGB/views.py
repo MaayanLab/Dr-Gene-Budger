@@ -9,13 +9,10 @@ from config import BASE_URL, SECRET_KEY
 from api_methods import *
 import pdb
 
-
-
 app = Flask(__name__, static_url_path=BASE_URL + '/static')
 cors = CORS(app, resources={r"/api/": {"origins": "*"}})
 app.secret_key = SECRET_KEY
 Bootstrap(app)
-
 
 @app.route(BASE_URL + '/', methods=['GET', 'POST'])
 def home():
@@ -114,25 +111,6 @@ def api_res():
             res = find_both(symbol, expression)
 
         return jsonify(**res)
-
-# EXAMPLE
-@app.route(BASE_URL + '/echo', methods = ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'])
-def api_echo():
-    if request.method == 'GET':
-        return "ECHO: GET\n"
-
-    elif request.method == 'POST':
-        return "ECHO: POST\n"
-
-    elif request.method == 'PATCH':
-        return "ECHO: PACTH\n"
-
-    elif request.method == 'PUT':
-        return "ECHO: PUT\n"
-
-    elif request.method == 'DELETE':
-        return "ECHO: DELETE"
-
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -209,16 +209,33 @@ def decile_calculate(array):
 
 # ======================================= API =====================================================
 
+def get_or_create_API_L1000(session, **kwargs):
+    # init a instance if not exists
+    # http://stackoverflow.com/questions/2546207/does-sqlalchemy-have-an-equivalent-of-djangos-get-or-create
+    instance = session.query(Association, Signature).filter_by(**kwargs).join(Signature, Association.signature_fk==Signature.id)
+    if instance:
+        return instance
+    else:
+        instance = Association(**kwargs)
+        session.add(instance)
+        session.commit()
+        return instance
+
 def find_l1000(symbol, expression):
     init()
-    association = get_or_create(session, Association, gene_symbol=symbol)
+    association = get_or_create_API_L1000(session, gene_symbol=symbol)
     #Convert association result into Mapping and filter for up/down regulation via fold-change
-    # then return Object aka mapping
     res = []
-    for u in association:
-        dictret = dict(u.__dict__)
-        dictret.pop('_sa_instance_state', None)
-        res.append(dictret)
+    for entry in association:
+        association = entry.Association.__dict__
+        if (expression == 'Up' and association['fold_change'] >= 0) or \
+                (expression == 'Down' and association['fold_change'] <= 0):
+            signature = entry.Signature.__dict__
+            dictret = dict(association)
+            dictret.update(dict(signature))
+            for e in ['_sa_instance_state', 'signature_fk', 'id']:
+                dictret.pop(e, None)
+            res.append(dictret)
     return res
 
 def find_creeds(symbol, expression):

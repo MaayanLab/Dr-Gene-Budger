@@ -2,8 +2,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import ForeignKey, Column, Integer, String, Float, Binary
-from sqlalchemy.orm import relationship
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import relationship, sessionmaker
 from config import DATABASE
 import math
 import json
@@ -214,10 +213,13 @@ def find_l1000(symbol, expression):
     init()
     association = get_or_create(session, Association, gene_symbol=symbol)
     #Convert association result into Mapping and filter for up/down regulation via fold-change
-    pdb.set_trace()
-
     # then return Object aka mapping
-    return { "Type": "L1000", "Analysis": symbol[::-1] }
+    res = []
+    for u in association:
+        dictret = dict(u.__dict__)
+        dictret.pop('_sa_instance_state', None)
+        res.append(dictret)
+    return res
 
 def find_creeds(symbol, expression):
     return { "Type": "CREEDS", "Analysis": symbol[::-1] }

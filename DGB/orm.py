@@ -229,18 +229,18 @@ def combined_dataset_query(symbol, expression, dataset):
     init()
     association = get_or_create_API(session, dataset, gene_symbol=symbol)
 
-    if (dataset == 'L1000'):
-        assoc_table_name = 'Association'
-        sig_table_name = 'Signature'
-    else:
+    if (dataset == 'CREEDS'):
         assoc_table_name = 'creedsAssociation'
         sig_table_name = 'creedsSignature'
+    else:
+        assoc_table_name = 'Association'
+        sig_table_name = 'Signature'
 
     res = []
     for entry in association:
         association = getattr(entry, assoc_table_name).__dict__
-        if (expression == 'Up' and association['fold_change'] >= 0) or \
-                (expression == 'Down' and association['fold_change'] <= 0):
+        if (expression == 'UP' and association['fold_change'] >= 0) or \
+                (expression == 'DOWN' and association['fold_change'] <= 0):
             signature = getattr(entry, sig_table_name).__dict__
             dictret = dict(association)
             dictret.update(dict(signature))
@@ -257,8 +257,8 @@ def combined_dataset_query(symbol, expression, dataset):
 #     res = []
 #     for entry in association:
 #         association = entry.Association.__dict__
-#         if (expression == 'Up' and association['fold_change'] >= 0) or \
-#                 (expression == 'Down' and association['fold_change'] <= 0):
+#         if (expression == 'UP' and association['fold_change'] >= 0) or \
+#                 (expression == 'DOWN' and association['fold_change'] <= 0):
 #             signature = entry.Signature.__dict__
 #             dictret = dict(association)
 #             dictret.update(dict(signature))
@@ -274,8 +274,8 @@ def combined_dataset_query(symbol, expression, dataset):
 #     for entry in association:
 #         pdb.set_trace()
 #         association = entry.creedsAssociation.__dict__
-#         if (expression == 'Up' and association['fold_change'] >= 0) or \
-#                 (expression == 'Down' and association['fold_change'] <= 0):
+#         if (expression == 'UP' and association['fold_change'] >= 0) or \
+#                 (expression == 'DOWN' and association['fold_change'] <= 0):
 #             signature = entry.creedsSignature.__dict__
 #             dictret = dict(association)
 #             dictret.update(dict(signature))
@@ -283,9 +283,6 @@ def combined_dataset_query(symbol, expression, dataset):
 #                 dictret.pop(e, None)
 #             res.append(dictret)
 #     return res
-
-def find_both(symbol, expression):
-    return { "Type": "BOTH!", "Analysis": symbol[::-1] }
 
 
 # ======================================= Web App =====================================================

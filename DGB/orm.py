@@ -4,6 +4,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import ForeignKey, Column, Integer, String, Float, Binary
 from sqlalchemy.orm import relationship
 from sqlalchemy.orm import sessionmaker
+from config import DATABASE
 import math
 import json
 
@@ -15,8 +16,7 @@ def init():
         """Base class for SQLAlchemy model classes."""
         __table_args__ = {'mysql_engine': 'InnoDB'}
 
-    engine = create_engine('mysql://dgb:dgb@amp.pharm.mssm.edu:3306/dgb')
-    # engine = create_engine('mysql://Kevin:Kevin@127.0.0.1:3306/creeds')
+    engine = create_engine(DATABASE)
     Session = sessionmaker(autocommit=False, autoflush=True, bind=engine)
     global session
     session = Session()

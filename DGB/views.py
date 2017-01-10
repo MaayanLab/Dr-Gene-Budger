@@ -6,7 +6,6 @@ from forms import *
 from orm import *
 from flask_bootstrap import Bootstrap
 from config import BASE_URL, SECRET_KEY
-from api_methods import *
 import pdb
 
 app = Flask(__name__, static_url_path=BASE_URL + '/static')

@@ -7,6 +7,7 @@ from sqlalchemy.orm import sessionmaker
 from config import DATABASE
 import math
 import json
+import pdb
 
 
 def init():
@@ -131,7 +132,6 @@ def get_or_create(session, model, **kwargs):
         session.commit()
         return instance
 
-
 # This function performs error-checking on the user's gene symbol input.
 def symbol_validate(symbol):
     # with open('static/js/array.json') as array:
@@ -208,6 +208,25 @@ def decile_calculate(array):
 
     return deciles
 
+# ======================================= API =====================================================
+
+def find_l1000(symbol, expression):
+    init()
+    association = get_or_create(session, Association, gene_symbol=symbol)
+    #Convert association result into Mapping and filter for up/down regulation via fold-change
+    pdb.set_trace()
+
+    # then return Object aka mapping
+    return { "Type": "L1000", "Analysis": symbol[::-1] }
+
+def find_creeds(symbol, expression):
+    return { "Type": "CREEDS", "Analysis": symbol[::-1] }
+
+def find_both(symbol, expression):
+    return { "Type": "BOTH!", "Analysis": symbol[::-1] }
+
+
+# ======================================= Web App =====================================================
 
 # This function will return a tuple; each entry of that tuple represents a row of the output table.
 def lincs_rows(symbol, expression):

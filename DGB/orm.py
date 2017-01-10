@@ -212,10 +212,10 @@ def decile_calculate(array):
 def get_or_create_API(session, dataset,**kwargs):
     # init a instance if not exists
     # http://stackoverflow.com/questions/2546207/does-sqlalchemy-have-an-equivalent-of-djangos-get-or-create
-    if (dataset == 'L1000'):
-        instance = session.query(Association, Signature).filter_by(**kwargs).join(Signature, Association.signature_fk==Signature.id)
-    else:
+    if (dataset == 'CREEDS'):
         instance = session.query(creedsAssociation, creedsSignature).filter_by(**kwargs).join(creedsSignature, creedsAssociation.signature_fk==creedsSignature.id)
+    else:
+        instance = session.query(Association, Signature).filter_by(**kwargs).join(Signature, Association.signature_fk==Signature.id)
 
     if instance:
         return instance

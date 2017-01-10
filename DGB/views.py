@@ -109,7 +109,7 @@ def api_res():
         else:
             res = find_both(symbol, expression)
 
-        return jsonify(**res)
+        return jsonify(results=res)
 
 if __name__ == '__main__':
     app.run(debug=True)

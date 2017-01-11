@@ -225,7 +225,7 @@ def get_or_create_API(session, dataset,**kwargs):
         session.commit()
         return instance
 
-def combined_dataset_query(symbol, expression, dataset):
+def dataset_query(symbol, expression, dataset):
     init()
     association = get_or_create_API(session, dataset, gene_symbol=symbol)
 
@@ -248,42 +248,6 @@ def combined_dataset_query(symbol, expression, dataset):
                 dictret.pop(e, None)
             res.append(dictret)
     return res
-#
-#
-# def find_l1000(symbol, expression):
-#     init()
-#     association = get_or_create_API(session, 'L1000', gene_symbol=symbol)
-#     #Convert association result into Mapping and filter for up/down regulation via fold-change
-#     res = []
-#     for entry in association:
-#         association = entry.Association.__dict__
-#         if (expression == 'UP' and association['fold_change'] >= 0) or \
-#                 (expression == 'DOWN' and association['fold_change'] <= 0):
-#             signature = entry.Signature.__dict__
-#             dictret = dict(association)
-#             dictret.update(dict(signature))
-#             for e in ['_sa_instance_state', 'signature_fk', 'id']:
-#                 dictret.pop(e, None)
-#             res.append(dictret)
-#     return res
-#
-# def find_creeds(symbol, expression):
-#     init()
-#     association = get_or_create_API(session, 'CREEDS', gene_symbol=symbol)
-#     res = []
-#     for entry in association:
-#         pdb.set_trace()
-#         association = entry.creedsAssociation.__dict__
-#         if (expression == 'UP' and association['fold_change'] >= 0) or \
-#                 (expression == 'DOWN' and association['fold_change'] <= 0):
-#             signature = entry.creedsSignature.__dict__
-#             dictret = dict(association)
-#             dictret.update(dict(signature))
-#             for e in ['_sa_instance_state', 'signature_fk', 'id']:
-#                 dictret.pop(e, None)
-#             res.append(dictret)
-#     return res
-
 
 # ======================================= Web App =====================================================
 

@@ -100,14 +100,14 @@ def api_res():
         dataset = jsonData['dataset'].upper()
 
         if (dataset == 'L1000'):
-            l1000 = combined_dataset_query(symbol, expression, dataset)
+            l1000 = dataset_query(symbol, expression, dataset)
             creeds = []
         elif (dataset == 'CREEDS'):
             l1000 = []
-            creeds = combined_dataset_query(symbol, expression, dataset)
+            creeds = dataset_query(symbol, expression, dataset)
         else:
-            l1000 = combined_dataset_query(symbol, expression, "L1000")
-            creeds = combined_dataset_query(symbol, expression, "CREEDS")
+            l1000 = dataset_query(symbol, expression, "L1000")
+            creeds = dataset_query(symbol, expression, "CREEDS")
 
         return jsonify(l1000=l1000, creeds=creeds)
 

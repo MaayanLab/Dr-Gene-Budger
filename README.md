@@ -8,7 +8,8 @@ pip install \
     Flask-Bootstrap==3.3.6.0 \
     Flask-WTF==0.12 \
     pandas==0.18.1 \
-    WTForms==2.1
+    WTForms==2.1 \
+    flask-cors==3.0.2
 
 and run the command
 

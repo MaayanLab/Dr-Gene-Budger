@@ -108,8 +108,12 @@ def api_res():
         else:
             l1000 = dataset_query(symbol, expression, "L1000")
             creeds = dataset_query(symbol, expression, "CREEDS")
-
         return jsonify(l1000=l1000, creeds=creeds)
+
+@app.route(BASE_URL + '/api/test/', methods = ['POST'])
+def api_res2():
+    if request.method == 'POST':
+        return jsonify(hi=1, bye=2)
 
 if __name__ == '__main__':
     app.run(debug=True)

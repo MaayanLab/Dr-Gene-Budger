@@ -244,7 +244,7 @@ def dataset_query(symbol, expression, dataset):
             signature = getattr(entry, sig_table_name).__dict__
             dictret = dict(association)
             dictret.update(dict(signature))
-            for e in ['_sa_instance_state', 'signature_fk', 'id']:
+            for e in ['_sa_instance_state', 'signature_fk', 'id', 'pert_dose_unit']: #temporary, must work on getting pert_dose_unit encoding working.
                 dictret.pop(e, None)
             res.append(dictret)
     return res

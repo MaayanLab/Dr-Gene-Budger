@@ -51,26 +51,25 @@
             </thead>
 
             <tbody>
-            {% set count = 0 %}
+            {% set counter = [] %}
 
             {% for row in rows %}
 
-                {% set ldecile = ldeciles[count] %}
-                {% set count = count + 1 %}
+                {% set ldecile = ldeciles[counter|length] %}
+                {% if counter.append('0') %}{% endif %}
 
                 {% if pattern is equalto 'Up-Regulated' %}
                     <tr id = "g{{ ldecile }}">
                 {% else %}
                     <tr id = "r{{ ldecile }}">
                 {% endif %}
-
                     <td>{{ row[0] }}</td>
                     <td>{{ row[1] }}</td>
                     <td>{{ row[2] }}</td>
                     <td>{{ row[3] }}</td>
                     <td>{{ row[4] }}</td>
                     <td>{{ row[5] }}</td>
-                    <td>µM</td>
+                    <td>{{ count }}µM</td>
                     <td>{{ row[6] }}</td>
                     <td>{{ row[7] }}</td>
                 </tr>

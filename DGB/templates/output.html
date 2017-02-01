@@ -52,7 +52,7 @@
 
             <tbody>
             {% for row in rows %}
-                {% set ldecile = ldeciles[loop.index] %}
+                {% set ldecile = ldeciles[loop.index - 1] %}
                 {% if pattern is equalto 'Up-Regulated' %}
                     <tr id = "g{{ ldecile }}">
                 {% else %}
@@ -93,12 +93,8 @@
             </thead>
 
             <tbody>
-            {% set count = 0 %}
-
             {% for row in creedsrows %}
-
-                {% set cdecile = cdeciles[count] %}
-                {% set count = count + 1 %}
+                {% set cdecile = cdeciles[loop.index - 1] %}
 
                 {% if pattern is equalto 'Up-Regulated' %}
                     <tr id = "g{{ cdecile }}">

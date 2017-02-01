@@ -1,0 +1,57 @@
+.footer {
+  background: #eee;
+  color: #444;
+  padding: 13px;
+  width: 100%;
+}
+.footer ul {
+  list-style-type: none;
+  padding: 0;
+}
+.footer a {
+  color: #444;
+  font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 300;
+}
+.footer p {
+  font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+.footer h6 {
+  border-bottom: none;
+  font-weight: bold;
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+.footer .pull-left {
+  width: 80%;
+}
+.footer .pull-left #contact .left-border {
+  border-left: 1px solid #aaa;
+  padding-left: 8px;
+}
+.footer #share a {
+  float: right;
+}
+.footer #share img {
+  padding-left: 5px;
+  width: 30px;
+}
+.footer #share img:hover {
+  opacity: 0.7;
+}
+@media (max-width: 665px) {
+  .hide-on-mobile {
+    display: none;
+  }
+  .footer .pull-left {
+    width: 100%;
+  }
+}
+/* This break point is when the publication citation text-wraps, causing the
+ * footer to need to be longer.
+ */
+@media (max-width: 990px) {
+  .footer {
+    height: 240px;
+  }
+}

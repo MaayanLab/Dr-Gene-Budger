@@ -5,30 +5,23 @@
     <form action = "/DGB/" method = "post">
       <fieldset>
         {{ form.hidden_tag() }}
-        <legend style="text-align:center;">
-          <strong>Enter the symbol of a gene you wish to perturb</strong>
-        </legend>
-        <div class="row">
-          <div class="col-md-offset-4 col-md-4">
-            <div id = "the-basics">
-              Gene Symbol
-              <br>
-              {{ form.symbol(class="typeahead", placeholder="Gene Symbol") }}
-              <br>
-            </div>
+        <div id = "the-basics">
+          Gene Symbol
+          <br>
+          {{ form.symbol(class="typeahead", placeholder="Gene Symbol") }}
+          <br>
+        </div>
 
-            <div class="radio">
-              {{ form.expression.label }} {{ form.expression }}<br>
-            </div>
+        <div class="radio">
+          {{ form.expression.label }} {{ form.expression }}<br>
+        </div>
 
-            <div class="radio">
-              {{ form.dataset.label }} {{ form.dataset }}<br>
-            </div>
+        <div class="radio">
+          {{ form.dataset.label }} {{ form.dataset }}<br>
+        </div>
 
-            <div>
-              {{ form.submit }}
-            </div>
-          </div>
+        <div>
+          {{ form.submit }}
         </div>
       </fieldset>
     </form>

@@ -1,0 +1,129 @@
+#navbar-wrapper {
+  background-color: #42667b;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+  height: 50px;
+  padding: 10px;
+  /* Important! Otherwise the dropdown menu doesn't work!
+     * See: http://stackoverflow.com/a/16156332/1830334
+     */
+  position: relative;
+}
+#navbar-wrapper h1 {
+  border: none;
+  font-size: 25px;
+  margin-bottom: 4px;
+  margin-top: 0;
+}
+#navbar-wrapper h1 span.credits {
+  font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 300;
+  font-size: 14px;
+  margin-left: 10px;
+}
+#navbar-wrapper h1 a:hover {
+  text-decoration: none;
+}
+#navbar-wrapper .nav > li > a:focus,
+#navbar-wrapper .nav > li > a:hover,
+#navbar-wrapper .nav .open > a,
+#navbar-wrapper .nav .open > a:active,
+#navbar-wrapper .nav .open > a:focus,
+#navbar-wrapper .nav .open > a:hover {
+  background-color: #42667b;
+}
+#navbar-wrapper .dropdown-menu {
+  background-color: #42667b;
+  border-radius: 0;
+  border: none;
+  top: 30px;
+}
+#navbar-wrapper #menu {
+  background-color: #42667b;
+  margin-bottom: 20px;
+  position: relative;
+  /* Line up with title text */
+  top: 7px;
+  text-transform: uppercase;
+}
+#navbar-wrapper .nav li {
+  padding: 0;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+#navbar-wrapper .nav li:hover,
+#navbar-wrapper .nav li:focus,
+#navbar-wrapper .nav li:active {
+  background-color: #42667b;
+}
+#navbar-wrapper .nav a:hover,
+#navbar-wrapper .nav a:focus {
+  color: white;
+  opacity: .7;
+  transition: box-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), background-color 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), -webkit-transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition: box-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), background-color 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+#navbar-wrapper img {
+  bottom: 2px;
+  position: relative;
+  margin-right: 14px;
+}
+#navbar-wrapper a {
+  color: white;
+  font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 300;
+}
+#navbar-wrapper a:hover,
+#navbar-wrapper a:active {
+  background-color: #42667b;
+}
+#navbar-wrapper .navbar-nav.list-inline a {
+  padding: 0 1px;
+}
+#navbar-wrapper .navbar-toggle {
+  padding: 0;
+}
+#navbar-wrapper .navbar-toggle span {
+  background-color: white;
+}
+#navbar-wrapper .search {
+  bottom: 6px;
+  float: left;
+  left: 20px;
+  position: relative;
+  width: 25%;
+  top: -2px;
+}
+@media (max-width: 1200px) {
+  #navbar-wrapper h1 .credits {
+    display: none;
+  }
+}
+@media (max-width: 1000px) {
+  #navbar-wrapper h1 .project-title {
+    /*display: none;*/
+  }
+  #navbar-wrapper ul li.search-item {
+    display: none;
+  }
+}
+@media (max-width: 768px) {
+  #navbar-wrapper #menu {
+    width: 100%;
+  }
+  #navbar-wrapper #menu a {
+    padding: 2px 5px;
+  }
+  #navbar-wrapper #menu a:hover,
+  #navbar-wrapper #menu afocus {
+    background-color: #61697F;
+  }
+  #navbar-wrapper #menu li {
+    padding: 5px 10px;
+  }
+  #navbar-wrapper .search-bar .entity-dropdown {
+    display: none;
+  }
+  #navbar-wrapper ul {
+    top: 0;
+  }
+}

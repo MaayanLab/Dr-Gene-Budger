@@ -1116,7 +1116,8 @@
             var css = {
                 wrapper: {
                     position: "relative",
-                    display: "inline-block"
+                    // display: "inline-block"
+                    display: "block"
                 },
                 hint: {
                     position: "absolute",
@@ -1137,7 +1138,8 @@
                 },
                 menu: {
                     position: "absolute",
-                    top: "100%",
+                    // top: "100%",
+                    top: "2.3rem",
                     left: "0",
                     zIndex: "100",
                     display: "none"

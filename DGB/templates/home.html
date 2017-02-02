@@ -2,39 +2,46 @@
 {% block content %}
 <div class="container">
   <div class="row">
-    <form action="/DGB/" method="post">
-      <fieldset>
-        {{ form.hidden_tag() }}
-        <div id = "the-basics">
-          Gene Symbol
-          <br>
-          <div id="custom-search-input">
-           <div class="input-group col-md-12">
-             <input type="text" class="search-query form-control typeahead" placeholder="Gene Symbol" />
-             <span class="input-group-btn">
-               <button class="btn btn-danger" type="button">
-                 <span class=" glyphicon glyphicon-search"></span>
-               </button>
-             </span>
-           </div>
-         </div>
-          {{ form.symbol(class="typeahead", placeholder="Gene Symbol") }}
-          <br>
-        </div>
+    <div class="landing-page">
+      <div class="col-md-12 text-center">
+  			<img src="image/logo_100x87.png">
+  			<h1 class="project-title">Dr. Gene Budger</h1>
+  			<p class="instruction">Identify drugs to regulate expression of target genes.</p>
+  		</div>
 
-        <div class="radio">
-          {{ form.expression.label }} {{ form.expression }}<br>
-        </div>
+      <div class="col-md-12">
+        <form action="/DGB/" method="post">
+          <fieldset>
+            {{ form.hidden_tag() }}
+            <div id = "the-basics">
+              <div id="custom-search-input">
+               <div class="input-group col-md-12">
+                 {{ form.symbol(class="search-query form-control typeahead", placeholder="Enter a gene symbol you are interested in regulating") }}
+                 <span class="input-group-btn">
+                   <button class="btn btn-danger" type="button">
+                     <span class=" glyphicon glyphicon-search"></span>
+                   </button>
+                 </span>
+               </div>
+             </div>
+              <br>
+            </div>
 
-        <div class="radio">
-          {{ form.dataset.label }} {{ form.dataset }}<br>
-        </div>
+            <div class="radio">
+              {{ form.expression.label }} {{ form.expression }}<br>
+            </div>
 
-        <div>
-          {{ form.submit }}
-        </div>
-      </fieldset>
-    </form>
+            <div class="radio">
+              {{ form.dataset.label }} {{ form.dataset }}<br>
+            </div>
+
+            <div>
+              {{ form.submit }}
+            </div>
+          </fieldset>
+        </form>
+      </div>
+    </div>
   </div>
 </div>
 

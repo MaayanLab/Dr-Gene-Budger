@@ -45,12 +45,25 @@
 
           </fieldset>
         </form>
+
+        <div class="example-searches">
+          <h6>Example Searches</h6>
+          <ul class="example-list">
+            <li><a href="#">AKT1</a></li>
+            <li><a href="#">RNF14</a></li>
+            <li><a href="#">STAT3</a></li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
 </div>
 
 <script>
+  $('.example-list').on('click', 'li', function(e) {
+    var geneName = e.currentTarget.children[0].innerHTML;
+    $("#search").attr("value", geneName);
+  });
   $.getJSON('/DGB/static/js/array.json', function(arr){
       var substringMatcher = function(strs) {
         return function findMatches(q, cb) {

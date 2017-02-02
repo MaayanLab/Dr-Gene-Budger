@@ -25,6 +25,24 @@
   margin: 1rem;
 }
 
+.example-searches {
+  margin-top: 2rem;
+}
+
+.example-list {
+  list-style: none;
+  padding: 0;
+}
+
+.example-list li {
+  display: inline-block;
+  margin: 0 1rem;
+}
+
+.example-list li a {
+  text-decoration: none;
+}
+
 /*------------------------- Search Bar --------------------------*/
 #custom-search-input {
   margin:0;

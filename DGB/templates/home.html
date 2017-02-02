@@ -13,31 +13,25 @@
         <form action="/DGB/" method="post">
           <fieldset>
             {{ form.hidden_tag() }}
-            <div id = "the-basics">
-              <div id="custom-search-input">
-               <div class="input-group col-md-12">
-                 {{ form.symbol(class="search-query form-control typeahead", placeholder="Enter a gene symbol you are interested in regulating") }}
-                 <span class="input-group-btn">
-                   <button class="btn btn-danger" type="button">
-                     <span class=" glyphicon glyphicon-search"></span>
-                   </button>
-                 </span>
-               </div>
-             </div>
-              <br>
+            <div id="custom-search-input">
+              <div class="input-group col-md-12">
+               {{ form.symbol(id="search", class="search-query form-control typeahead", placeholder="Enter a gene symbol you are interested in regulating") }}
+               <span class="input-group-btn">
+                 <button type="submit" class="btn btn-danger" type="button">
+                   <span class=" glyphicon glyphicon-search"></span>
+                 </button>
+               </span>
+              </div>
             </div>
 
-            <div class="radio">
+            <div class="select">
               {{ form.expression.label }} {{ form.expression }}<br>
             </div>
 
-            <div class="radio">
+            <div class="select">
               {{ form.dataset.label }} {{ form.dataset }}<br>
             </div>
 
-            <div>
-              {{ form.submit }}
-            </div>
           </fieldset>
         </form>
       </div>
@@ -69,7 +63,7 @@
         };
       };
 
-      $('#the-basics .typeahead').typeahead({
+      $('#search').typeahead({
         hint: true,
         highlight: true,
         minLength: 1,
@@ -80,6 +74,7 @@
         limit: 8
       });
   });
+  $('select').togglebutton();
 </script>
 
 {% endblock %}

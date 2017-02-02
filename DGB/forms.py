@@ -11,6 +11,6 @@ class GeneForm(Form):
                             default='Up')
     dataset = SelectField("Which datasets would you like to query?",
                          [validators.data_required("Please choose an option")],
-                         choices=[('L1000', 'L1000'), ('CREEDS', 'CREEDS'), ('Both', 'Both')],
+                         choices=[('Both', 'L1000'), ('Both', 'CREEDS'), ('Both', 'Both')],
                          default='L1000')
     submit = SubmitField("Find a list of prioritized small molecules")

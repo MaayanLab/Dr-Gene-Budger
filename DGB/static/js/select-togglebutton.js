@@ -49,7 +49,7 @@
                         options.val(btn.value).prop("selected", true);
                         total.push(btn.value);
                     }
-                   
+
                     // If the select allow multiple values, remove all active
                     // class to the other buttons (to keep only the last clicked
                     // button).

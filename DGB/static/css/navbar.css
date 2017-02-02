@@ -93,7 +93,7 @@
   width: 25%;
   top: -2px;
 }
-@media (max-width: 1200px) {
+@media (max-width: 990px) {
   #navbar-wrapper h1 .credits {
     display: none;
   }

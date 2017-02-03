@@ -140,7 +140,6 @@ def symbol_validate(symbol):
     # else:
     #     return False
 
-
 # A function to split a list with at least 10 elements into deciles.
 def decile_calculate(array):
     # Determine whether this list has negative values or positive values.
@@ -273,6 +272,12 @@ def lincs_rows(symbol, expression):
     rows = sorted(rows, key=lambda tup: tup[7])
     length = len(rows)
 
+    p_vals = [0] * length
+    for i in xrange(length):
+        p_vals[i] = rows[i][6]
+
+    min_max_p_val = [min(p_vals), max(p_vals)]
+
     fold_changes = [0] * length
     for i in xrange(length):
         fold_changes[i] = rows[i][7]
@@ -285,7 +290,7 @@ def lincs_rows(symbol, expression):
     else:
         pattern = 'Down-Regulated'
 
-    result = (rows, deciles, pattern)
+    result = (rows, deciles, pattern, min_max_p_val)
     return result
 
 

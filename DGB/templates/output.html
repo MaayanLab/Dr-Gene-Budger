@@ -36,6 +36,7 @@
           <tbody>
           {% for row in rows %}
               {% set ldecile = ldeciles[loop.index - 1] %}
+                <tr>
                   <td>
                     <a href="http://amp.pharm.mssm.edu/dmoa/report/{{ row[2] }}" target="_blank">
                       {{ row[0] }}
@@ -49,7 +50,9 @@
                   </td>
                   <td>{{ row[3] }} {{ row[4] }}</td>
                   <td>{{ row[5] }} µM</td>
-                  <td>{{ row[6] }}</td>
+                  <td class="p-val">
+                    {{ row[6] }}
+                  </td>
                   <td>
                     {% if pattern is equalto 'Up-Regulated' %}
                         <span class="dot g{{ ldecile }}"></span>
@@ -119,8 +122,21 @@
 </div>
 
 <script>
+  function calculateOpacity(min, max, input) {
+    // This function does the negative log of p-val,
+    // linearly scales it to a value between 0 and 1, thereby generating opacity
+    var ranger = d3.scaleLinear().domain([min, max]).range([0, 1]);
+    return ranger(input);
+  }
+
   $(document).ready(function() {
     setTimeout(function() {
+      $(".p-val").each(function(idx) {
+        var opacity = calculateOpacity({{min_max_p_val[0], min_max_p_val[1], Number(this.innerHTML)}})
+        $(this).append(`<span class="p-val-dot" style="opacity:` + opacity + `">yo</span>`);
+        // -1 * Number(this.innerHTML)
+      })
+
       $("#L1000-table").dataTable({
         "order": [[5, "asc"]],
         "fnInitComplete": function() {

@@ -9,3 +9,12 @@
 .tab-pane {
   padding: 2rem 0;
 }
+
+.p-val-dot {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background-color: red;
+  margin: auto;
+  display: inline-block;
+}

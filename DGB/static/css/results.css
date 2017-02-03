@@ -11,8 +11,8 @@
 }
 
 .p-val-dot {
-  width: 2rem;
-  height: 2rem;
+  width: 1rem;
+  height: 1rem;
   border-radius: 50%;
   background-color: red;
   margin: auto;

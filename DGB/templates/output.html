@@ -135,6 +135,8 @@
     setTimeout(function() {
       $(".p-val").each(function(idx) {
         var opacity = calculateOpacity({{min_max_p_val[0]}}, {{min_max_p_val[1]}}, Number(this.innerHTML));
+        console.log("min", {{min_max_p_val[0]}})
+        console.log("max", {{min_max_p_val[1]}})
         $(this).prepend(`<span class="p-val-dot" style="opacity:` + opacity + `"></span>`);
       })
       $("#L1000-table").dataTable({

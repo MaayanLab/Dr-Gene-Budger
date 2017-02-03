@@ -43,6 +43,7 @@ def home():
                 rows = result[0]
                 ldeciles = result[1]
                 pattern = result[2]
+                min_max_p_val = result[3]
             if CREEDS:
                 result = creeds_rows(symbol, expression)
                 creedsrows = result[0]
@@ -60,7 +61,7 @@ def home():
 
             if dataset == 'L1000':
                 return render_template('output.html', form=form, symbol=symbol, rows=rows, pattern=pattern, L1000=L1000,
-                                       CREEDS=CREEDS, gene_url=gene_url, upregulated=upregulated, ldeciles=ldeciles)
+                                       CREEDS=CREEDS, gene_url=gene_url, upregulated=upregulated, ldeciles=ldeciles, min_max_p_val=min_max_p_val)
             elif dataset == 'CREEDS':
                 return render_template('output.html', form=form, symbol=symbol,
                                        creedsrows=creedsrows, pattern=pattern, L1000=L1000, CREEDS=CREEDS,
@@ -68,7 +69,7 @@ def home():
             elif dataset == 'Both':
                 return render_template('output.html', form=form, symbol=symbol, rows=rows, creedsrows=creedsrows,
                                        pattern=pattern, L1000=L1000, ldeciles=ldeciles, CREEDS=CREEDS,
-                                       cdeciles=cdeciles, gene_url=gene_url, upregulated=upregulated)
+                                       cdeciles=cdeciles, gene_url=gene_url, upregulated=upregulated, min_max_p_val=min_max_p_val)
 
     else:
         form = GeneForm()

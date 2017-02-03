@@ -21,6 +21,16 @@
   color: white;
 }*/
 
+.main-logo {
+  width: 10rem;
+}
+
+.main-title {
+  font-family: 'Josefin Slab', serif;
+}
+
+/*------------------------- Example Search --------------------------*/
+
 .option {
   margin: 1rem;
 }
@@ -42,6 +52,8 @@
 .example-list li a {
   text-decoration: none;
 }
+
+/*------------------------- End Example Search --------------------------*/
 
 /*------------------------- Search Bar --------------------------*/
 #custom-search-input {

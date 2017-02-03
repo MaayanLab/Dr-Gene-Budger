@@ -9,8 +9,4 @@ class GeneForm(Form):
                             [validators.data_required("Please choose up or down")],
                             choices=[('Up', 'Up-Regulate'), ('Down', 'Down-Regulate')],
                             default='Up')
-    dataset = SelectField("Which datasets would you like to query?",
-                         [validators.data_required("Please choose an option")],
-                         choices=[('Both', 'L1000'), ('Both', 'CREEDS'), ('Both', 'Both')],
-                         default='L1000')
     submit = SubmitField("Find a list of prioritized small molecules")

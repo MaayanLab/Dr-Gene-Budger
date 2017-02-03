@@ -27,7 +27,7 @@ def home():
         else:
             symbol = request.form['symbol']
             expression = request.form['expression']
-            dataset = request.form['dataset']
+            dataset = 'Both'
 
             # The following lines determine which tables get shown on the output page.
             # Here, we initially define L1000 and CREEDS as booleans that will tell us which output to display.

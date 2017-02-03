@@ -15,8 +15,8 @@
   margin-top: 0;
 }
 #navbar-wrapper h1 span.credits {
-  font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-weight: 300;
+  font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 200;
   font-size: 14px;
   margin-left: 10px;
 }
@@ -72,6 +72,9 @@
   font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-weight: 300;
 }
+#navbar-wrapper .project-title {
+  font-family: 'Josefin Slab', serif;
+}
 #navbar-wrapper a:hover,
 #navbar-wrapper a:active {
   background-color: #42667b;
@@ -126,4 +129,19 @@
   #navbar-wrapper ul {
     top: 0;
   }
+}
+
+.navbar-logo-wrapper {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  margin: auto;
+  background: #fff;
+  /*overflow: auto;*/
+  display: inline-block;
+}
+
+.navbar-logo {
+  width: 1.25rem;
+  margin: auto;
 }

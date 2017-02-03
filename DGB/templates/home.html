@@ -4,8 +4,8 @@
   <div class="row">
     <div class="landing-page">
       <div class="col-md-12 text-center">
-  			<img src="image/logo_100x87.png">
-  			<h1 class="project-title">Dr. Gene Budger</h1>
+        <img src="{{ url_for('static', filename='image/dgb_logo.png') }}" class="main-logo">
+  			<h1 class="main-title">Dr. Gene Budger</h1>
   			<p class="instruction">
           Search for drugs to maximally change the expression of a target mammalian gene.
         </p>
@@ -33,13 +33,10 @@
             </div>
             <div class="additional-options">
               <div class="option expression">
-                <h5>Change in expression direction</h5>
-                {{ form.expression }}<br>
-              </div>
-
-              <div class="option dataset">
-                <h5>Dataset to query</h5>
-                {{ form.dataset }}
+                <select id="expression" name="expression">
+                  <option selected="" value="Up">Up-Regulate</option>
+                  <option value="Down">Down-Regulate</option>
+                </select>
               </div>
             </div>
 

@@ -126,7 +126,7 @@
     // This function does the negative log of p-val,
     // linearly scales it to a value between 0 and 1, thereby generating opacity
     var negLogMin = Math.log(1/min);
-    var negLogMax = Math.log(1/max)
+    var negLogMax = Math.log(1/max);
     var ranger = d3.scaleLinear().domain([negLogMin, negLogMax]).range([0, 1]);
     return ranger(input);
   }

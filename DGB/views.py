@@ -65,7 +65,7 @@ def home():
             elif dataset == 'CREEDS':
                 return render_template('output.html', form=form, symbol=symbol,
                                        creedsrows=creedsrows, pattern=pattern, L1000=L1000, CREEDS=CREEDS,
-                                       gene_url=gene_url, upregulated=upregulated, cdeciles=cdeciles)
+                                       gene_url=gene_url, upregulated=upregulated, cdeciles=cdeciles, min_max_p_val=min_max_p_val)
             elif dataset == 'Both':
                 return render_template('output.html', form=form, symbol=symbol, rows=rows, creedsrows=creedsrows,
                                        pattern=pattern, L1000=L1000, ldeciles=ldeciles, CREEDS=CREEDS,

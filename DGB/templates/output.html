@@ -50,8 +50,13 @@
                   </td>
                   <td>{{ row[3] }} {{ row[4] }}</td>
                   <td>{{ row[5] }} µM</td>
-                  <td class="p-val-l1000">
+                  <td class="p-val">
                     {{ row[6] }}
+                    {% if pattern is equalto 'Up-Regulated'%}
+                      <span class="p-val-dot green-dot" val="{{ row[6] }}"></span>
+                    {% else %}
+                      <span class="p-val-dot red-dot" val="{{ row[6] }}"></span>
+                    {% endif %}
                   </td>
                   <td>
                     {% if pattern is equalto 'Up-Regulated' %}
@@ -83,13 +88,6 @@
           <tbody>
           {% for row in creedsrows %}
               {% set cdecile = cdeciles[loop.index - 1] %}
-
-              {% if pattern is equalto 'Up-Regulated' %}
-                  <tr class="g{{ cdecile }}">
-              {% else %}
-                  <tr class="r{{ cdecile }}">
-              {% endif %}
-
                 <td>{{ row[0] }}</td>
 
                 {% if row[6] != None %}
@@ -110,7 +108,9 @@
                     <td>N/A</td>
                 {% endif %}
 
-                <td>{{ row[4] }}</td>
+                <td class="p-val">
+                  {{ row[4] }}
+                </td>
                 <td>{{ row[5] }}</td>
               </tr>
           {% endfor %}
@@ -133,11 +133,11 @@
 
   $(document).ready(function() {
     setTimeout(function() {
-      $(".p-val-l1000").each(function(idx) {
-        var opacity = calculateOpacity({{min_max_p_val[0]}}, {{min_max_p_val[1]}}, Number(this.innerHTML));
-        $(this).append(`<span class="p-val-dot" style="opacity:` + opacity + `"></span>`);
+      $(".p-val-dot").each(function(idx) {
+        var opacity = calculateOpacity({{min_max_p_val[0]}}, {{min_max_p_val[1]}}, Number($(this).attr('val')));
+        $(this).attr('style', `opacity:${opacity}`)
       });
-      
+
       $("#L1000-table").dataTable({
         "order": [[5, "asc"]],
         "fnInitComplete": function() {

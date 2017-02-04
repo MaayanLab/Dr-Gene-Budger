@@ -11,11 +11,18 @@
 }
 
 .p-val-dot {
-  margin-left: 1rem;
+  margin-left: 2rem;
   width: 1rem;
   height: 1rem;
   border-radius: 50%;
-  background-color: red;
   margin: auto;
   display: inline-block;
+}
+
+.green-dot {
+  background-color: green;
+}
+
+.red-dot {
+  background-color: red;
 }

@@ -317,6 +317,12 @@ def creeds_rows(symbol, expression):
     # creedsrows = sorted(creedsrows, key=lambda tup: tup[5])
     length = len(creedsrows)
 
+    p_vals = [0] * length
+    for i in xrange(length):
+        p_vals[i] = creedsrows[i][6]
+
+    min_max_p_val = [min(p_vals), max(p_vals)]
+
     fold_changes = [0] * length
     for i in xrange(length):
         fold_changes[i] = creedsrows[i][5]
@@ -329,5 +335,5 @@ def creeds_rows(symbol, expression):
     else:
         pattern = 'Down-Regulated'
 
-    result = (creedsrows, deciles, pattern)
+    result = (creedsrows, deciles, pattern, min_max_p_val)
     return result

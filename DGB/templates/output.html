@@ -110,6 +110,11 @@
 
                 <td class="p-val">
                   {{ row[4] }}
+                  {% if pattern is equalto 'Up-Regulated'%}
+                    <span class="p-val-dot green-dot" val="{{ row[4] }}"></span>
+                  {% else %}
+                    <span class="p-val-dot red-dot" val="{{ row[4] }}"></span>
+                  {% endif %}
                 </td>
                 <td>{{ row[5] }}</td>
               </tr>

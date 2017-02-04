@@ -50,8 +50,8 @@
                   </td>
                   <td>{{ row[3] }} {{ row[4] }}</td>
                   <td>{{ row[5] }} µM</td>
-                  <td class="p-val">
-                    &nbsp;{{ row[6] }}
+                  <td class="p-val-l1000">
+                    {{ row[6] }}
                   </td>
                   <td>
                     {% if pattern is equalto 'Up-Regulated' %}
@@ -133,12 +133,11 @@
 
   $(document).ready(function() {
     setTimeout(function() {
-      $(".p-val").each(function(idx) {
+      $(".p-val-l1000").each(function(idx) {
         var opacity = calculateOpacity({{min_max_p_val[0]}}, {{min_max_p_val[1]}}, Number(this.innerHTML));
-        console.log("min", {{min_max_p_val[0]}})
-        console.log("max", {{min_max_p_val[1]}})
-        $(this).prepend(`<span class="p-val-dot" style="opacity:` + opacity + `"></span>`);
-      })
+        $(this).append(`<span class="p-val-dot" style="opacity:` + opacity + `"></span>`);
+      });
+      
       $("#L1000-table").dataTable({
         "order": [[5, "asc"]],
         "fnInitComplete": function() {

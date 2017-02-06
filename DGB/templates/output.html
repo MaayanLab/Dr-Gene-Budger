@@ -25,6 +25,7 @@
             <tr>
               <th>Drug Name</th>
               <th>LINCS sig_id</th>
+              <th>Cell Line</th>
               <th>LINCS pert_id</th>
               <th>Time</th>
               <th>Dose</th>
@@ -43,6 +44,16 @@
                     </a>
                   </td>
                   <td>{{ row[1] }}</td>
+                  <td>
+                    <script>
+                      var getCellLineFromSigId = function(sig_id) {
+                        return sig_id.split("_")[1];
+                      }
+                      var sig_id = "{{ row[1]|safe }}";
+                      var cellLine = getCellLineFromSigId(sig_id);
+                      document.write("<span>" + cellLine + "</p>");
+                    </script>
+                  </td>
                   <td>
                     <a href="http://amp.pharm.mssm.edu/dmoa/report/{{ row[2] }}" target="_blank">
                       {{ row[2] }}

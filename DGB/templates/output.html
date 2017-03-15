@@ -30,7 +30,9 @@
               <th>Time</th>
               <th>Dose</th>
               <th>p-value</th>
+              <th>q-value</th>
               <th>Fold Change</th>
+              <th>Specificity</th>
             </tr>
           </thead>
 
@@ -69,13 +71,19 @@
                       <span class="p-val-dot red-dot" val="{{ row[6] }}"></span>
                     {% endif %}
                   </td>
-                  <td>
+                  <td class="q-val">
+                    {{ row[7] }}
+                  </td>
+                  <td class="fold-change">
                     {% if pattern is equalto 'Up-Regulated' %}
                         <span class="dot g{{ ldecile }}"></span>
                     {% else %}
                         <span class="dot r{{ ldecile }}"></span>
                     {% endif %}
-                    {{ row[7] }}
+                    {{ row[8] }}
+                  </td>
+                  <td class="specificity">
+                    {{ row[9] }}
                   </td>
               </tr>
           {% endfor %}
@@ -88,11 +96,14 @@
           <thead>
             <tr>
               <th>Drug Name</th>
+              <th>CREEDS ID</th>
               <th>GEO ID</th>
               <th>Drugbank ID</th>
               <th>PubChem ID</th>
               <th>p-value</th>
+              <th>q-value</th>
               <th>Fold Change</th>
+              <th>Specificity</th>
             </tr>
           </thead>
 
@@ -100,6 +111,7 @@
           {% for row in creedsrows %}
               {% set cdecile = cdeciles[loop.index - 1] %}
                 <td>{{ row[0] }}</td>
+                <td><a href="http://amp.pharm.mssm.edu/CREEDS/api?id={{row[1]}}">{{ row[1] }}</a></td>
 
                 {% if row[6] != None %}
                     <td><a href="{{ row[6] }}">{{ row[1] }}</a></td>
@@ -107,27 +119,29 @@
                     <td>N/A</td>
                 {% endif %}
 
-                {% if row[7] != None %}
-                    <td><a href="{{ row[7] }}">{{ row[2] }}</a></td>
+                {% if row[9] != None %}
+                    <td><a href="{{ row[9] }}">{{ row[3] }}</a></td>
                 {% else %}
                     <td>N/A</td>
                 {% endif %}
 
-                {% if row[8] != None %}
-                    <td><a href="{{ row[8] }}">{{ row[3] }}</a></td>
+                {% if row[10] != None %}
+                    <td><a href="{{ row[10] }}">{{ row[4] }}</a></td>
                 {% else %}
                     <td>N/A</td>
                 {% endif %}
 
                 <td class="p-val">
-                  {{ row[4] }}
+                  {{ row[5] }}
                   {% if pattern is equalto 'Up-Regulated'%}
-                    <span class="p-val-dot green-dot" val="{{ row[4] }}"></span>
+                    <span class="p-val-dot green-dot" val="{{ row[5] }}"></span>
                   {% else %}
-                    <span class="p-val-dot red-dot" val="{{ row[4] }}"></span>
+                    <span class="p-val-dot red-dot" val="{{ row[5] }}"></span>
                   {% endif %}
                 </td>
-                <td>{{ row[5] }}</td>
+                <td class="q-val">{{ row[6] }}</td>
+                <td class="fold-change">{{ row[7] }}</td>
+                <td class="specificity">{{ row[8] }}</td>
               </tr>
           {% endfor %}
           </tbody>
@@ -155,14 +169,14 @@
       });
 
       $("#L1000-table").dataTable({
-        "order": [[5, "asc"]],
+        "order": [[7, "asc"]], // sort by q-value by default
         "fnInitComplete": function() {
           $("#L1000-table").removeClass('dn');
         }
       });
 
       $("#CREEDS-table").dataTable({
-        "order": [[4, "asc"]],
+        "order": [[6, "asc"]],
         "fnInitComplete": function() {
           $("#CREEDS-table").removeClass('dn');
         }

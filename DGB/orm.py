@@ -35,6 +35,8 @@ def init():
         pert_time_unit = Column(String(6))
         pert_dose = Column(Float)
         pert_dose_unit = Column(String(6))
+        n_sig_up_genes = Column(Integer)
+        n_sig_down_genes = Column(Integer)        
         associations = relationship('Association')
 
     global Association
@@ -45,6 +47,7 @@ def init():
         gene_symbol = Column(String(25))
         fold_change = Column(Float)
         p_value = Column(Float)
+        q_value = Column(Float)
 
         def get_row(self):
             s = get_or_create(session, Signature, id=self.signature_fk)[0]
@@ -54,6 +57,10 @@ def init():
             pert_time = s.pert_time
             pert_time_unit = s.pert_time_unit
             pert_dose = s.pert_dose
+            if self.fold_change > 0:
+                specificity = 1./s.n_sig_up_genes
+            else:
+                specificity = 1./s.n_sig_down_genes
 
             return drug_name, \
                 sig_id, \
@@ -62,17 +69,22 @@ def init():
                 pert_time_unit, \
                 pert_dose, \
                 self.p_value, \
-                self.fold_change
+                self.q_value, \
+                self.fold_change, \
+                specificity
 
 
     global creedsSignature
     class creedsSignature(Base):
         __tablename__ = 'creeds_signature'
         id = Column(Integer, primary_key=True)
-        drug_name = Column(String(50))
+        creeds_id = Column(String(50), unique=True)
+        drug_name = Column(String(100))
         geo_id = Column(String(50))
         drugbank_id = Column(String(50))
         pubchem_id = Column(String(50))
+        n_sig_up_genes = Column(Integer)
+        n_sig_down_genes = Column(Integer)        
         associations = relationship('creedsAssociation')
 
 
@@ -83,11 +95,13 @@ def init():
         signature_fk = Column(Integer, ForeignKey('creeds_signature.id'))
         gene_symbol = Column(String(25))
         p_value = Column(Float)
+        q_value = Column(Float)
         fold_change = Column(Float)
 
         def get_row(self):
             cs = get_or_create(session, creedsSignature, id=self.signature_fk)[0]
             drug_name = cs.drug_name
+            creeds_id = cs.creeds_id
 
             geo_id = cs.geo_id
             geo_url = 'http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=' + geo_id
@@ -104,12 +118,20 @@ def init():
             else:
                 pubchem_url = None
 
+            if self.fold_change > 0:
+                specificity = 1./cs.n_sig_up_genes
+            else:
+                specificity = 1./cs.n_sig_down_genes
+
             return drug_name,\
+                creeds_id,\
                 geo_id,\
                 drugbank_id,\
                 pubchem_id,\
                 self.p_value,\
+                self.q_value,\
                 self.fold_change,\
+                specificity,\
                 geo_url,\
                 drugbank_url,\
                 pubchem_url

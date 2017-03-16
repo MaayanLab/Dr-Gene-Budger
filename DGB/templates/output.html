@@ -16,6 +16,9 @@
       <li class="nav" role="presentation">
         <a href="#CREEDS" aria-controls="creeds" role="tab" data-toggle="tab">CREEDS</a>
       </li>
+      <li class="nav" role="presentation">
+        <a href="#CMAP" aria-controls="cmap" role="tab" data-toggle="tab">CMAP</a>
+      </li>
     </ul>
 
     <div class="tab-content">
@@ -38,7 +41,7 @@
 
           <tbody>
           {% for row in rows %}
-              {% set ldecile = ldeciles[loop.index - 1] %}
+              <!-- {% set ldecile = ldeciles[loop.index - 1] %} -->
                 <tr>
                   <td>
                     <a href="http://amp.pharm.mssm.edu/dmoa/report/{{ row[2] }}" target="_blank">
@@ -109,7 +112,7 @@
 
           <tbody>
           {% for row in creedsrows %}
-              {% set cdecile = cdeciles[loop.index - 1] %}
+              <!-- {% set cdecile = cdeciles[loop.index - 1] %} -->
                 <td>{{ row[0] }}</td>
                 <td><a href="http://amp.pharm.mssm.edu/CREEDS/api?id={{row[1]}}">{{ row[1] }}</a></td>
 
@@ -147,6 +150,52 @@
           </tbody>
         </table>
       </div>
+
+      <div role="tabpanel" class="tab-pane" id="CMAP">
+        <table id="CMAP-table" class="table datatable dn">
+          <thead>
+            <tr>
+              <th>Drug Name</th>
+              <th>Cell Line</th>
+              <th>Time</th>
+              <th>Dose</th>
+              <th>p-value</th>
+              <th>q-value</th>
+              <th>Fold Change</th>
+              <th>Specificity</th>
+            </tr>
+          </thead>
+
+          <tbody>
+          {% for row in cmaprows %}
+              <tr>
+                <td>{{ row[0] }}</td>
+                <td>{{ row[1] }}</td>
+                <td>{{ row[2] }} {{ row[3] }}</td>
+                <td>{{ row[4] }} µM</td>
+                <td class="p-val">
+                  {{ row[5] }}
+                  {% if pattern is equalto 'Up-Regulated'%}
+                    <span class="p-val-dot green-dot" val="{{ row[5] }}"></span>
+                  {% else %}
+                    <span class="p-val-dot red-dot" val="{{ row[5] }}"></span>
+                  {% endif %}
+                </td>
+                <td class="q-val">
+                  {{ row[6] }}
+                </td>
+                <td class="fold-change">
+                  {{ row[7] }}
+                </td>
+                <td class="specificity">
+                  {{ row[8] }}
+                </td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
     </div>
     <br>
 </div>
@@ -181,6 +230,14 @@
           $("#CREEDS-table").removeClass('dn');
         }
       });
+
+      $("#CMAP-table").dataTable({
+        "order": [[5, "asc"]], // sort by q-value by default
+        "fnInitComplete": function() {
+          $("#CMAP-table").removeClass('dn');
+        }
+      });
+
     }, 0);
   });
 </script>

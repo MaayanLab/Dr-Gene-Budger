@@ -38,6 +38,9 @@ def home():
             if dataset == 'CREEDS' or dataset == 'Both':
                 CREEDS = True
 
+            result = cmap_rows(symbol, expression)
+            cmaprows = result[0]
+
             if L1000:
                 result = lincs_rows(symbol, expression)
                 rows = result[0]
@@ -67,7 +70,7 @@ def home():
                                        creedsrows=creedsrows, pattern=pattern, L1000=L1000, CREEDS=CREEDS,
                                        gene_url=gene_url, upregulated=upregulated, cdeciles=cdeciles, min_max_p_val=min_max_p_val)
             elif dataset == 'Both':
-                return render_template('output.html', form=form, symbol=symbol, rows=rows, creedsrows=creedsrows,
+                return render_template('output.html', form=form, symbol=symbol, rows=rows, creedsrows=creedsrows, cmaprows=cmaprows,
                                        pattern=pattern, L1000=L1000, ldeciles=ldeciles, CREEDS=CREEDS,
                                        cdeciles=cdeciles, gene_url=gene_url, upregulated=upregulated, min_max_p_val=min_max_p_val)
 

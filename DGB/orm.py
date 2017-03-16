@@ -136,6 +136,55 @@ def init():
                 drugbank_url,\
                 pubchem_url
 
+    global CmapSinature
+    class CmapSinature(Base):
+        __tablename__ = 'cmap_signature'
+        id = Column(Integer, primary_key=True)
+        drug_name = Column(String(50))
+        cell_name = Column(String(50))
+        cell_info = Column(String(1000))
+        pert_time = Column(Integer)
+        pert_time_unit = Column(String(50))
+        pert_dose = Column(Float)
+        pert_dose_unit = Column(String(50))
+        n_sig_up_genes = Column(Integer)
+        n_sig_down_genes = Column(Integer)        
+        associations = relationship('CmapAssociation')
+
+    global CmapAssociation
+    class CmapAssociation(Base):
+        __tablename__ = 'cmap_assocition'        
+        id = Column(Integer, primary_key=True)
+        signature_fk = Column(Integer, ForeignKey('cmap_signature.id'))
+        gene_symbol = Column(String(50))
+        fold_change = Column(Float)
+        p_value = Column(Float)
+        q_value = Column(Float)
+        
+        def get_row(self):
+            s = get_or_create(session, CmapSinature, id=self.signature_fk)[0]
+            # sig_id = s.sig_id
+            # pert_id = s.pert_id
+            drug_name = s.drug_name
+            cell_name = s.cell_name
+            pert_time = s.pert_time
+            pert_time_unit = s.pert_time_unit
+            pert_dose = s.pert_dose
+            if self.fold_change > 0:
+                specificity = 1./s.n_sig_up_genes
+            else:
+                specificity = 1./s.n_sig_down_genes
+
+            return drug_name, \
+                cell_name, \
+                pert_time, \
+                pert_time_unit, \
+                pert_dose, \
+                self.p_value, \
+                self.q_value, \
+                self.fold_change, \
+                specificity
+
     Base.metadata.create_all(engine)
 
 
@@ -358,4 +407,47 @@ def creeds_rows(symbol, expression):
         pattern = 'Down-Regulated'
 
     result = (creedsrows, deciles, pattern, min_max_p_val)
+    return result
+
+def cmap_rows(symbol, expression):
+
+    init()
+    association = get_or_create(session, CmapAssociation, gene_symbol=symbol)
+    total_count = association.count()
+    associations = association[0:]
+    rows = [None] * total_count
+
+    for i in xrange(total_count):
+        entry = associations[i]
+        row = None
+        if entry.q_value < 0.05:
+            if (expression == 'Up' and entry.fold_change > 0) or \
+                    (expression == 'Down' and entry.fold_change < 0):
+                row = entry.get_row()
+        rows[i] = row
+
+    # Sort the lists in order of fold-change, and calculate decile scores for each association.
+    rows = filter(None, rows)
+    rows = sorted(rows, key=lambda tup: tup[7])
+    length = len(rows)
+
+    p_vals = [0] * length
+    for i in xrange(length):
+        p_vals[i] = rows[i][5]
+
+    min_max_p_val = [min(p_vals), max(p_vals)]
+
+    fold_changes = [0] * length
+    for i in xrange(length):
+        fold_changes[i] = rows[i][7]
+
+    deciles = decile_calculate(fold_changes)
+
+    # This will pass in a string to the output page, reminding the user of the option they chose (up vs down).
+    if expression == 'Up':
+        pattern = 'Up-Regulated'
+    else:
+        pattern = 'Down-Regulated'
+
+    result = (rows, deciles, pattern, min_max_p_val)
     return result

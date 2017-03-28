@@ -213,7 +213,9 @@
   $(document).ready(function() {
     setTimeout(function() {
       $(".p-val-dot").each(function(idx) {
-        var opacity = calculateOpacity({{min_max_p_val[0]}}, {{min_max_p_val[1]}}, Number($(this).attr('val')));
+        var min = {{min_max_p_val[0]}} + 0;
+        var max = {{min_max_p_val[1]}} + 0;
+        var opacity = calculateOpacity(min, max, Number($(this).attr('val')));
         $(this).attr('style', `opacity:${opacity}`)
       });
 

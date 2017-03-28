@@ -61,7 +61,7 @@
     var geneName = e.currentTarget.children[0].innerHTML;
     $("#search").attr("value", geneName);
   });
-  $.getJSON('/DGB/static/js/array.json', function(arr){
+  $.getJSON('/DGB/static/js/genes_list.json', function(arr){
       var substringMatcher = function(strs) {
         return function findMatches(q, cb) {
           var matches, substringRegex;

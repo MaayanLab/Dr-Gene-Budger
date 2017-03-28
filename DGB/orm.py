@@ -36,7 +36,7 @@ def init():
         pert_dose = Column(Float)
         pert_dose_unit = Column(String(6))
         n_sig_up_genes = Column(Integer)
-        n_sig_down_genes = Column(Integer)        
+        n_sig_down_genes = Column(Integer)
         associations = relationship('Association')
 
     global Association
@@ -84,7 +84,7 @@ def init():
         drugbank_id = Column(String(50))
         pubchem_id = Column(String(50))
         n_sig_up_genes = Column(Integer)
-        n_sig_down_genes = Column(Integer)        
+        n_sig_down_genes = Column(Integer)
         associations = relationship('creedsAssociation')
 
 
@@ -148,19 +148,19 @@ def init():
         pert_dose = Column(Float)
         pert_dose_unit = Column(String(50))
         n_sig_up_genes = Column(Integer)
-        n_sig_down_genes = Column(Integer)        
+        n_sig_down_genes = Column(Integer)
         associations = relationship('CmapAssociation')
 
     global CmapAssociation
     class CmapAssociation(Base):
-        __tablename__ = 'cmap_assocition'        
+        __tablename__ = 'cmap_assocition'
         id = Column(Integer, primary_key=True)
         signature_fk = Column(Integer, ForeignKey('cmap_signature.id'))
         gene_symbol = Column(String(50))
         fold_change = Column(Float)
         p_value = Column(Float)
         q_value = Column(Float)
-        
+
         def get_row(self):
             s = get_or_create(session, CmapSinature, id=self.signature_fk)[0]
             # sig_id = s.sig_id
@@ -205,7 +205,7 @@ def get_or_create(session, model, **kwargs):
 # This function performs error-checking on the user's gene symbol input.
 def symbol_validate(symbol):
     # with open('static/js/array.json') as array:
-    symbols = json.load(open('DGB/static/js/array.json', 'r'))
+    symbols = json.load(open('DGB/static/js/genes_list.json', 'r'))
     return symbol in symbols
     #     return True
     # else:
@@ -343,17 +343,30 @@ def lincs_rows(symbol, expression):
     rows = sorted(rows, key=lambda tup: tup[7])
     length = len(rows)
 
-    p_vals = [0] * length
-    for i in xrange(length):
-        p_vals[i] = rows[i][6]
+    if length > 0:
+        p_vals = [0] * length
+        min_max_p_val = [min(p_vals), max(p_vals)]
+        for i in xrange(length):
+            p_vals[i] = rows[i][5]
+        fold_changes = [0] * length
+        for i in xrange(length):
+            fold_changes[i] = rows[i][7]
+        deciles = decile_calculate(fold_changes)
+    else:
+        min_max_p_val = []
+        deciles = []
 
-    min_max_p_val = [min(p_vals), max(p_vals)]
-
-    fold_changes = [0] * length
-    for i in xrange(length):
-        fold_changes[i] = rows[i][7]
-
-    deciles = decile_calculate(fold_changes)
+    # p_vals = [0] * length
+    # for i in xrange(length):
+    #     p_vals[i] = rows[i][6]
+    #
+    # min_max_p_val = [min(p_vals), max(p_vals)]
+    #
+    # fold_changes = [0] * length
+    # for i in xrange(length):
+    #     fold_changes[i] = rows[i][7]
+    #
+    # deciles = decile_calculate(fold_changes)
 
     # This will pass in a string to the output page, reminding the user of the option they chose (up vs down).
     if expression == 'Up':
@@ -388,17 +401,30 @@ def creeds_rows(symbol, expression):
     # creedsrows = sorted(creedsrows, key=lambda tup: tup[5])
     length = len(creedsrows)
 
-    p_vals = [0] * length
-    for i in xrange(length):
-        p_vals[i] = creedsrows[i][6]
+    if length > 0:
+        p_vals = [0] * length
+        min_max_p_val = [min(p_vals), max(p_vals)]
+        for i in xrange(length):
+            p_vals[i] = creedsrows[i][6]
+        fold_changes = [0] * length
+        for i in xrange(length):
+            fold_changes[i] = creedsrows[i][5]
+        deciles = decile_calculate(fold_changes)
+    else:
+        min_max_p_val = []
+        deciles = []
 
-    min_max_p_val = [min(p_vals), max(p_vals)]
-
-    fold_changes = [0] * length
-    for i in xrange(length):
-        fold_changes[i] = creedsrows[i][5]
-
-    deciles = decile_calculate(fold_changes)
+    # p_vals = [0] * length
+    # for i in xrange(length):
+    #     p_vals[i] = creedsrows[i][6]
+    #
+    # min_max_p_val = [min(p_vals), max(p_vals)]
+    #
+    # fold_changes = [0] * length
+    # for i in xrange(length):
+    #     fold_changes[i] = creedsrows[i][5]
+    #
+    # deciles = decile_calculate(fold_changes)
 
     # This will pass in a string to the output page, reminding the user of the option they chose (up vs down).
     if expression == 'Up':
@@ -431,17 +457,18 @@ def cmap_rows(symbol, expression):
     rows = sorted(rows, key=lambda tup: tup[7])
     length = len(rows)
 
-    p_vals = [0] * length
-    for i in xrange(length):
-        p_vals[i] = rows[i][5]
-
-    min_max_p_val = [min(p_vals), max(p_vals)]
-
-    fold_changes = [0] * length
-    for i in xrange(length):
-        fold_changes[i] = rows[i][7]
-
-    deciles = decile_calculate(fold_changes)
+    if length > 0:
+        p_vals = [0] * length
+        min_max_p_val = [min(p_vals), max(p_vals)]
+        for i in xrange(length):
+            p_vals[i] = rows[i][5]
+        fold_changes = [0] * length
+        for i in xrange(length):
+            fold_changes[i] = rows[i][7]
+        deciles = decile_calculate(fold_changes)
+    else:
+        min_max_p_val = []
+        deciles = []
 
     # This will pass in a string to the output page, reminding the user of the option they chose (up vs down).
     if expression == 'Up':

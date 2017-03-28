@@ -67,7 +67,9 @@
                   <td>{{ row[3] }} {{ row[4] }}</td>
                   <td>{{ row[5] }} µM</td>
                   <td class="p-val">
-                    {{ row[6] }}
+                    <script>
+                      document.write(Number({{ row[6] }}).toExponential(2));
+                    </script>
                     {% if pattern is equalto 'Up-Regulated'%}
                       <span class="p-val-dot green-dot" val="{{ row[6] }}"></span>
                     {% else %}
@@ -75,7 +77,9 @@
                     {% endif %}
                   </td>
                   <td class="q-val">
-                    {{ row[7] }}
+                    <script>
+                      document.write(Number({{ row[7] }}).toExponential(2));
+                    </script>
                   </td>
                   <td class="fold-change">
                     {% if pattern is equalto 'Up-Regulated' %}
@@ -83,10 +87,14 @@
                     {% else %}
                         <span class="dot r{{ ldecile }}"></span>
                     {% endif %}
-                    {{ row[8] }}
+                    <script>
+                      document.write(Number({{ row[8] }}).toFixed(3));
+                    </script>
                   </td>
                   <td class="specificity">
-                    {{ row[9] }}
+                    <script>
+                      document.write(Number({{ row[9] }}).toExponential(2));
+                    </script>
                   </td>
               </tr>
           {% endfor %}
@@ -135,16 +143,30 @@
                 {% endif %}
 
                 <td class="p-val">
-                  {{ row[5] }}
+                  <script>
+                    document.write(Number({{ row[5] }}).toExponential(2));
+                  </script>
                   {% if pattern is equalto 'Up-Regulated'%}
                     <span class="p-val-dot green-dot" val="{{ row[5] }}"></span>
                   {% else %}
                     <span class="p-val-dot red-dot" val="{{ row[5] }}"></span>
                   {% endif %}
                 </td>
-                <td class="q-val">{{ row[6] }}</td>
-                <td class="fold-change">{{ row[7] }}</td>
-                <td class="specificity">{{ row[8] }}</td>
+                <td class="q-val">
+                  <script>
+                    document.write(Number({{ row[6] }}).toExponential(2));
+                  </script>
+                </td>
+                <td class="fold-change">
+                  <script>
+                    document.write(Number({{ row[7] }}).toFixed(3));
+                  </script>
+                </td>
+                <td class="specificity">
+                  <script>
+                    document.write(Number({{ row[8] }}).toExponential(2));
+                  </script>
+                </td>
               </tr>
           {% endfor %}
           </tbody>
@@ -174,7 +196,9 @@
                 <td>{{ row[2] }} {{ row[3] }}</td>
                 <td>{{ row[4] }} µM</td>
                 <td class="p-val">
-                  {{ row[5] }}
+                  <script>
+                    document.write(Number({{ row[5] }}).toExponential(2));
+                  </script>
                   {% if pattern is equalto 'Up-Regulated'%}
                     <span class="p-val-dot green-dot" val="{{ row[5] }}"></span>
                   {% else %}
@@ -182,13 +206,19 @@
                   {% endif %}
                 </td>
                 <td class="q-val">
-                  {{ row[6] }}
+                  <script>
+                    document.write(Number({{ row[6] }}).toExponential(2));
+                  </script>
                 </td>
                 <td class="fold-change">
-                  {{ row[7] }}
+                  <script>
+                    document.write(Number({{ row[7] }}).toFixed(3));
+                  </script>
                 </td>
                 <td class="specificity">
-                  {{ row[8] }}
+                  <script>
+                    document.write(Number({{ row[8] }}).toExponential(2));
+                  </script>
                 </td>
             </tr>
           {% endfor %}

@@ -51,6 +51,7 @@
             <li><a href="#">STAT3</a></li>
           </ul>
         </div>
+        <div id="progress-spinner" />
       </div>
     </div>
   </div>
@@ -62,6 +63,12 @@
     $("#search").attr("value", geneName);
     $("#search-form").submit();
   });
+
+  $("#search-form").on('submit', function(e) {
+    var target = document.getElementById('progress-spinner');
+    var spinner = new Spinner().spin(target);
+  });
+
   $.getJSON('/DGB/static/js/genes_list.json', function(arr){
       var substringMatcher = function(strs) {
         return function findMatches(q, cb) {

@@ -12,7 +12,7 @@
   		</div>
 
       <div class="col-md-12 text-center">
-        <form action="/DGB/" method="post">
+        <form id="search-form" action="/DGB/" method="post">
           <fieldset>
             {{ form.hidden_tag() }}
             <div id="custom-search-input">
@@ -60,6 +60,7 @@
   $('.example-list').on('click', 'li', function(e) {
     var geneName = e.currentTarget.children[0].innerHTML;
     $("#search").attr("value", geneName);
+    $("#search-form").submit();
   });
   $.getJSON('/DGB/static/js/genes_list.json', function(arr){
       var substringMatcher = function(strs) {

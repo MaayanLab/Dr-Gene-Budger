@@ -44,7 +44,7 @@
           </thead>
 
           <tbody>
-          {% for row in rows %}
+          {% for row in lincs_rows %}
                 <tr>
                   <td>
                     <a href="http://amp.pharm.mssm.edu/dmoa/report/{{ row[2] }}" target="_blank">
@@ -117,7 +117,7 @@
           </thead>
 
           <tbody>
-          {% for row in creedsrows %}
+          {% for row in creeds_rows %}
                 <td>{{ row[0] }}</td>
                 <td><a href="http://amp.pharm.mssm.edu/CREEDS/api?id={{row[1]}}">{{ row[1] }}</a></td>
 
@@ -186,7 +186,7 @@
           </thead>
 
           <tbody>
-          {% for row in cmaprows %}
+          {% for row in cmap_rows %}
               <tr>
                 <td>{{ row[0] }}</td>
                 <td>{{ row[1] }}</td>
@@ -266,7 +266,6 @@
           $("#CMAP-table").removeClass('dn');
         }
       });
-
     }, 0);
   });
 </script>

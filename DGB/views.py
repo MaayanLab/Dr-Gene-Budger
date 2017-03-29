@@ -28,18 +28,24 @@ def home():
             symbol = request.form['symbol']
             expression = request.form['expression']
 
-            cmap_result = cmap_rows(symbol, expression)
-            cmaprows = cmap_result[0]
+            cmap_result = get_cmap_rows(symbol, expression)
+            cmap_rows = cmap_result[0]
 
-            lincs_result = lincs_rows(symbol, expression)
-            rows = lincs_result[0]
-            min_max_p_val = lincs_result[3]
+            lincs_result = get_lincs_rows(symbol, expression)
+            lincs_rows = lincs_result[0]
+            min_max_p_val = lincs_result[1]
 
-            creeds_result = creeds_rows(symbol, expression)
-            creedsrows = creeds_result[0]
+            creeds_result = get_creeds_rows(symbol, expression)
+            creeds_rows = creeds_result[0]
 
-            return render_template('output.html', symbol=symbol, rows=rows, creedsrows=creedsrows, cmaprows=cmaprows,
-                                    expression=expression, min_max_p_val=min_max_p_val)
+            return render_template('output.html',
+                symbol=symbol,
+                expression=expression,
+                lincs_rows=lincs_rows,
+                creeds_rows=creeds_rows,
+                cmap_rows=cmap_rows,
+                min_max_p_val=min_max_p_val #Used to calculate the opacity of dot
+            )
 
     else:
         form = GeneForm()

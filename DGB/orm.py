@@ -211,71 +211,6 @@ def symbol_validate(symbol):
     # else:
     #     return False
 
-# A function to split a list with at least 10 elements into deciles.
-def decile_calculate(array):
-    # Determine whether this list has negative values or positive values.
-    positive = True
-    if array[0] > 0:
-        positive = True
-    else:
-        positive = False
-        for each_item in array:
-            negative_value = array.index(each_item)
-            array[negative_value] *= -1
-            array.sort()
-
-    # Determine how to split a list of n-elements into 10 parts.
-    guide = [0] * 10
-    length = len(array)
-    base = length/float(10)
-    for num in xrange(0, 10):
-        guide[num] = base * (num + 1)
-
-    # Round the guide down to the next lowest whole number (we don't want fractional parts at all)
-    # This tells us the indexes of the "elements" of the original list that should serve as the cutoffs for each decile.
-    cutoffs = [0] * 10
-    for entry in guide:
-        index = guide.index(entry)
-        cutoffs[index] = int(math.floor(guide[index]))
-
-    # We must now create a list, replacing the index of the aforementioned "elements" with the "elements" themselves.
-    decile_maxima = [0] * 10
-    for num in xrange(0, 10):
-        max_index = cutoffs[num] - 1
-        decile_maxima[num] = array[max_index]
-    decile_maxima.sort()
-
-    deciles = []
-    if positive:
-        for list_item in array:
-            counter = 0
-            while list_item >= decile_maxima[counter]:
-                if counter == 9:
-                    counter += 1
-                    break
-                else:
-                    counter += 1
-            if counter == 0:
-                deciles.append(1)
-            else:
-                deciles.append(counter)
-        return deciles
-    else:
-        for list_item in array:
-            counter = 0
-            while list_item >= decile_maxima[counter]:
-                if counter == 9:
-                    counter += 1
-                    break
-                else:
-                    counter += 1
-            if counter == 0:
-                deciles.append(1)
-            else:
-                deciles.append(counter)
-        deciles.sort(reverse=True)
-
-    return deciles
 
 # ======================================= API =====================================================
 
@@ -322,7 +257,7 @@ def dataset_query(symbol, expression, dataset):
 # ======================================= Web App =====================================================
 
 # This function will return a tuple; each entry of that tuple represents a row of the output table.
-def lincs_rows(symbol, expression):
+def get_lincs_rows(symbol, expression):
 
     init()
     association = get_or_create(session, Association, gene_symbol=symbol)
@@ -351,34 +286,14 @@ def lincs_rows(symbol, expression):
         fold_changes = [0] * length
         for i in xrange(length):
             fold_changes[i] = rows[i][7]
-        deciles = decile_calculate(fold_changes)
     else:
         min_max_p_val = []
-        deciles = []
 
-    # p_vals = [0] * length
-    # for i in xrange(length):
-    #     p_vals[i] = rows[i][6]
-    #
-    # min_max_p_val = [min(p_vals), max(p_vals)]
-    #
-    # fold_changes = [0] * length
-    # for i in xrange(length):
-    #     fold_changes[i] = rows[i][7]
-    #
-    # deciles = decile_calculate(fold_changes)
-
-    # This will pass in a string to the output page, reminding the user of the option they chose (up vs down).
-    if expression == 'Up-Regulate':
-        pattern = 'Up-Regulated'
-    else:
-        pattern = 'Down-Regulated'
-
-    result = (rows, deciles, pattern, min_max_p_val)
+    result = (rows, min_max_p_val)
     return result
 
 
-def creeds_rows(symbol, expression):
+def get_creeds_rows(symbol, expression):
     init()
 
     # Find all instances of the gene in the associations table.
@@ -409,33 +324,13 @@ def creeds_rows(symbol, expression):
         fold_changes = [0] * length
         for i in xrange(length):
             fold_changes[i] = creedsrows[i][5]
-        deciles = decile_calculate(fold_changes)
     else:
         min_max_p_val = []
-        deciles = []
 
-    # p_vals = [0] * length
-    # for i in xrange(length):
-    #     p_vals[i] = creedsrows[i][6]
-    #
-    # min_max_p_val = [min(p_vals), max(p_vals)]
-    #
-    # fold_changes = [0] * length
-    # for i in xrange(length):
-    #     fold_changes[i] = creedsrows[i][5]
-    #
-    # deciles = decile_calculate(fold_changes)
-
-    # This will pass in a string to the output page, reminding the user of the option they chose (up vs down).
-    if expression == 'Up':
-        pattern = 'Up-Regulated'
-    else:
-        pattern = 'Down-Regulated'
-
-    result = (creedsrows, deciles, pattern, min_max_p_val)
+    result = (creedsrows, min_max_p_val)
     return result
 
-def cmap_rows(symbol, expression):
+def get_cmap_rows(symbol, expression):
 
     init()
     association = get_or_create(session, CmapAssociation, gene_symbol=symbol)
@@ -465,16 +360,8 @@ def cmap_rows(symbol, expression):
         fold_changes = [0] * length
         for i in xrange(length):
             fold_changes[i] = rows[i][7]
-        deciles = decile_calculate(fold_changes)
     else:
         min_max_p_val = []
-        deciles = []
 
-    # This will pass in a string to the output page, reminding the user of the option they chose (up vs down).
-    if expression == 'Up':
-        pattern = 'Up-Regulated'
-    else:
-        pattern = 'Down-Regulated'
-
-    result = (rows, deciles, pattern, min_max_p_val)
+    result = (rows, min_max_p_val)
     return result

@@ -333,8 +333,8 @@ def lincs_rows(symbol, expression):
     for i in xrange(total_count):
         entry = associations[i]
         row = None
-        if (expression == 'Up' and entry.fold_change > 0) or \
-                (expression == 'Down' and entry.fold_change < 0):
+        if (expression == 'Up-Regulate' and entry.fold_change > 0) or \
+                (expression == 'Down-Regulate' and entry.fold_change < 0):
             row = entry.get_row()
         rows[i] = row
 
@@ -369,7 +369,7 @@ def lincs_rows(symbol, expression):
     # deciles = decile_calculate(fold_changes)
 
     # This will pass in a string to the output page, reminding the user of the option they chose (up vs down).
-    if expression == 'Up':
+    if expression == 'Up-Regulate':
         pattern = 'Up-Regulated'
     else:
         pattern = 'Down-Regulated'
@@ -391,8 +391,8 @@ def creeds_rows(symbol, expression):
         entry = creedsassociations[i]
         # This if statement ensures that we only extract the associations with desired expression patterns.
         row = None
-        if (expression == 'Up' and entry.fold_change > 0) or \
-                (expression == 'Down' and entry.fold_change < 0):
+        if (expression == 'Up-Regulate' and entry.fold_change > 0) or \
+                (expression == 'Down-Regulate' and entry.fold_change < 0):
             row = entry.get_row()
         creedsrows[i] = row
 
@@ -447,8 +447,8 @@ def cmap_rows(symbol, expression):
         entry = associations[i]
         row = None
         if entry.q_value < 0.05:
-            if (expression == 'Up' and entry.fold_change > 0) or \
-                    (expression == 'Down' and entry.fold_change < 0):
+            if (expression == 'Up-Regulate' and entry.fold_change > 0) or \
+                    (expression == 'Down-Regulate' and entry.fold_change < 0):
                 row = entry.get_row()
         rows[i] = row
 

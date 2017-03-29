@@ -27,52 +27,19 @@ def home():
         else:
             symbol = request.form['symbol']
             expression = request.form['expression']
-            dataset = 'Both'
 
-            # The following lines determine which tables get shown on the output page.
-            # Here, we initially define L1000 and CREEDS as booleans that will tell us which output to display.
-            L1000 = False
-            CREEDS = False
-            if dataset == 'L1000' or dataset == 'Both':
-                L1000 = True
-            if dataset == 'CREEDS' or dataset == 'Both':
-                CREEDS = True
+            cmap_result = cmap_rows(symbol, expression)
+            cmaprows = cmap_result[0]
 
-            result = cmap_rows(symbol, expression)
-            cmaprows = result[0]
+            lincs_result = lincs_rows(symbol, expression)
+            rows = lincs_result[0]
+            min_max_p_val = lincs_result[3]
 
-            if L1000:
-                result = lincs_rows(symbol, expression)
-                rows = result[0]
-                ldeciles = result[1]
-                pattern = result[2]
-                min_max_p_val = result[3]
-            if CREEDS:
-                result = creeds_rows(symbol, expression)
-                creedsrows = result[0]
-                cdeciles = result[1]
-                pattern = result[2]
+            creeds_result = creeds_rows(symbol, expression)
+            creedsrows = creeds_result[0]
 
-            # Here, we create a boolean called upregulated because jinja if statements can only test true/false
-            upregulated = False
-            if pattern == 'Up-Regulated':
-                upregulated = True
-
-            # Concatenate a string which will hyperlink the gene symbol to its respective Harmonizome page.
-            gene_url = 'http://amp.pharm.mssm.edu/Harmonizome/gene/' + symbol
-            # Determine which datasets to send to the output page in order to draw the tables.
-
-            if dataset == 'L1000':
-                return render_template('output.html', form=form, symbol=symbol, rows=rows, pattern=pattern, L1000=L1000,
-                                       CREEDS=CREEDS, gene_url=gene_url, upregulated=upregulated, ldeciles=ldeciles, min_max_p_val=min_max_p_val)
-            elif dataset == 'CREEDS':
-                return render_template('output.html', form=form, symbol=symbol,
-                                       creedsrows=creedsrows, pattern=pattern, L1000=L1000, CREEDS=CREEDS,
-                                       gene_url=gene_url, upregulated=upregulated, cdeciles=cdeciles, min_max_p_val=min_max_p_val)
-            elif dataset == 'Both':
-                return render_template('output.html', form=form, symbol=symbol, rows=rows, creedsrows=creedsrows, cmaprows=cmaprows,
-                                       pattern=pattern, L1000=L1000, ldeciles=ldeciles, CREEDS=CREEDS,
-                                       cdeciles=cdeciles, gene_url=gene_url, upregulated=upregulated, min_max_p_val=min_max_p_val)
+            return render_template('output.html', symbol=symbol, rows=rows, creedsrows=creedsrows, cmaprows=cmaprows,
+                                    expression=expression, min_max_p_val=min_max_p_val)
 
     else:
         form = GeneForm()

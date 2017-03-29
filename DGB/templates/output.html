@@ -8,7 +8,11 @@
         Results
       </strong>
     </h1>
-    <h1 class="symbol-title"><a href="{{ gene_url }}">{{ symbol }}</a>: {{ pattern }}</h1>
+    <h1 class="symbol-title">
+      <a href="http://amp.pharm.mssm.edu/Harmonizome/gene/{{symbol}}" target="_blank">
+        {{ symbol }}
+      </a>: {{ expression }}
+    </h1>
     <ul class="nav nav-tabs">
       <li class="nav active" role="presentation">
         <a href="#L1000" aria-controls="l1000" role="tab" data-toggle="tab">L1000</a>
@@ -41,7 +45,6 @@
 
           <tbody>
           {% for row in rows %}
-              <!-- {% set ldecile = ldeciles[loop.index - 1] %} -->
                 <tr>
                   <td>
                     <a href="http://amp.pharm.mssm.edu/dmoa/report/{{ row[2] }}" target="_blank">
@@ -70,7 +73,7 @@
                     <script>
                       document.write(Number({{ row[6] }}).toExponential(2));
                     </script>
-                    {% if pattern is equalto 'Up-Regulated'%}
+                    {% if expression is equalto 'Up-Regulate'%}
                       <span class="p-val-dot green-dot" val="{{ row[6] }}"></span>
                     {% else %}
                       <span class="p-val-dot red-dot" val="{{ row[6] }}"></span>
@@ -82,11 +85,6 @@
                     </script>
                   </td>
                   <td class="fold-change">
-                    {% if pattern is equalto 'Up-Regulated' %}
-                        <span class="dot g{{ ldecile }}"></span>
-                    {% else %}
-                        <span class="dot r{{ ldecile }}"></span>
-                    {% endif %}
                     <script>
                       document.write(Number({{ row[8] }}).toFixed(3));
                     </script>
@@ -120,7 +118,6 @@
 
           <tbody>
           {% for row in creedsrows %}
-              <!-- {% set cdecile = cdeciles[loop.index - 1] %} -->
                 <td>{{ row[0] }}</td>
                 <td><a href="http://amp.pharm.mssm.edu/CREEDS/api?id={{row[1]}}">{{ row[1] }}</a></td>
 
@@ -146,7 +143,7 @@
                   <script>
                     document.write(Number({{ row[5] }}).toExponential(2));
                   </script>
-                  {% if pattern is equalto 'Up-Regulated'%}
+                  {% if expression is equalto 'Up-Regulate'%}
                     <span class="p-val-dot green-dot" val="{{ row[5] }}"></span>
                   {% else %}
                     <span class="p-val-dot red-dot" val="{{ row[5] }}"></span>
@@ -199,7 +196,7 @@
                   <script>
                     document.write(Number({{ row[5] }}).toExponential(2));
                   </script>
-                  {% if pattern is equalto 'Up-Regulated'%}
+                  {% if expression is equalto 'Up-Regulate'%}
                     <span class="p-val-dot green-dot" val="{{ row[5] }}"></span>
                   {% else %}
                     <span class="p-val-dot red-dot" val="{{ row[5] }}"></span>
@@ -230,7 +227,7 @@
     <br>
 </div>
 
-<script>  
+<script>
   function calculateOpacity(min, max, input) {
     // This function does the negative log of p-val,
     // linearly scales it to a value between 0 and 1, thereby generating opacity

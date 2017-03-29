@@ -10,8 +10,8 @@
           Search for drugs to maximally change the expression of a target mammalian gene.
         </p>
   		</div>
-
-      <div class="col-md-12 text-center">
+      <div id="progress-spinner" />
+      <div id="form-container" class="col-md-12 text-center">
         <form id="search-form" action="/DGB/" method="post">
           <fieldset>
             {{ form.hidden_tag() }}
@@ -51,7 +51,6 @@
             <li><a href="#">STAT3</a></li>
           </ul>
         </div>
-        <div id="progress-spinner" />
       </div>
     </div>
   </div>
@@ -65,8 +64,10 @@
   });
 
   $("#search-form").on('submit', function(e) {
-    var target = document.getElementById('progress-spinner');
-    var spinner = new Spinner().spin(target);
+    $("#form-container").hide("fast", function(e2) {
+      var target = document.getElementById('progress-spinner');
+      var spinner = new Spinner().spin(target);
+    });
   });
 
   $.getJSON('/DGB/static/js/genes_list.json', function(arr){

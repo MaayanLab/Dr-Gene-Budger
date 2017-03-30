@@ -148,10 +148,10 @@ def get_or_create(session, model, **kwargs):
         session.commit()
         return instance
 
-def get_lincs_rows(session, symbol, expression):
+def get_l1000_rows(session, symbol, expression):
     association = get_or_create(session, Association, gene_symbol=symbol)
     # total_count = association.count()
-    associations = association[0:]
+    associations = association.all()
     return associations
     # rows = [None] * total_count
 
@@ -186,7 +186,7 @@ def get_lincs_rows(session, symbol, expression):
 def get_creeds_rows(session, symbol, expression):
     # Find all instances of the gene in the associations table.
     creedsassociation = get_or_create(session, creedsAssociation, gene_symbol=symbol)
-    creedsassociations = creedsassociation[0:]
+    creedsassociations = creedsassociation.all()
     return creedsassociations
     # total_count = creedsassociation.count()
     # creedsrows = [None] * total_count
@@ -222,7 +222,7 @@ def get_creeds_rows(session, symbol, expression):
 def get_cmap_rows(session, symbol, expression):
     association = get_or_create(session, CmapAssociation, gene_symbol=symbol)
     total_count = association.count()
-    associations = association[0:]
+    associations = association.all()
     return associations
     # rows = [None] * total_count
     #

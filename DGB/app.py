@@ -3,7 +3,6 @@ from flask import Flask, render_template, flash, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 # from flask_cors import CORS, cross_origin
 from forms import *
-# from flask_bootstrap import Bootstrap
 from config import BASE_URL, SECRET_KEY, DATABASE
 from helpers import *
 import pdb
@@ -12,7 +11,6 @@ app = Flask(__name__, static_url_path=BASE_URL + '/static')
 # cors = CORS(app, resources={r"/api/": {"origins": "*"}})
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE
 app.config['SECRET_KEY'] = SECRET_KEY
-# Bootstrap(app)
 db = SQLAlchemy(app)
 
 from models import *
@@ -35,22 +33,22 @@ def home():
             cmap_result = get_cmap_rows(db.session, symbol, expression)
             # cmap_rows = cmap_result[0]
 
-            lincs_result = get_lincs_rows(db.session, symbol, expression)
-            # lincs_rows = lincs_result[0]
-            # min_max_p_val = lincs_result[1]
+            l1000_result = get_l1000_rows(db.session, symbol, expression)
+            # l1000_rows = l1000_result[0]
+            # min_max_p_val = l1000_result[1]
 
             creeds_result = get_creeds_rows(db.session, symbol, expression)
             # creeds_rows = creeds_result[0]
-            
+
             return render_template('results.html',
             cmap_length=len(cmap_result),
-            l1000_length=len(lincs_result),
+            l1000_length=len(l1000_result),
             creeds_length=len(creeds_result)
             )
             # return render_template('output.html',
             #     symbol=symbol,
             #     expression=expression,
-            #     lincs_rows=lincs_rows,
+            #     l1000_rows=l1000_rows,
             #     creeds_rows=creeds_rows,
             #     cmap_rows=cmap_rows,
             #     min_max_p_val=min_max_p_val #Used to calculate the opacity of dot

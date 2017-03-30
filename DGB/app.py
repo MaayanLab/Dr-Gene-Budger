@@ -1,19 +1,21 @@
 # coding=utf-8
 from flask import Flask, render_template, flash, request, jsonify
-import json
-from flask_cors import CORS, cross_origin
+from flask_sqlalchemy import SQLAlchemy
+# from flask_cors import CORS, cross_origin
 from forms import *
-from orm import *
-from flask_bootstrap import Bootstrap
+# from flask_bootstrap import Bootstrap
 from config import BASE_URL, SECRET_KEY, DATABASE
+from helpers import *
 import pdb
 
 app = Flask(__name__, static_url_path=BASE_URL + '/static')
-cors = CORS(app, resources={r"/api/": {"origins": "*"}})
+# cors = CORS(app, resources={r"/api/": {"origins": "*"}})
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE
 app.config['SECRET_KEY'] = SECRET_KEY
-Bootstrap(app)
+# Bootstrap(app)
 db = SQLAlchemy(app)
+
+from models import *
 
 @app.route(BASE_URL + '/', methods=['GET', 'POST'])
 def home():
@@ -30,24 +32,29 @@ def home():
             symbol = request.form['symbol']
             expression = request.form['expression']
 
-            cmap_result = get_cmap_rows(symbol, expression)
-            cmap_rows = cmap_result[0]
+            cmap_result = get_cmap_rows(db.session, symbol, expression)
+            # cmap_rows = cmap_result[0]
 
-            lincs_result = get_lincs_rows(symbol, expression)
-            lincs_rows = lincs_result[0]
-            min_max_p_val = lincs_result[1]
+            lincs_result = get_lincs_rows(db.session, symbol, expression)
+            # lincs_rows = lincs_result[0]
+            # min_max_p_val = lincs_result[1]
 
-            creeds_result = get_creeds_rows(symbol, expression)
-            creeds_rows = creeds_result[0]
-
-            return render_template('output.html',
-                symbol=symbol,
-                expression=expression,
-                lincs_rows=lincs_rows,
-                creeds_rows=creeds_rows,
-                cmap_rows=cmap_rows,
-                min_max_p_val=min_max_p_val #Used to calculate the opacity of dot
+            creeds_result = get_creeds_rows(db.session, symbol, expression)
+            # creeds_rows = creeds_result[0]
+            
+            return render_template('results.html',
+            cmap_length=len(cmap_result),
+            l1000_length=len(lincs_result),
+            creeds_length=len(creeds_result)
             )
+            # return render_template('output.html',
+            #     symbol=symbol,
+            #     expression=expression,
+            #     lincs_rows=lincs_rows,
+            #     creeds_rows=creeds_rows,
+            #     cmap_rows=cmap_rows,
+            #     min_max_p_val=min_max_p_val #Used to calculate the opacity of dot
+            # )
 
     else:
         form = GeneForm()

@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="container">
+    <h1>
+      <strong>
+        Results
+      </strong>
+    </h1>
+    <h1 class="symbol-title">
+      <a href="http://amp.pharm.mssm.edu/Harmonizome/gene/{{symbol}}" target="_blank">
+        {{ symbol }}
+      </a>: {{ expression }}
+    </h1>
+    <ul class="nav nav-tabs">
+      <li class="nav active" role="presentation">
+        <a href="#L1000" aria-controls="l1000" role="tab" data-toggle="tab">L1000</a>
+      </li>
+      <li class="nav" role="presentation">
+        <a href="#CREEDS" aria-controls="creeds" role="tab" data-toggle="tab">CREEDS</a>
+      </li>
+      <li class="nav" role="presentation">
+        <a href="#CMAP" aria-controls="cmap" role="tab" data-toggle="tab">CMAP</a>
+      </li>
+    </ul>
+
+    <div class="tab-content">
+      <div role="tabpanel" class="tab-pane active" id="L1000">
+        cmap_length = {{cmap_length}}
+        l1000_length = {{l1000_length}}
+        creeds_length = {{creeds_length}}
+      </div>
+    </div>
+    <br>
+</div>
+{% endblock %}

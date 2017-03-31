@@ -136,8 +136,8 @@ def init():
                 drugbank_url,\
                 pubchem_url
 
-    global CmapSinature
-    class CmapSinature(Base):
+    global CmapSignature
+    class CmapSignature(Base):
         __tablename__ = 'cmap_signature'
         id = Column(Integer, primary_key=True)
         drug_name = Column(String(50))
@@ -153,7 +153,7 @@ def init():
 
     global CmapAssociation
     class CmapAssociation(Base):
-        __tablename__ = 'cmap_assocition'
+        __tablename__ = 'cmap_association'
         id = Column(Integer, primary_key=True)
         signature_fk = Column(Integer, ForeignKey('cmap_signature.id'))
         gene_symbol = Column(String(50))
@@ -162,7 +162,7 @@ def init():
         q_value = Column(Float)
 
         def get_row(self):
-            s = get_or_create(session, CmapSinature, id=self.signature_fk)[0]
+            s = get_or_create(session, CmapSignature, id=self.signature_fk)[0]
             # sig_id = s.sig_id
             # pert_id = s.pert_id
             drug_name = s.drug_name

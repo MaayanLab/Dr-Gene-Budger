@@ -124,18 +124,18 @@
           {% for result in creeds_results %}
                 <td>{{ result.signature.drug_name }}</td>
                 <td>
-                  <a href="http://amp.pharm.mssm.edu/CREEDS/api?id={{result.signature.creeds_id}}">
+                  <a href="http://amp.pharm.mssm.edu/CREEDS/api?id={{result.signature.creeds_id}}" target="_blank">
                     {{ result.signature.creeds_id }}
                   </a>
                 </td>
                 <td>
-                  <a href="http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc={{result.signature.geo_id}}">
+                  <a href="http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc={{result.signature.geo_id}}" target="_blank">
                     {{ result.signature.geo_id }}
                   </a>
                 </td>
                 <td>
                   {% if result.signature.drugbank_id != None %}
-                    <a href="http://www.drugbank.ca/drugs/{{result.signature.drugbank_id}}">
+                    <a href="http://www.drugbank.ca/drugs/{{result.signature.drugbank_id}}" target="_blank">
                       {{ result.signature.drugbank_id }}
                     </a>
                   {% else %}
@@ -144,7 +144,7 @@
                 </td>
                 <td>
                   {% if result.signature.pubchem_id != None %}
-                    <a href="https://pubchem.ncbi.nlm.nih.gov/compound/{{result.signature.pubchem_id}}">
+                    <a href="https://pubchem.ncbi.nlm.nih.gov/compound/{{result.signature.pubchem_id}}" target="_blank">
                       {{ result.signature.pubchem_id }}
                     </a>
                   {% else %}

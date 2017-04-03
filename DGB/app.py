@@ -30,20 +30,16 @@ def home():
             symbol = request.form['symbol']
             expression = request.form['expression']
 
-            cmap_result = get_cmap_rows(db.session, symbol, expression)
-            # cmap_rows = cmap_result[0]
-
-            l1000_result = get_l1000_rows(db.session, symbol, expression)
-            # l1000_rows = l1000_result[0]
+            cmap_results = get_cmap_rows(db.session, symbol, expression)
+            l1000_results = get_l1000_rows(db.session, symbol, expression)
             # min_max_p_val = l1000_result[1]
 
-            creeds_result = get_creeds_rows(db.session, symbol, expression)
-            # creeds_rows = creeds_result[0]
+            creeds_results = get_creeds_rows(db.session, symbol, expression)
 
             return render_template('results.html',
-            cmap_length=len(cmap_result),
-            l1000_length=len(l1000_result),
-            creeds_length=len(creeds_result)
+            cmap=cmap_results,
+            l1000=l1000_results,
+            creeds=creeds_results
             )
             # return render_template('output.html',
             #     symbol=symbol,

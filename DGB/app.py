@@ -35,7 +35,6 @@ def home():
             # min_max_p_val = l1000_result[1]
 
             creeds_results = get_creeds_rows(db.session, symbol, expression)
-
             return render_template('output.html',
             symbol=symbol,
             expression=expression,

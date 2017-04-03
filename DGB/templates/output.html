@@ -91,7 +91,11 @@
                   </td>
                   <td class="specificity">
                     <script>
-                      document.write(Number({{ result.specificity }}).toExponential(2));
+                      if ({{result.fold_change}} > 0) {
+                        document.write(Number(({{ 1/result.signature.n_sig_up_genes }})).toExponential(2));
+                      } else {
+                        document.write(Number(({{ 1/result.signature.n_sig_down_genes }})).toExponential(2));
+                      }
                     </script>
                   </td>
               </tr>
@@ -125,14 +129,22 @@
                   </a>
                 </td>
                 <td>
-                  <a href="http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc={{result.signature.geo_id}}">
-                    {{ result.signature.geo_id }}
-                  </a>
+                  {% if result.signature.geo_id is defined %}
+                    <a href="http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc={{result.signature.geo_id}}">
+                      {{ result.signature.geo_id }}
+                    </a>
+                  {% else %}
+                    <span>N/A</span>
+                  {% endif %}
                 </td>
                 <td>
-                  <a href="http://www.drugbank.ca/drugs/{{result.signature.drugbank_id}}">
-                    {{ result.signature.drugbank_id }}
-                  </a>
+                  {% if result.signature.geo_id is defined %}
+                    <a href="http://www.drugbank.ca/drugs/{{result.signature.drugbank_id}}">
+                      {{ result.signature.drugbank_id }}
+                    </a>
+                  {% else %}
+                    <span>N/A</span>
+                  {% endif %}
                 </td>
                 <td>
                   <a href="https://pubchem.ncbi.nlm.nih.gov/compound/{{result.signature.pubchem_id}}">
@@ -162,7 +174,11 @@
                 </td>
                 <td class="specificity">
                   <script>
-                    document.write(Number({{ result.specificity }}).toExponential(2));
+                    if ({{result.fold_change}} > 0) {
+                      document.write(Number((1/{{ result.signature.n_sig_up_genes }})).toExponential(2));
+                    } else {
+                      document.write(Number((1/{{ result.signature.n_sig_down_genes }})).toExponential(2));
+                    }
                   </script>
                 </td>
               </tr>
@@ -190,7 +206,7 @@
           {% for result in cmap_results %}
               <tr>
                 <td>{{ result.signature.drug_name }}</td>
-                <td>{{ result.signature.cell_line }}</td>
+                <td>{{ result.signature.cell_name }}</td>
                 <td>{{ result.signature.pert_time }} {{ result.signature.pert_time_unit }}</td>
                 <td>{{ result.signature.pert_dose }} {{ result.signature.pert_dose_unit }}</td>
                 <td class="p-val">
@@ -215,7 +231,11 @@
                 </td>
                 <td class="specificity">
                   <script>
-                    document.write(Number({{ result.specificity }}).toExponential(2));
+                    if ({{result.fold_change}} > 0) {
+                      document.write(Number((1/{{ result.signature.n_sig_up_genes }})).toExponential(2));
+                    } else {
+                      document.write(Number((1/{{ result.signature.n_sig_down_genes }})).toExponential(2));
+                    }
                   </script>
                 </td>
             </tr>

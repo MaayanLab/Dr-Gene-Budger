@@ -129,16 +129,12 @@
                   </a>
                 </td>
                 <td>
-                  {% if result.signature.geo_id is defined %}
-                    <a href="http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc={{result.signature.geo_id}}">
-                      {{ result.signature.geo_id }}
-                    </a>
-                  {% else %}
-                    <span>N/A</span>
-                  {% endif %}
+                  <a href="http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc={{result.signature.geo_id}}">
+                    {{ result.signature.geo_id }}
+                  </a>
                 </td>
                 <td>
-                  {% if result.signature.geo_id is defined %}
+                  {% if result.signature.drugbank_id != None %}
                     <a href="http://www.drugbank.ca/drugs/{{result.signature.drugbank_id}}">
                       {{ result.signature.drugbank_id }}
                     </a>
@@ -147,9 +143,13 @@
                   {% endif %}
                 </td>
                 <td>
-                  <a href="https://pubchem.ncbi.nlm.nih.gov/compound/{{result.signature.pubchem_id}}">
-                    {{ result.signature.pubchem_id }}
-                  </a>
+                  {% if result.signature.pubchem_id != None %}
+                    <a href="https://pubchem.ncbi.nlm.nih.gov/compound/{{result.signature.pubchem_id}}">
+                      {{ result.signature.pubchem_id }}
+                    </a>
+                  {% else %}
+                    <span>N/A</span>
+                  {% endif %}
                 </td>
 
                 <td class="p-val">

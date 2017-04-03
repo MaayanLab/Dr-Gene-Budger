@@ -27,13 +27,13 @@
 
     <div class="tab-content">
       <div role="tabpanel" class="tab-pane active" id="L1000">
-        <table>
-        cmap = {{cmap[0].associations}}
-        <br />
-        l1000 = {{l1000}}
-        <br />
-        creeds = {{creeds}}
-        <br />
+        <ul>
+          {% for result in cmap_results %}
+          <li>
+            {{result.signature.drug_name}}
+          </li>
+          {% endfor %}
+        </ul>
       </div>
     </div>
     <br>

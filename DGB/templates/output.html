@@ -44,54 +44,54 @@
           </thead>
 
           <tbody>
-          {% for row in lincs_rows %}
+          {% for result in l1000_results %}
                 <tr>
                   <td>
-                    <a href="http://amp.pharm.mssm.edu/dmoa/report/{{ row[2] }}" target="_blank">
-                      {{ row[0] }}
+                    <a href="http://amp.pharm.mssm.edu/dmoa/report/{{ result.signature.pert_id }}" target="_blank">
+                      {{ result.signature.drug_name }}
                     </a>
                   </td>
-                  <td>{{ row[1] }}</td>
+                  <td>{{ result.signature.sig_id }}</td>
                   <td>
                     <script>
                       var getCellLineFromSigId = function(sig_id) {
                         return sig_id.split("_")[1];
                       }
-                      var sig_id = "{{ row[1]|safe }}";
+                      var sig_id = "{{ result.signature.sig_id|safe }}";
                       var cellLine = getCellLineFromSigId(sig_id);
                       document.write("<span>" + cellLine + "</span>");
                     </script>
                   </td>
                   <td>
-                    <a href="http://amp.pharm.mssm.edu/dmoa/report/{{ row[2] }}" target="_blank">
-                      {{ row[2] }}
+                    <a href="http://amp.pharm.mssm.edu/dmoa/report/{{ result.signature.pert_id }}" target="_blank">
+                      {{ result.signature.pert_id }}
                     </a>
                   </td>
-                  <td>{{ row[3] }} {{ row[4] }}</td>
-                  <td>{{ row[5] }} µM</td>
+                  <td>{{ result.signature.pert_time }} {{ result.signature.pert_time_unit }}</td>
+                  <td>{{ result.signature.pert_dose }} {{ result.signature.pert_dose_unit }}</td>
                   <td class="p-val">
                     <script>
-                      document.write(Number({{ row[6] }}).toExponential(2));
+                      document.write(Number({{ result.p_value }}).toExponential(2));
                     </script>
                     {% if expression is equalto 'Up-Regulate'%}
-                      <span class="p-val-dot green-dot" val="{{ row[6] }}"></span>
+                      <span class="p-val-dot green-dot" val="{{ result.p_value }}"></span>
                     {% else %}
-                      <span class="p-val-dot red-dot" val="{{ row[6] }}"></span>
+                      <span class="p-val-dot red-dot" val="{{ result.p_value }}"></span>
                     {% endif %}
                   </td>
                   <td class="q-val">
                     <script>
-                      document.write(Number({{ row[7] }}).toExponential(2));
+                      document.write(Number({{ result.q_value }}).toExponential(2));
                     </script>
                   </td>
                   <td class="fold-change">
                     <script>
-                      document.write(Number({{ row[8] }}).toFixed(3));
+                      document.write(Number({{ result.fold_change }}).toFixed(3));
                     </script>
                   </td>
                   <td class="specificity">
                     <script>
-                      document.write(Number({{ row[9] }}).toExponential(2));
+                      document.write(Number({{ result.specificity }}).toExponential(2));
                     </script>
                   </td>
               </tr>
@@ -117,51 +117,52 @@
           </thead>
 
           <tbody>
-          {% for row in creeds_rows %}
-                <td>{{ row[0] }}</td>
-                <td><a href="http://amp.pharm.mssm.edu/CREEDS/api?id={{row[1]}}">{{ row[1] }}</a></td>
-
-                {% if row[6] != None %}
-                    <td><a href="{{ row[6] }}">{{ row[1] }}</a></td>
-                {% else %}
-                    <td>N/A</td>
-                {% endif %}
-
-                {% if row[9] != None %}
-                    <td><a href="{{ row[9] }}">{{ row[3] }}</a></td>
-                {% else %}
-                    <td>N/A</td>
-                {% endif %}
-
-                {% if row[10] != None %}
-                    <td><a href="{{ row[10] }}">{{ row[4] }}</a></td>
-                {% else %}
-                    <td>N/A</td>
-                {% endif %}
+          {% for result in creeds_results %}
+                <td>{{ result.signature.drug_name }}</td>
+                <td>
+                  <a href="http://amp.pharm.mssm.edu/CREEDS/api?id={{result.signature.creeds_id}}">
+                    {{ result.signature.creeds_id }}
+                  </a>
+                </td>
+                <td>
+                  <a href="http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc={{result.signature.geo_id}}">
+                    {{ result.signature.geo_id }}
+                  </a>
+                </td>
+                <td>
+                  <a href="http://www.drugbank.ca/drugs/{{result.signature.drugbank_id}}">
+                    {{ result.signature.drugbank_id }}
+                  </a>
+                </td>
+                <td>
+                  <a href="https://pubchem.ncbi.nlm.nih.gov/compound/{{result.signature.pubchem_id}}">
+                    {{ result.signature.pubchem_id }}
+                  </a>
+                </td>
 
                 <td class="p-val">
                   <script>
-                    document.write(Number({{ row[5] }}).toExponential(2));
+                    document.write(Number({{ result.p_value }}).toExponential(2));
                   </script>
                   {% if expression is equalto 'Up-Regulate'%}
-                    <span class="p-val-dot green-dot" val="{{ row[5] }}"></span>
+                    <span class="p-val-dot green-dot" val="{{ result.p_value }}"></span>
                   {% else %}
-                    <span class="p-val-dot red-dot" val="{{ row[5] }}"></span>
+                    <span class="p-val-dot red-dot" val="{{ result.p_value }}"></span>
                   {% endif %}
                 </td>
                 <td class="q-val">
                   <script>
-                    document.write(Number({{ row[6] }}).toExponential(2));
+                    document.write(Number({{ result.q_value }}).toExponential(2));
                   </script>
                 </td>
                 <td class="fold-change">
                   <script>
-                    document.write(Number({{ row[7] }}).toFixed(3));
+                    document.write(Number({{ result.fold_change }}).toFixed(3));
                   </script>
                 </td>
                 <td class="specificity">
                   <script>
-                    document.write(Number({{ row[8] }}).toExponential(2));
+                    document.write(Number({{ result.specificity }}).toExponential(2));
                   </script>
                 </td>
               </tr>
@@ -186,35 +187,35 @@
           </thead>
 
           <tbody>
-          {% for row in cmap_rows %}
+          {% for result in cmap_results %}
               <tr>
-                <td>{{ row[0] }}</td>
-                <td>{{ row[1] }}</td>
-                <td>{{ row[2] }} {{ row[3] }}</td>
-                <td>{{ row[4] }} µM</td>
+                <td>{{ result.signature.drug_name }}</td>
+                <td>{{ result.signature.cell_line }}</td>
+                <td>{{ result.signature.pert_time }} {{ result.signature.pert_time_unit }}</td>
+                <td>{{ result.signature.pert_dose }} {{ result.signature.pert_dose_unit }}</td>
                 <td class="p-val">
                   <script>
-                    document.write(Number({{ row[5] }}).toExponential(2));
+                    document.write(Number({{ result.p_value }}).toExponential(2));
                   </script>
                   {% if expression is equalto 'Up-Regulate'%}
-                    <span class="p-val-dot green-dot" val="{{ row[5] }}"></span>
+                    <span class="p-val-dot green-dot" val="{{ result.p_value }}"></span>
                   {% else %}
-                    <span class="p-val-dot red-dot" val="{{ row[5] }}"></span>
+                    <span class="p-val-dot red-dot" val="{{ result.p_value }}"></span>
                   {% endif %}
                 </td>
                 <td class="q-val">
                   <script>
-                    document.write(Number({{ row[6] }}).toExponential(2));
+                    document.write(Number({{ result.q_value }}).toExponential(2));
                   </script>
                 </td>
                 <td class="fold-change">
                   <script>
-                    document.write(Number({{ row[7] }}).toFixed(3));
+                    document.write(Number({{ result.fold_change }}).toFixed(3));
                   </script>
                 </td>
                 <td class="specificity">
                   <script>
-                    document.write(Number({{ row[8] }}).toExponential(2));
+                    document.write(Number({{ result.specificity }}).toExponential(2));
                   </script>
                 </td>
             </tr>
@@ -222,7 +223,6 @@
           </tbody>
         </table>
       </div>
-
     </div>
     <br>
 </div>
@@ -240,8 +240,8 @@
   $(document).ready(function() {
     setTimeout(function() {
       $(".p-val-dot").each(function(idx) {
-        var min = {{min_max_p_val[0]}} + 0;
-        var max = {{min_max_p_val[1]}} + 0;
+        var min = 0;
+        var max = 0;
         var opacity = calculateOpacity(min, max, Number($(this).attr('val')));
         $(this).attr('style', `opacity:${opacity}`)
       });

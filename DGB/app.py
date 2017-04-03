@@ -36,10 +36,12 @@ def home():
 
             creeds_results = get_creeds_rows(db.session, symbol, expression)
 
-            return render_template('results.html',
-            cmap=cmap_results,
-            l1000=l1000_results,
-            creeds=creeds_results
+            return render_template('output.html',
+            symbol=symbol,
+            expression=expression,
+            cmap_results=cmap_results,
+            l1000_results=l1000_results,
+            creeds_results=creeds_results
             )
             # return render_template('output.html',
             #     symbol=symbol,

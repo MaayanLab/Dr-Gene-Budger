@@ -10,6 +10,7 @@ import pdb
 app = Flask(__name__, static_url_path=BASE_URL + '/static')
 # cors = CORS(app, resources={r"/api/": {"origins": "*"}})
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE
+app.config['SQLALCHEMY_POOL_RECYCLE'] = 3600
 app.config['SECRET_KEY'] = SECRET_KEY
 db = SQLAlchemy(app)
 

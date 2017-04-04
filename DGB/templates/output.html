@@ -119,22 +119,22 @@
           <tbody>
           {% for row in creeds_rows %}
                 <td>{{ row[0] }}</td>
-                <td><a href="http://amp.pharm.mssm.edu/CREEDS/api?id={{row[1]}}">{{ row[1] }}</a></td>
+                <td><a href="http://amp.pharm.mssm.edu/CREEDS/api?id={{row[1]}}" target="_blank">{{ row[1] }}</a></td>
 
-                {% if row[6] != None %}
-                    <td><a href="{{ row[6] }}">{{ row[1] }}</a></td>
+                {% if row[2] != None %}
+                    <td><a href="http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc={{row[2]}}" target="_blank">{{ row[2] }}</a></td>
                 {% else %}
                     <td>N/A</td>
                 {% endif %}
 
-                {% if row[9] != None %}
-                    <td><a href="{{ row[9] }}">{{ row[3] }}</a></td>
+                {% if row[3] != None %}
+                    <td><a href="http://www.drugbank.ca/drugs/{{ row[3] }}" target="_blank">{{ row[3] }}</a></td>
                 {% else %}
                     <td>N/A</td>
                 {% endif %}
 
-                {% if row[10] != None %}
-                    <td><a href="{{ row[10] }}">{{ row[4] }}</a></td>
+                {% if row[4] != None %}
+                    <td><a href="https://pubchem.ncbi.nlm.nih.gov/compound/{{ row[4] }}" target="_blank">{{ row[4] }}</a></td>
                 {% else %}
                     <td>N/A</td>
                 {% endif %}

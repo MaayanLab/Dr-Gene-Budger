@@ -14,20 +14,6 @@ class Signature(db.Model):
     n_sig_down_genes = db.Column(db.Integer)
     associations = db.relationship('Association', backref="association")
 
-    def __init__(self, id, sig_id, pert_id, drug_name,
-               pert_time, pert_time_unit, pert_dose,
-               pert_dose_unit, n_sig_up_genes, n_sig_down_genes):
-        self.id = id
-        self.sig_id = sig_id
-        self.pert_id = pert_id
-        self.pert_time = pert_time
-        self.pert_time_unit = pert_time_unit
-        self.pert_dose = pert_dose
-        self.pert_dose_unit = pert_dose_unit
-        self.n_sig_up_genes = n_sig_up_genes
-        self.n_sig_down_genes = n_sig_down_genes
-        self.associations = associations
-
 class Association(db.Model):
     __tablename__ = 'association'
     id = db.Column(db.Integer, primary_key=True)
@@ -37,16 +23,6 @@ class Association(db.Model):
     p_value = db.Column(db.Float)
     q_value = db.Column(db.Float)
     signature = db.relationship("Signature", backref="signature")
-
-    def __init__(self, id, signature_fk, gene_symbol,
-                 fold_change, p_value, q_value):
-        self.id = id
-        self.signature_fk = signature_fk
-        self.gene_symbol = gene_symbol
-        self.fold_change = fold_change
-        self.p_value = p_value
-        self.q_value = q_value
-        self.signature = signature
 
 class creedsSignature(db.Model):
     __tablename__ = 'creeds_signature'
@@ -60,19 +36,6 @@ class creedsSignature(db.Model):
     n_sig_down_genes = db.Column(db.Integer)
     associations = db.relationship('creedsAssociation', backref="creedsAssociation")
 
-    def __init__(self, id, creeds_id, drug_name, geo_id,
-                 drugbank_id, pubchem_id, n_sig_up_genes,
-                 n_sig_down_genes, associations):
-        self.id = id
-        self.creeds_id = creeds_id
-        self.drug_name = drug_name
-        self.geo_id = geo_id
-        self.drugbank_id = drugbank_id
-        self.pubchem_id = pubchem_id
-        self.n_sig_up_genes = n_sig_up_genes
-        self.n_sig_down_genes = n_sig_down_genes
-        self.associations = associations
-
 class creedsAssociation(db.Model):
     __tablename__ = 'creeds_association'
     id = db.Column(db.Integer, primary_key=True)
@@ -82,16 +45,6 @@ class creedsAssociation(db.Model):
     q_value = db.Column(db.Float)
     fold_change = db.Column(db.Float)
     signature = db.relationship("creedsSignature", backref="creedsSignature")
-
-    def __init__(self, id, signature_fk, gene_symbol,
-                 fold_change, p_value, q_value):
-        self.id = id
-        self.signature_fk = signature_fk
-        self.gene_symbol = gene_symbol
-        self.p_value = p_value
-        self.q_value = q_value
-        self.fold_change = fold_change
-        self.signature = signature
 
 class CmapSignature(db.Model):
     __tablename__ = 'cmap_signature'
@@ -107,22 +60,6 @@ class CmapSignature(db.Model):
     n_sig_down_genes = db.Column(db.Integer)
     associations = db.relationship('CmapAssociation', backref="cmapAssociation")
 
-    def __init__(self, id, drug_name, cell_name, cell_info,
-                 pert_time, pert_time_unit, pert_dose,
-                 pert_dose_unit, n_sig_up_genes,
-                 n_sig_down_genes, associations):
-        self.id = id
-        self.drug_name = drug_name
-        self.cell_name = cell_name
-        self.cell_info = cell_info
-        self.pert_time = pert_time
-        self.pert_time_unit = pert_time_unit
-        self.pert_dose = pert_dose
-        self.pert_dose_unit = pert_dose_unit
-        self.n_sig_up_genes = n_sig_up_genes
-        self.n_sig_down_genes = n_sig_down_genes
-        self.associations = associations
-
 class CmapAssociation(db.Model):
     __tablename__ = 'cmap_association'
     id = db.Column(db.Integer, primary_key=True)
@@ -132,16 +69,6 @@ class CmapAssociation(db.Model):
     p_value = db.Column(db.Float)
     q_value = db.Column(db.Float)
     signature = db.relationship("CmapSignature", backref="cmapSignature")
-
-    def __init__(self, id, signature_fk, gene_symbol,
-                 fold_change, p_value, q_value):
-        self.id = id
-        self.signature_fk = signature_fk
-        self.gene_symbol = gene_symbol
-        self.fold_change = fold_change
-        self.p_value = p_value
-        self.q_value = q_value
-        self.signature = signature
 
 def get_or_create(session, model, **kwargs):
     # init a instance if not exists

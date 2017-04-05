@@ -31,11 +31,17 @@ def home():
             symbol = request.form['symbol']
             expression = request.form['expression']
 
-            cmap_results = get_cmap_rows(db.session, symbol, expression)
-            l1000_results = get_l1000_rows(db.session, symbol, expression)
+            queries = get_rows(db.session, symbol)
+            cmap_query = queries["cmap_query"]
+            l1000_query = queries["l1000_query"]
+            creeds_query = queries["creeds_query"]
+
+            cmap_results = filter_by_expression(cmap_query, CmapAssociation, expression)
+            l1000_results = filter_by_expression(l1000_query, Association, expression)
             # min_max_p_val = l1000_result[1]
 
-            creeds_results = get_creeds_rows(db.session, symbol, expression)
+            creeds_results = filter_by_expression(creeds_query, creedsAssociation, expression)
+
             return render_template('output.html',
             symbol=symbol,
             expression=expression,
@@ -77,6 +83,8 @@ def statistics():
 def api_res():
     if request.method == 'POST':
         jsonData = request.get_json()
+        # Outside AJAX request should require any parameters other than symbol.
+        # Should Query DB for all and take care of data handling on the frontend.
         symbol = jsonData['symbol'].upper()
         expression = jsonData['expression'].upper()
         dataset = jsonData['dataset'].upper()

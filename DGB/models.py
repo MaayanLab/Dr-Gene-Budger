@@ -82,12 +82,20 @@ def get_or_create(session, model, **kwargs):
         session.commit()
         return instance
 
-def get_l1000_rows(session, symbol, expression):
-    if (expression == 'Up-Regulate'):
-        associations = get_or_create(session, Association, gene_symbol=symbol).having(Association.fold_change >= 0).all()
-    else:
-        associations = get_or_create(session, Association, gene_symbol=symbol).having(Association.fold_change < 0).all()
-    return associations
+def get_rows(session, symbol):
+    return {
+        "l1000_query": get_or_create(session, Association, gene_symbol=symbol),
+        "creeds_query": get_or_create(session, creedsAssociation, gene_symbol=symbol),
+        "cmap_query": get_or_create(session, CmapAssociation, gene_symbol=symbol)
+    }
+
+# def get_l1000_rows(session, symbol, expression):
+#     if (expression == 'Up-Regulate'):
+#         associations = get_or_create(session, Association, gene_symbol=symbol).having(Association.fold_change >= 0).all()
+#     else:
+#         associations = get_or_create(session, Association, gene_symbol=symbol).having(Association.fold_change < 0).all()
+#     return associations
+
     # rows = [None] * total_count
 
     # for i in xrange(total_count):
@@ -118,12 +126,13 @@ def get_l1000_rows(session, symbol, expression):
     # return result
 
 
-def get_creeds_rows(session, symbol, expression):
-    if (expression == 'Up-Regulate'):
-        creedsassociations = get_or_create(session, creedsAssociation, gene_symbol=symbol).having(creedsAssociation.fold_change >= 0).all()
-    else:
-        creedsassociations = get_or_create(session, creedsAssociation, gene_symbol=symbol).having(creedsAssociation.fold_change < 0).all()
-    return creedsassociations
+# def get_creeds_rows(session, symbol, expression):
+#     if (expression == 'Up-Regulate'):
+#         creedsassociations = get_or_create(session, creedsAssociation, gene_symbol=symbol).having(creedsAssociation.fold_change >= 0).all()
+#     else:
+#         creedsassociations = get_or_create(session, creedsAssociation, gene_symbol=symbol).having(creedsAssociation.fold_change < 0).all()
+#     return creedsassociations
+
     # total_count = creedsassociation.count()
     # creedsrows = [None] * total_count
     #
@@ -155,12 +164,22 @@ def get_creeds_rows(session, symbol, expression):
     # result = (creedsrows, min_max_p_val)
     # return result
 
-def get_cmap_rows(session, symbol, expression):
-    if (expression == 'Up-Regulate'):
-        associations = get_or_create(session, CmapAssociation, gene_symbol=symbol).having(CmapAssociation.fold_change >= 0).all()
-    else:
-        associations = get_or_create(session, CmapAssociation, gene_symbol=symbol).having(CmapAssociation.fold_change < 0).all()
-    return associations
+# def get_l1000_rows(session, symbol):
+#     return get_or_create(session, Association, gene_symbol=symbol)
+#
+# def get_creeds_rows(session, symbol):
+#     return get_or_create(session, creedsAssociation, gene_symbol=symbol)
+#
+# def get_cmap_rows(session, symbol):
+#     return get_or_create(session, CmapAssociation, gene_symbol=symbol)
+
+    # if (expression == 'Up-Regulate'):
+    #     associations = get_or_create(session, CmapAssociation, gene_symbol=symbol).having(CmapAssociation.fold_change >= 0).all()
+    # else:
+    #     associations = get_or_create(session, CmapAssociation, gene_symbol=symbol).having(CmapAssociation.fold_change < 0).all()
+    # return associations
+
+
     # rows = [None] * total_count
     #
     # for i in xrange(total_count):

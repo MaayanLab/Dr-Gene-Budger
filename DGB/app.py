@@ -86,19 +86,24 @@ def api_res():
         # Outside AJAX request should require any parameters other than symbol.
         # Should Query DB for all and take care of data handling on the frontend.
         symbol = jsonData['symbol'].upper()
-        expression = jsonData['expression'].upper()
-        dataset = jsonData['dataset'].upper()
+        # expression = jsonData['expression'].upper()
+        # dataset = jsonData['dataset'].upper()
+        queries = get_rows(db.session, symbol)
+        cmap_query = queries["cmap_query"]
+        l1000_query = queries["l1000_query"]
+        creeds_query = queries["creeds_query"]
 
-        if (dataset == 'L1000'):
-            l1000 = dataset_query(symbol, expression, dataset)
-            creeds = []
-        elif (dataset == 'CREEDS'):
-            l1000 = []
-            creeds = dataset_query(symbol, expression, dataset)
-        else:
-            l1000 = dataset_query(symbol, expression, "L1000")
-            creeds = dataset_query(symbol, expression, "CREEDS")
-        return jsonify(l1000=l1000, creeds=creeds)
+        # if (dataset == 'L1000'):
+        #     l1000 = dataset_query(symbol, expression, dataset)
+        #     creeds = []
+        # elif (dataset == 'CREEDS'):
+        #     l1000 = []
+        #     creeds = dataset_query(symbol, expression, dataset)
+        # else:
+        #     l1000 = dataset_query(symbol, expression, "L1000")
+        #     creeds = dataset_query(symbol, expression, "CREEDS")
+        pdb.set_trace()
+        return jsonify(l1000=l1000_query, creeds=creeds_query, cmap=cmap_query)
 
 @app.route(BASE_URL + '/api/test/', methods = ['POST'])
 def api_res2():

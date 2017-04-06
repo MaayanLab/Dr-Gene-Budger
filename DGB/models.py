@@ -17,8 +17,10 @@ class L1000Signature(OutputMixin, db.Model):
 
 class L1000Association(OutputMixin, db.Model):
     __tablename__ = 'l1000_associations'
+    RELATIONSHIPS_TO_DICT = True
+
     id = db.Column(db.Integer, primary_key=True)
-    signature_fk = db.Column(db.Integer, db.ForeignKey('l1000_signatures.id'))
+    l1000_signature_id = db.Column('l1000_signature_id', db.Integer, db.ForeignKey('l1000_signatures.id'))
     gene_symbol = db.Column(db.String(25))
     fold_change = db.Column(db.Float)
     p_value = db.Column(db.Float)
@@ -39,8 +41,10 @@ class CreedsSignature(OutputMixin, db.Model):
 
 class CreedsAssociation(OutputMixin, db.Model):
     __tablename__ = 'creeds_associations'
+    RELATIONSHIPS_TO_DICT = True
+
     id = db.Column(db.Integer, primary_key=True)
-    signature_fk = db.Column(db.Integer, db.ForeignKey('creeds_signatures.id'))
+    creeds_signature_id = db.Column('creeds_signature_id', db.Integer, db.ForeignKey('creeds_signatures.id'))
     gene_symbol = db.Column(db.String(25))
     p_value = db.Column(db.Float)
     q_value = db.Column(db.Float)
@@ -63,8 +67,10 @@ class CmapSignature(OutputMixin, db.Model):
 
 class CmapAssociation(OutputMixin, db.Model):
     __tablename__ = 'cmap_associations'
+    RELATIONSHIPS_TO_DICT = True
+
     id = db.Column(db.Integer, primary_key=True)
-    signature_fk = db.Column(db.Integer, db.ForeignKey('cmap_signatures.id'))
+    cmap_signature_id = db.Column('cmap_signature_id', db.Integer, db.ForeignKey('cmap_signatures.id'))
     gene_symbol = db.Column(db.String(50))
     fold_change = db.Column(db.Float)
     p_value = db.Column(db.Float)

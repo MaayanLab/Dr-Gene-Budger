@@ -21,13 +21,7 @@ RUN pip install \
     WTForms==2.1 \
     flask-cors==3.0.2
 
-
-
-
 RUN apt-get clean
-
 EXPOSE 80
-
 ADD . /DGB
-
 CMD /DGB/boot.sh

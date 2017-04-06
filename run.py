@@ -1,2 +1,5 @@
-from DGB.app import app as application
-application.run()
+from DGB.app import app, db
+
+if __name__ == '__main__':
+    db.create_all()
+    app.run()

@@ -1,4 +1,3 @@
-# coding=utf-8
 from flask import Flask, render_template, flash, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 # from flask_cors import CORS, cross_origin
@@ -19,7 +18,6 @@ from helpers import *
 @app.route(BASE_URL + '/', methods=['GET', 'POST'])
 def home():
     if request.method == 'POST':
-        # Create form and handle submissions.
         form = GeneForm(request.form)
         if not form.validate_on_submit():
             flash('All fields are required.')
@@ -38,8 +36,6 @@ def home():
 
             cmap_results = filter_by_expression(cmap_query, CmapAssociation, expression)
             l1000_results = filter_by_expression(l1000_query, L1000Association, expression)
-            # min_max_p_val = l1000_result[1]
-
             creeds_results = filter_by_expression(creeds_query, CreedsAssociation, expression)
 
             return render_template('output.html',
@@ -49,14 +45,6 @@ def home():
             l1000_results=l1000_results,
             creeds_results=creeds_results
             )
-            # return render_template('output.html',
-            #     symbol=symbol,
-            #     expression=expression,
-            #     l1000_rows=l1000_rows,
-            #     creeds_rows=creeds_rows,
-            #     cmap_rows=cmap_rows,
-            #     min_max_p_val=min_max_p_val #Used to calculate the opacity of dot
-            # )
 
     else:
         form = GeneForm()
@@ -75,7 +63,9 @@ def documentation():
 def statistics():
     return render_template('statistics.html')
 
+
 # --------------------- Mobile API endpoint ---------------------
+
 @app.route(BASE_URL + '/api/v1/', methods = ['POST'])
 def api_res():
     if request.method == 'POST':
@@ -88,7 +78,3 @@ def api_res():
         creeds_query = map(lambda x: x.to_json(), queries["creeds_query"])
 
         return jsonify(l1000=l1000_query, creeds=creeds_query, cmap=cmap_query)
-
-if __name__ == '__main__':
-    db.create_all()
-    app.run(debug = True)

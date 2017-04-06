@@ -75,64 +75,19 @@ def documentation():
 def statistics():
     return render_template('statistics.html')
 
-# NOTE
-# Mobile Side
-# Accepts GET and POST requests and returns JSON
-# Mobile App needs to send POST request to this app in JSON format
+# --------------------- Mobile API endpoint ---------------------
 @app.route(BASE_URL + '/api/v1/', methods = ['POST'])
 def api_res():
     if request.method == 'POST':
         jsonData = request.get_json()
-        # Outside AJAX request should require any parameters other than symbol.
-        # Should Query DB for all and take care of data handling on the frontend.
         symbol = jsonData['symbol'].upper()
-        # expression = jsonData['expression'].upper()
-        # dataset = jsonData['dataset'].upper()
+
         queries = get_rows(db.session, symbol)
-        cmap_query = queries["cmap_query"]
-        l1000_query = queries["l1000_query"]
-        creeds_query = queries["creeds_query"]
-        pdb.set_trace()
+        cmap_query = map(lambda x: x.to_json(), queries["cmap_query"])
+        l1000_query = map(lambda x: x.to_json(), queries["l1000_query"])
+        creeds_query = map(lambda x: x.to_json(), queries["creeds_query"])
 
-        # if (dataset == 'L1000'):
-        #     l1000 = dataset_query(symbol, expression, dataset)
-        #     creeds = []
-        # elif (dataset == 'CREEDS'):
-        #     l1000 = []
-        #     creeds = dataset_query(symbol, expression, dataset)
-        # else:
-        #     l1000 = dataset_query(symbol, expression, "L1000")
-        #     creeds = dataset_query(symbol, expression, "CREEDS")
-        # WHAT DATASET_QUERY METHOD USED TO DO
-            # def dataset_query(symbol, expression, dataset):
-            #     init()
-            #     association = get_or_create_API(session, dataset, gene_symbol=symbol)
-            #
-            #     if (dataset == 'CREEDS'):
-            #         assoc_table_name = 'creedsAssociation'
-            #         sig_table_name = 'creedsSignature'
-            #     else:
-            #         assoc_table_name = 'Association'
-            #         sig_table_name = 'Signature'
-            #
-            #     res = []
-            #     for entry in association:
-            #         association = getattr(entry, assoc_table_name).__dict__
-            #         if (expression == 'UP' and association['fold_change'] >= 0) or \
-            #                 (expression == 'DOWN' and association['fold_change'] <= 0):
-            #             signature = getattr(entry, sig_table_name).__dict__
-            #             dictret = dict(association)
-            #             dictret.update(dict(signature))
-            #             for e in ['_sa_instance_state', 'signature_fk', 'id', 'pert_dose_unit']: #temporary, must work on getting pert_dose_unit encoding working.
-            #                 dictret.pop(e, None)
-            #             res.append(dictret)
-            #     return res
         return jsonify(l1000=l1000_query, creeds=creeds_query, cmap=cmap_query)
-
-@app.route(BASE_URL + '/api/test/', methods = ['POST'])
-def api_res2():
-    if request.method == 'POST':
-        return jsonify(hi=1, bye=2)
 
 if __name__ == '__main__':
     db.create_all()

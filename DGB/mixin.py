@@ -3,7 +3,6 @@ from uuid import UUID
 
 from sqlalchemy.ext.declarative import DeclarativeMeta
 
-
 class OutputMixin(object):
     RELATIONSHIPS_TO_DICT = False
 

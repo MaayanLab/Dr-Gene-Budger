@@ -1,5 +1,5 @@
 from app import db
-from mixin import *
+from mixin import OutputMixin
 
 class L1000Signature(OutputMixin, db.Model):
     __tablename__ = 'l1000_signatures'
@@ -13,7 +13,6 @@ class L1000Signature(OutputMixin, db.Model):
     pert_dose_unit = db.Column(db.String(6))
     n_sig_up_genes = db.Column(db.Integer)
     n_sig_down_genes = db.Column(db.Integer)
-    # associations = db.relationship('Association', backref=db.backref("association", lazy="dynamic"))
 
 class L1000Association(OutputMixin, db.Model):
     __tablename__ = 'l1000_associations'
@@ -37,7 +36,6 @@ class CreedsSignature(OutputMixin, db.Model):
     pubchem_id = db.Column(db.String(50))
     n_sig_up_genes = db.Column(db.Integer)
     n_sig_down_genes = db.Column(db.Integer)
-    # associations = db.relationship('creedsAssociation', backref=db.backref("creedsAssociation", lazy="dynamic"))
 
 class CreedsAssociation(OutputMixin, db.Model):
     __tablename__ = 'creeds_associations'
@@ -63,7 +61,6 @@ class CmapSignature(OutputMixin, db.Model):
     pert_dose_unit = db.Column(db.String(50))
     n_sig_up_genes = db.Column(db.Integer)
     n_sig_down_genes = db.Column(db.Integer)
-    # associations = db.relationship('CmapAssociation', backref=db.backref("cmapAssociation", lazy="dynamic"))
 
 class CmapAssociation(OutputMixin, db.Model):
     __tablename__ = 'cmap_associations'

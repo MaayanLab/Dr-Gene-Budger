@@ -1,7 +1,8 @@
 from app import db
+from mixin import *
 
-class Signature(db.Model):
-    __tablename__ = 'signature'
+class L1000Signature(OutputMixin, db.Model):
+    __tablename__ = 'l1000_signatures'
     id = db.Column(db.Integer, primary_key=True)
     sig_id = db.Column(db.String(50))
     pert_id = db.Column(db.String(20))
@@ -12,20 +13,20 @@ class Signature(db.Model):
     pert_dose_unit = db.Column(db.String(6))
     n_sig_up_genes = db.Column(db.Integer)
     n_sig_down_genes = db.Column(db.Integer)
-    associations = db.relationship('Association', backref="association")
+    # associations = db.relationship('Association', backref=db.backref("association", lazy="dynamic"))
 
-class Association(db.Model):
-    __tablename__ = 'association'
+class L1000Association(OutputMixin, db.Model):
+    __tablename__ = 'l1000_associations'
     id = db.Column(db.Integer, primary_key=True)
-    signature_fk = db.Column(db.Integer, db.ForeignKey('signature.id'))
+    signature_fk = db.Column(db.Integer, db.ForeignKey('l1000_signatures.id'))
     gene_symbol = db.Column(db.String(25))
     fold_change = db.Column(db.Float)
     p_value = db.Column(db.Float)
     q_value = db.Column(db.Float)
-    signature = db.relationship("Signature", backref="signature")
+    signature = db.relationship("L1000Signature", backref=db.backref("l1000_associations", lazy="dynamic"))
 
-class creedsSignature(db.Model):
-    __tablename__ = 'creeds_signature'
+class CreedsSignature(OutputMixin, db.Model):
+    __tablename__ = 'creeds_signatures'
     id = db.Column(db.Integer, primary_key=True)
     creeds_id = db.Column(db.String(50), unique=True)
     drug_name = db.Column(db.String(100))
@@ -34,20 +35,20 @@ class creedsSignature(db.Model):
     pubchem_id = db.Column(db.String(50))
     n_sig_up_genes = db.Column(db.Integer)
     n_sig_down_genes = db.Column(db.Integer)
-    associations = db.relationship('creedsAssociation', backref="creedsAssociation")
+    # associations = db.relationship('creedsAssociation', backref=db.backref("creedsAssociation", lazy="dynamic"))
 
-class creedsAssociation(db.Model):
-    __tablename__ = 'creeds_association'
+class CreedsAssociation(OutputMixin, db.Model):
+    __tablename__ = 'creeds_associations'
     id = db.Column(db.Integer, primary_key=True)
-    signature_fk = db.Column(db.Integer, db.ForeignKey('creeds_signature.id'))
+    signature_fk = db.Column(db.Integer, db.ForeignKey('creeds_signatures.id'))
     gene_symbol = db.Column(db.String(25))
     p_value = db.Column(db.Float)
     q_value = db.Column(db.Float)
     fold_change = db.Column(db.Float)
-    signature = db.relationship("creedsSignature", backref="creedsSignature")
+    signature = db.relationship("CreedsSignature", backref=db.backref("creeds_associations", lazy="dynamic"))
 
-class CmapSignature(db.Model):
-    __tablename__ = 'cmap_signature'
+class CmapSignature(OutputMixin, db.Model):
+    __tablename__ = 'cmap_signatures'
     id = db.Column(db.Integer, primary_key=True)
     drug_name = db.Column(db.String(50))
     cell_name = db.Column(db.String(50))
@@ -58,17 +59,17 @@ class CmapSignature(db.Model):
     pert_dose_unit = db.Column(db.String(50))
     n_sig_up_genes = db.Column(db.Integer)
     n_sig_down_genes = db.Column(db.Integer)
-    associations = db.relationship('CmapAssociation', backref="cmapAssociation")
+    # associations = db.relationship('CmapAssociation', backref=db.backref("cmapAssociation", lazy="dynamic"))
 
-class CmapAssociation(db.Model):
-    __tablename__ = 'cmap_association'
+class CmapAssociation(OutputMixin, db.Model):
+    __tablename__ = 'cmap_associations'
     id = db.Column(db.Integer, primary_key=True)
-    signature_fk = db.Column(db.Integer, db.ForeignKey('cmap_signature.id'))
+    signature_fk = db.Column(db.Integer, db.ForeignKey('cmap_signatures.id'))
     gene_symbol = db.Column(db.String(50))
     fold_change = db.Column(db.Float)
     p_value = db.Column(db.Float)
     q_value = db.Column(db.Float)
-    signature = db.relationship("CmapSignature", backref="cmapSignature")
+    signature = db.relationship("CmapSignature", backref=db.backref("cmap_associations", lazy="dynamic"))
 
 def get_or_create(session, model, **kwargs):
     # init a instance if not exists
@@ -84,8 +85,8 @@ def get_or_create(session, model, **kwargs):
 
 def get_rows(session, symbol):
     return {
-        "l1000_query": get_or_create(session, Association, gene_symbol=symbol),
-        "creeds_query": get_or_create(session, creedsAssociation, gene_symbol=symbol),
+        "l1000_query": get_or_create(session, L1000Association, gene_symbol=symbol),
+        "creeds_query": get_or_create(session, CreedsAssociation, gene_symbol=symbol),
         "cmap_query": get_or_create(session, CmapAssociation, gene_symbol=symbol)
     }
 

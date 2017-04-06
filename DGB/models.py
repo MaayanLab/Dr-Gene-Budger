@@ -74,24 +74,6 @@ class CmapAssociation(OutputMixin, db.Model):
     q_value = db.Column(db.Float)
     signature = db.relationship("CmapSignature", backref=db.backref("cmap_associations", lazy="dynamic"))
 
-def get_or_create(session, model, **kwargs):
-    # init a instance if not exists
-    # http://stackoverflow.com/questions/2546207/does-sqlalchemy-have-an-equivalent-of-djangos-get-or-create
-    instance = session.query(model).filter_by(**kwargs)
-    if instance:
-        return instance
-    else:
-        instance = model(**kwargs)
-        session.add(instance)
-        session.commit()
-        return instance
-
-def get_rows(session, symbol):
-    return {
-        "l1000_query": get_or_create(session, L1000Association, gene_symbol=symbol),
-        "creeds_query": get_or_create(session, CreedsAssociation, gene_symbol=symbol),
-        "cmap_query": get_or_create(session, CmapAssociation, gene_symbol=symbol)
-    }
 
 # def get_l1000_rows(session, symbol, expression):
 #     if (expression == 'Up-Regulate'):

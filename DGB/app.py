@@ -2,9 +2,8 @@
 from flask import Flask, render_template, flash, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 # from flask_cors import CORS, cross_origin
-from forms import *
 from config import BASE_URL, SECRET_KEY, DATABASE
-from helpers import *
+from forms import *
 import pdb
 
 app = Flask(__name__, static_url_path=BASE_URL + '/static')
@@ -14,7 +13,8 @@ app.config['SQLALCHEMY_POOL_RECYCLE'] = 299
 app.config['SECRET_KEY'] = SECRET_KEY
 db = SQLAlchemy(app)
 
-from models import *
+from models import CmapAssociation, L1000Association, CreedsAssociation
+from helpers import *
 
 @app.route(BASE_URL + '/', methods=['GET', 'POST'])
 def home():

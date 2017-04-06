@@ -1,3 +1,5 @@
+# Guide used for serialization of Model Object into json
+# http://blog.mmast.net/sqlalchemy-serialize-json
 import json
 from uuid import UUID
 

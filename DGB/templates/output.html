@@ -248,6 +248,30 @@
 </div>
 
 <script>
+  var CSV = [
+    '"1","val1","val2","val3","val4"',
+    '"2","val1","val2","val3","val4"',
+    '"3","val1","val2","val3","val4"'
+  ].join('\n');
+
+  function generateCSV(input) {
+    window.URL = window.webkitURL || window.URL;
+
+    var contentType = 'text/csv';
+
+    var csvFile = new Blob([input], {type: contentType});
+
+    var a = document.createElement('a');
+    a.download = 'my.csv';
+    a.href = window.URL.createObjectURL(csvFile);
+    a.textContent = 'Download CSV';
+
+    a.dataset.downloadurl = [contentType, a.download, a.href].join(':');
+    document.getElementsByClassName("symbol-title")[0].appendChild(a);
+  }
+
+  generateCSV(CSV);
+  
   function calculateOpacity(min, max, input) {
     // This function does the negative log of p-val,
     // linearly scales it to a value between 0 and 1, thereby generating opacity

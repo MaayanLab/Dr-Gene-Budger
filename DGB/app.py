@@ -37,7 +37,6 @@ def home():
             cmap_results = filter_by_expression(cmap_query, CmapAssociation, expression)
             l1000_results = filter_by_expression(l1000_query, L1000Association, expression)
             creeds_results = filter_by_expression(creeds_query, CreedsAssociation, expression)
-
             return render_template('output.html',
             symbol=symbol,
             expression=expression,

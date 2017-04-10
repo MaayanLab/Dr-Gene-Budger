@@ -248,11 +248,35 @@
 </div>
 
 <script>
-  var CSV = [
-    '"1","val1","val2","val3","val4"',
-    '"2","val1","val2","val3","val4"',
-    '"3","val1","val2","val3","val4"'
-  ].join('\n');
+  var l1000 = ["L1000 Results"]
+  var columns = [
+    "drug_name",
+    "sig_id",
+    "cell_line",
+    "pert_id",
+    "time",
+    "dose",
+    "p_value",
+    "q_value",
+    "fold_change",
+    // "specificity"
+  ];
+  l1000.push(columns);
+  {% for result in l1000_results %}
+    var sig_split = "{{result.signature.sig_id}}".split("_");
+    var result_entry = [
+      "{{ result.signature.drug_name }}",
+      "{{ result.signature.sig_id }}",
+      sig_split[1],
+      "{{ result.signature.pert_id }}",
+      "{{ result.signature.pert_time}} {{ result.signature.pert_time_unit}}",
+      "{{ result.signature.pert_dose}} {{ result.signature.pert_dose_unit}}",
+      "{{ result.p_value }}",
+      "{{ result.q_value }}",
+      "{{ result.fold_change }}",
+    ]
+    l1000.push(result_entry);
+  {% endfor %}
 
   function generateCSV(input) {
     window.URL = window.webkitURL || window.URL;
@@ -270,8 +294,8 @@
     document.getElementsByClassName("symbol-title")[0].appendChild(a);
   }
 
-  generateCSV(CSV);
-  
+  generateCSV(l1000.join('\n'))
+
   function calculateOpacity(min, max, input) {
     // This function does the negative log of p-val,
     // linearly scales it to a value between 0 and 1, thereby generating opacity

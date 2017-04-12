@@ -248,6 +248,23 @@
 </div>
 
 <script>
+
+  // var datasets = {
+  //   'L1000 Results': [
+  //     "signature.drug_name",
+  //     "signature.sig_id",
+  //     "cell_line",
+  //     "signature.pert_id",
+  //     "signature.time",
+  //     "signature.dose",
+  //     "p_value",
+  //     "q_value",
+  //     "fold_change"
+  //   ],
+  //   CREEDS: [],
+  //   CMAP: [],
+  // };
+
   var l1000 = ["L1000 Results"]
   var columns = [
     "drug_name",
@@ -264,7 +281,7 @@
   l1000.push(columns);
   {% for result in l1000_results %}
     var sig_split = "{{result.signature.sig_id}}".split("_");
-    var result_entry = [
+    var l1000_result_entry = [
       "{{ result.signature.drug_name }}",
       "{{ result.signature.sig_id }}",
       sig_split[1],
@@ -275,7 +292,57 @@
       "{{ result.q_value }}",
       "{{ result.fold_change }}",
     ]
-    l1000.push(result_entry);
+    l1000.push(l1000_result_entry);
+  {% endfor %}
+
+  var creeds = ["CREEDS Results"]
+  var columns = [
+    "drug_name",
+    "creeds_id",
+    "geo_id",
+    "drugbank_id",
+    "pubchem_id",
+    "p_value",
+    "q_value",
+    "fold_change"
+  ];
+  creeds.push(columns);
+  {% for result in creeds_results %}
+    var creeds_result_entry = [
+      "{{ result.signature.drug_name }}",
+      "{{ result.signature.creeds_id }}",
+      "{{ result.signature.geo_id }}",
+      "{{ result.signature.drugbank_id }}",
+      "{{ result.signature.pubchem_id }}",
+      "{{ result.p_value }}",
+      "{{ result.q_value }}",
+      "{{ result.fold_change }}",
+    ]
+    creeds.push(creeds_result_entry);
+  {% endfor %}
+
+  var cmap = ["CMAP Results"]
+  var columns = [
+    "drug_name",
+    "cell_name",
+    "time",
+    "dose",
+    "p_value",
+    "q_value",
+    "fold_change",
+  ];
+  cmap.push(columns);
+  {% for result in cmap_results %}
+    var cmap_result_entry = [
+      "{{ result.signature.drug_name }}",
+      "{{ result.signature.cell_name }}",
+      "{{ result.signature.pert_time}} {{ result.signature.pert_time_unit}}",
+      "{{ result.signature.pert_dose}} {{ result.signature.pert_dose_unit}}",
+      "{{ result.p_value }}",
+      "{{ result.q_value }}",
+      "{{ result.fold_change }}",
+    ]
+    cmap.push(cmap_result_entry);
   {% endfor %}
 
   function generateCSV(input) {
@@ -288,13 +355,17 @@
     var a = document.createElement('a');
     a.download = 'my.csv';
     a.href = window.URL.createObjectURL(csvFile);
-    a.textContent = 'Download CSV';
+    a.textContent = 'Download results';
 
     a.dataset.downloadurl = [contentType, a.download, a.href].join(':');
     document.getElementsByClassName("symbol-title")[0].appendChild(a);
   }
 
-  generateCSV(l1000.join('\n'))
+  var csv_results = [l1000, creeds, cmap].map(function (dataset) {
+    return dataset.join('\n')
+  }).join('\n\n');
+
+  generateCSV(csv_results);
 
   function calculateOpacity(min, max, input) {
     // This function does the negative log of p-val,

@@ -248,26 +248,7 @@
 </div>
 
 <script>
-  function escapeComma(str) {
-
-  }
-  // var datasets = {
-  //   'L1000 Results': [
-  //     "signature.drug_name",
-  //     "signature.sig_id",
-  //     "cell_line",
-  //     "signature.pert_id",
-  //     "signature.time",
-  //     "signature.dose",
-  //     "p_value",
-  //     "q_value",
-  //     "fold_change"
-  //   ],
-  //   CREEDS: [],
-  //   CMAP: [],
-  // };
-
-  var l1000 = ["L1000 Results"]
+  var l1000 = ["L1000 Results"];
   var columns = [
     "drug_name",
     "sig_id",
@@ -297,7 +278,7 @@
     l1000.push(l1000_result_entry);
   {% endfor %}
 
-  var creeds = ["CREEDS Results"]
+  var creeds = ["CREEDS Results"];
   var columns = [
     "drug_name",
     "creeds_id",
@@ -323,7 +304,7 @@
     creeds.push(creeds_result_entry);
   {% endfor %}
 
-  var cmap = ["CMAP Results"]
+  var cmap = ["CMAP Results"];
   var columns = [
     "drug_name",
     "cell_name",
@@ -347,7 +328,7 @@
     cmap.push(cmap_result_entry);
   {% endfor %}
 
-  function generateCSV(input) {
+  function generateCSV(gene_symbol, expression, input) {
     window.URL = window.webkitURL || window.URL;
 
     var contentType = 'text/csv';
@@ -355,7 +336,7 @@
     var csvFile = new Blob([input], {type: contentType});
 
     var a = document.createElement('a');
-    a.download = 'my.csv';
+    a.download = `DGB_${gene_symbol}_${expression}.csv`;
     a.href = window.URL.createObjectURL(csvFile);
     a.textContent = 'Download results';
 
@@ -367,7 +348,7 @@
     return dataset.join('\n')
   }).join('\n\n');
 
-  generateCSV(csv_results);
+  generateCSV("{{ symbol }}", "{{ expression }}", csv_results);
 
   function calculateOpacity(min, max, input) {
     // This function does the negative log of p-val,

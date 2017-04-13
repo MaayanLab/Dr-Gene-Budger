@@ -248,7 +248,9 @@
 </div>
 
 <script>
+  function escapeComma(str) {
 
+  }
   // var datasets = {
   //   'L1000 Results': [
   //     "signature.drug_name",
@@ -271,8 +273,8 @@
     "sig_id",
     "cell_line",
     "pert_id",
-    "time",
-    "dose",
+    "time(hr)",
+    "dose(µM)",
     "p_value",
     "q_value",
     "fold_change",
@@ -282,12 +284,12 @@
   {% for result in l1000_results %}
     var sig_split = "{{result.signature.sig_id}}".split("_");
     var l1000_result_entry = [
-      "{{ result.signature.drug_name }}",
+      '"{{ result.signature.drug_name }}"',
       "{{ result.signature.sig_id }}",
       sig_split[1],
       "{{ result.signature.pert_id }}",
-      "{{ result.signature.pert_time}} {{ result.signature.pert_time_unit}}",
-      "{{ result.signature.pert_dose}} {{ result.signature.pert_dose_unit}}",
+      "{{ result.signature.pert_time}}",
+      "{{ result.signature.pert_dose}}",
       "{{ result.p_value }}",
       "{{ result.q_value }}",
       "{{ result.fold_change }}",
@@ -309,7 +311,7 @@
   creeds.push(columns);
   {% for result in creeds_results %}
     var creeds_result_entry = [
-      "{{ result.signature.drug_name }}",
+      '"{{ result.signature.drug_name }}"',
       "{{ result.signature.creeds_id }}",
       "{{ result.signature.geo_id }}",
       "{{ result.signature.drugbank_id }}",
@@ -334,7 +336,7 @@
   cmap.push(columns);
   {% for result in cmap_results %}
     var cmap_result_entry = [
-      "{{ result.signature.drug_name }}",
+      '"{{ result.signature.drug_name }}"',
       "{{ result.signature.cell_name }}",
       "{{ result.signature.pert_time}} {{ result.signature.pert_time_unit}}",
       "{{ result.signature.pert_dose}} {{ result.signature.pert_dose_unit}}",

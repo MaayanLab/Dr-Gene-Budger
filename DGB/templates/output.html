@@ -308,8 +308,8 @@
   var columns = [
     "drug_name",
     "cell_name",
-    "time",
-    "dose",
+    "time(hr)",
+    "dose(µM)",
     "p_value",
     "q_value",
     "fold_change",
@@ -319,8 +319,8 @@
     var cmap_result_entry = [
       '"{{ result.signature.drug_name }}"',
       "{{ result.signature.cell_name }}",
-      "{{ result.signature.pert_time}} {{ result.signature.pert_time_unit}}",
-      "{{ result.signature.pert_dose}} {{ result.signature.pert_dose_unit}}",
+      "{{ result.signature.pert_time}}",
+      "{{ result.signature.pert_dose}}",
       "{{ result.p_value }}",
       "{{ result.q_value }}",
       "{{ result.fold_change }}",

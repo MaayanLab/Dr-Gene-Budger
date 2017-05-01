@@ -23,9 +23,30 @@ def get_or_create(session, model, **kwargs):
         session.commit()
         return instance
 
+def separate_by_expression(model_query):
+    results = { "up": [], "down": []}
+    for query_item in model_query:
+        if (query_item.fold_change >= 0):
+            results["up"].append(query_item.to_json())
+        else:
+            results["down"].append(query_item.to_json())
+    return results
+
+
 def get_rows(session, symbol):
     return {
         "l1000_query": get_or_create(session, L1000Association, gene_symbol=symbol),
         "creeds_query": get_or_create(session, CreedsAssociation, gene_symbol=symbol),
         "cmap_query": get_or_create(session, CmapAssociation, gene_symbol=symbol)
+    }
+
+def mobile_get_rows(session, symbol):
+    l1000 = separate_by_expression(get_or_create(session, L1000Association, gene_symbol=symbol))
+    creeds = separate_by_expression(get_or_create(session, CreedsAssociation, gene_symbol=symbol))
+    cmap = separate_by_expression(get_or_create(session, CmapAssociation, gene_symbol=symbol))
+
+    return {
+        "l1000_query": l1000,
+        "creeds_query": creeds,
+        "cmap_query": cmap
     }

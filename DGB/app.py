@@ -71,9 +71,9 @@ def api_res():
         jsonData = request.get_json()
         symbol = jsonData['symbol'].upper()
 
-        queries = get_rows(db.session, symbol)
-        cmap_query = map(lambda x: x.to_json(), queries["cmap_query"])
-        l1000_query = map(lambda x: x.to_json(), queries["l1000_query"])
-        creeds_query = map(lambda x: x.to_json(), queries["creeds_query"])
+        queries = mobile_get_rows(db.session, symbol)
+        cmap_query = queries["cmap_query"]
+        l1000_query = queries["l1000_query"]
+        creeds_query = queries["creeds_query"]
 
         return jsonify(l1000=l1000_query, creeds=creeds_query, cmap=cmap_query)

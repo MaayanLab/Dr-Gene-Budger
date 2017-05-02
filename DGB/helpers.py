@@ -14,7 +14,7 @@ def filter_by_expression(query_results, association, expression):
 def get_or_create(session, model, **kwargs):
     # init a instance if not exists
     # http://stackoverflow.com/questions/2546207/does-sqlalchemy-have-an-equivalent-of-djangos-get-or-create
-    instance = session.query(model).filter_by(**kwargs)
+    instance = session.query(model).filter_by(**kwargs).order_by(model.p_value)
     if instance:
         return instance
     else:

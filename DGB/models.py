@@ -6,6 +6,8 @@ class L1000Signature(OutputMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     sig_id = db.Column(db.String(50))
     pert_id = db.Column(db.String(20))
+    pubchem_cid = db.Column(db.String(50))
+    drugbank_id = db.Column(db.String(50))
     drug_name = db.Column(db.String(50))
     pert_time = db.Column(db.Integer)
     pert_time_unit = db.Column(db.String(6))

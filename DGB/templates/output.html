@@ -70,33 +70,25 @@
                   <td>{{ result.signature.pert_time }} {{ result.signature.pert_time_unit }}</td>
                   <td>{{ result.signature.pert_dose }} {{ result.signature.pert_dose_unit }}</td>
                   <td class="p-val">
-                    <script>
-                      document.write(Number({{ result.p_value }}).toExponential(2));
-                    </script>
+                    {{ result.p_value }}
                     {% if expression is equalto 'Up-Regulate'%}
-                      <span class="p-val-dot green-dot" val="{{ result.p_value }}"></span>
+                      Up-Regulate
                     {% else %}
-                      <span class="p-val-dot red-dot" val="{{ result.p_value }}"></span>
+                      Down-Regulate
                     {% endif %}
                   </td>
                   <td class="q-val">
-                    <script>
-                      document.write(Number({{ result.q_value }}).toExponential(2));
-                    </script>
+                    {{ result.q_value }}
                   </td>
                   <td class="fold-change">
-                    <script>
-                      document.write(Number({{ result.fold_change }}).toFixed(3));
-                    </script>
+                    {{ result.fold_change }}
                   </td>
                   <td class="specificity">
-                    <script>
-                      if ({{result.fold_change}} > 0) {
-                        document.write(Number(({{ 1/result.signature.n_sig_up_genes }})).toExponential(2));
-                      } else {
-                        document.write(Number(({{ 1/result.signature.n_sig_down_genes }})).toExponential(2));
-                      }
-                    </script>
+                    {% if result.fold_change > 0 %}
+                      {{ 1/result.signature.n_sig_up_genes }}
+                    {% else %}
+                      {{ 1/result.signature.n_sig_down_genes }}
+                    {% endif %}
                   </td>
               </tr>
           {% endfor %}
@@ -153,33 +145,20 @@
                 </td>
 
                 <td class="p-val">
-                  <script>
-                    document.write(Number({{ result.p_value }}).toExponential(2));
-                  </script>
-                  {% if expression is equalto 'Up-Regulate'%}
-                    <span class="p-val-dot green-dot" val="{{ result.p_value }}"></span>
-                  {% else %}
-                    <span class="p-val-dot red-dot" val="{{ result.p_value }}"></span>
-                  {% endif %}
+                  {{ result.p_value }}
                 </td>
                 <td class="q-val">
-                  <script>
-                    document.write(Number({{ result.q_value }}).toExponential(2));
-                  </script>
+                  {{ result.q_value }}
                 </td>
                 <td class="fold-change">
-                  <script>
-                    document.write(Number({{ result.fold_change }}).toFixed(3));
-                  </script>
+                  {{ result.fold_change }}
                 </td>
                 <td class="specificity">
-                  <script>
-                    if ({{result.fold_change}} > 0) {
-                      document.write(Number((1/{{ result.signature.n_sig_up_genes }})).toExponential(2));
-                    } else {
-                      document.write(Number((1/{{ result.signature.n_sig_down_genes }})).toExponential(2));
-                    }
-                  </script>
+                  {% if result.fold_change > 0 %}
+                    {{ 1/result.signature.n_sig_up_genes }}
+                  {% else %}
+                    {{ 1/result.signature.n_sig_down_genes }}
+                  {% endif %}
                 </td>
               </tr>
           {% endfor %}
@@ -360,35 +339,95 @@
   }
 
   $(document).ready(function() {
-    setTimeout(function() {
-      $(".p-val-dot").each(function(idx) {
-        var min = 0;
-        var max = 0;
-        var opacity = calculateOpacity(min, max, Number($(this).attr('val')));
-        $(this).attr('style', `opacity:${opacity}`)
-      });
+    $(".p-val-dot").each(function(idx) {
+      var min = 0;
+      var max = 0;
+      var opacity = calculateOpacity(min, max, Number($(this).attr('val')));
+      $(this).attr('style', `opacity:${opacity}`)
+    });
 
-      $("#L1000-table").dataTable({
-        "order": [[7, "asc"]], // sort by q-value by default
-        "fnInitComplete": function() {
-          $("#L1000-table").removeClass('dn');
-        }
-      });
+    $("#L1000-table").dataTable({
+      "columnDefs": [
+        {
+          "render": function (data, type, row) {
+            var dataSplit = data.split(" ");
+            var res = '<div>' + Number(dataSplit[0]).toExponential(2);
+            if (dataSplit[dataSplit.length - 1] === 'Up-Regulate') {
+              res += ' <span class="p-val-dot green-dot" val="{{ data }}"></span></div>'
+            } else {
+              res += ' <span class="p-val-dot red-dot" val="{{ data }}"></span></div>'
+            }
+            return res;
+          },
+          targets: 6
+        },
+        {
+          "render": function (data, type, row) {
+            return Number(data).toExponential(2);
+          },
+          targets: [7, 9]
+        },
+        {
+          "render": function (data, type, row) {
+            return Number(data).toFixed(3);
+          },
+          targets: 8
+        },
+        { "type": "scientific", targets: [7] },
+      ],
+      "order": [[7, "scientific-asc"]], // sort by q-value by default
+      "fnInitComplete": function() {
+        $("#L1000-table").removeClass('dn');
+      }
+    });
 
-      $("#CREEDS-table").dataTable({
-        "order": [[6, "asc"]],
-        "fnInitComplete": function() {
-          $("#CREEDS-table").removeClass('dn');
-        }
-      });
+    $("#CREEDS-table").dataTable({
+      "columnDefs": [
+        {
+          "render": function (data, type, row) {
+            return '<div>' + Number(data).toExponential(2) + ' <span class="p-val-dot green-dot" val="{{ data }}"></span></div>';
+          },
+          targets: 5
+        },
+        {
+          "render": function (data, type, row) {
+            return Number(data).toExponential(2);
+          },
+          targets: [6, 8]
+        },
+        {
+          "render": function (data, type, row) {
+            return Number(data).toFixed(3);
+          },
+          targets: 7
+        },
+        { "type": "scientific", targets: [7] },
+      ],
+      "order": [[7, "scientific-asc"]], // sort by q-value by default
+      "fnInitComplete": function() {
+        $("#CREEDS-table").removeClass('dn');
+      }
+    });
 
-      $("#CMAP-table").dataTable({
-        "order": [[5, "asc"]], // sort by q-value by default
-        "fnInitComplete": function() {
-          $("#CMAP-table").removeClass('dn');
-        }
-      });
-    }, 0);
+    $("#CMAP-table").dataTable({
+      "order": [[5, "asc"]], // sort by q-value by default
+      "fnInitComplete": function() {
+        $("#CMAP-table").removeClass('dn');
+      }
+    });
   });
 </script>
 {% endblock %}
+
+
+<!-- // {% if expression is equalto 'Up-Regulate'%}
+//   <span class="p-val-dot green-dot" val="{{ result.p_value }}"></span>
+// {% else %}
+//   <span class="p-val-dot red-dot" val="{{ result.p_value }}"></span>
+// {% endif %} -->
+
+<!-- {% if expression is equalto 'Up-Regulate'%}
+  <span class="p-val-dot green-dot" val="{{ result.p_value }}"></span>
+{% else %}
+  <span class="p-val-dot red-dot" val="{{ result.p_value }}"></span>
+{% endif %} -->

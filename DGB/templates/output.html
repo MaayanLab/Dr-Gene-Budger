@@ -85,9 +85,17 @@
                   </td>
                   <td class="specificity">
                     {% if result.fold_change > 0 %}
-                      {{ 1/result.signature.n_sig_up_genes }}
+                      {% if result.signature.n_sig_up_genes == 0 %}
+                        0
+                      {% else %}
+                        {{ 1/result.signature.n_sig_up_genes }}
+                      {% endif %}
                     {% else %}
-                      {{ 1/result.signature.n_sig_down_genes }}
+                      {% if result.signature.n_sig_down_genes == 0 %}
+                        0
+                      {% else %}
+                        {{ 1/result.signature.n_sig_down_genes }}
+                      {% endif %}
                     {% endif %}
                   </td>
               </tr>
@@ -146,6 +154,11 @@
 
                 <td class="p-val">
                   {{ result.p_value }}
+                  {% if expression is equalto 'Up-Regulate'%}
+                    Up-Regulate
+                  {% else %}
+                    Down-Regulate
+                  {% endif %}
                 </td>
                 <td class="q-val">
                   {{ result.q_value }}
@@ -155,9 +168,17 @@
                 </td>
                 <td class="specificity">
                   {% if result.fold_change > 0 %}
-                    {{ 1/result.signature.n_sig_up_genes }}
+                    {% if result.signature.n_sig_up_genes == 0 %}
+                      0
+                    {% else %}
+                      {{ 1/result.signature.n_sig_up_genes }}
+                    {% endif %}
                   {% else %}
-                    {{ 1/result.signature.n_sig_down_genes }}
+                    {% if result.signature.n_sig_down_genes == 0 %}
+                      0
+                    {% else %}
+                      {{ 1/result.signature.n_sig_down_genes }}
+                    {% endif %}
                   {% endif %}
                 </td>
               </tr>
@@ -189,33 +210,33 @@
                 <td>{{ result.signature.pert_time }} {{ result.signature.pert_time_unit }}</td>
                 <td>{{ result.signature.pert_dose }} {{ result.signature.pert_dose_unit }}</td>
                 <td class="p-val">
-                  <script>
-                    document.write(Number({{ result.p_value }}).toExponential(2));
-                  </script>
+                  {{ result.p_value }}
                   {% if expression is equalto 'Up-Regulate'%}
-                    <span class="p-val-dot green-dot" val="{{ result.p_value }}"></span>
+                    Up-Regulate
                   {% else %}
-                    <span class="p-val-dot red-dot" val="{{ result.p_value }}"></span>
+                    Down-Regulate
                   {% endif %}
                 </td>
                 <td class="q-val">
-                  <script>
-                    document.write(Number({{ result.q_value }}).toExponential(2));
-                  </script>
+                  {{ result.q_value }}
                 </td>
                 <td class="fold-change">
-                  <script>
-                    document.write(Number({{ result.fold_change }}).toFixed(3));
-                  </script>
+                  {{ result.fold_change }}
                 </td>
                 <td class="specificity">
-                  <script>
-                    if ({{result.fold_change}} > 0) {
-                      document.write(Number((1/{{ result.signature.n_sig_up_genes }})).toExponential(2));
-                    } else {
-                      document.write(Number((1/{{ result.signature.n_sig_down_genes }})).toExponential(2));
-                    }
-                  </script>
+                  {% if result.fold_change > 0 %}
+                    {% if result.signature.n_sig_up_genes == 0 %}
+                      0
+                    {% else %}
+                      {{ 1/result.signature.n_sig_up_genes }}
+                    {% endif %}
+                  {% else %}
+                    {% if result.signature.n_sig_down_genes == 0 %}
+                      0
+                    {% else %}
+                      {{ 1/result.signature.n_sig_down_genes }}
+                    {% endif %}
+                  {% endif %}
                 </td>
             </tr>
           {% endfor %}
@@ -375,7 +396,7 @@
         },
         { "type": "scientific", targets: [7] },
       ],
-      "order": [[7, "scientific-asc"]], // sort by q-value by default
+      "order": [[7, "asc"]], // sort by q-value by default
       "fnInitComplete": function() {
         $("#L1000-table").removeClass('dn');
       }
@@ -385,7 +406,14 @@
       "columnDefs": [
         {
           "render": function (data, type, row) {
-            return '<div>' + Number(data).toExponential(2) + ' <span class="p-val-dot green-dot" val="{{ data }}"></span></div>';
+            var dataSplit = data.split(" ");
+            var res = '<div>' + Number(dataSplit[0]).toExponential(2);
+            if (dataSplit[dataSplit.length - 1] === 'Up-Regulate') {
+              res += ' <span class="p-val-dot green-dot" val="{{ data }}"></span></div>'
+            } else {
+              res += ' <span class="p-val-dot red-dot" val="{{ data }}"></span></div>'
+            }
+            return res;
           },
           targets: 5
         },
@@ -401,15 +429,44 @@
           },
           targets: 7
         },
-        { "type": "scientific", targets: [7] },
+        { "type": "scientific", targets: [6] },
       ],
-      "order": [[7, "scientific-asc"]], // sort by q-value by default
+      "order": [[6, "asc"]], // sort by q-value by default
       "fnInitComplete": function() {
         $("#CREEDS-table").removeClass('dn');
       }
     });
 
     $("#CMAP-table").dataTable({
+      "columnDefs": [
+        {
+          "render": function (data, type, row) {
+            var dataSplit = data.split(" ");
+            var res = '<div>' + Number(dataSplit[0]).toExponential(2);
+            if (dataSplit[dataSplit.length - 1] === 'Up-Regulate') {
+              res += ' <span class="p-val-dot green-dot" val="{{ data }}"></span></div>'
+            } else {
+              res += ' <span class="p-val-dot red-dot" val="{{ data }}"></span></div>'
+            }
+            return res;
+          },
+          targets: 4
+        },
+        {
+          "render": function (data, type, row) {
+            return Number(data).toExponential(2);
+          },
+          targets: [5, 7]
+        },
+        {
+          "render": function (data, type, row) {
+            if (data === 0) return 0;
+            return Number(data).toFixed(3);
+          },
+          targets: 6
+        },
+        { "type": "scientific", targets: [7] },
+      ],
       "order": [[5, "asc"]], // sort by q-value by default
       "fnInitComplete": function() {
         $("#CMAP-table").removeClass('dn');

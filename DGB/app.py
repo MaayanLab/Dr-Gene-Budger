@@ -5,6 +5,12 @@ from config import BASE_URL, SECRET_KEY, DATABASE
 from forms import *
 import pdb
 
+from StringIO import StringIO
+# from collections import OrderedDict
+import pandas as pd
+from pandas import ExcelWriter
+
+
 app = Flask(__name__, static_url_path=BASE_URL + '/static')
 # cors = CORS(app, resources={r"/api/": {"origins": "*"}})
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE
@@ -14,6 +20,37 @@ db = SQLAlchemy(app)
 
 from models import CmapAssociation, L1000Association, CreedsAssociation
 from helpers import *
+
+def get_all_results_for_gene(gene):
+    queries = get_rows(db.session, gene)
+    cmap_query = queries["cmap_query"]
+    l1000_query = queries["l1000_query"]
+    creeds_query = queries["creeds_query"]
+
+    cmap_results_up = filter_by_expression(cmap_query, CmapAssociation, 'Up-Regulate')
+    l1000_results_up = filter_by_expression(l1000_query, L1000Association, 'Up-Regulate')
+    creeds_results_up = filter_by_expression(creeds_query, CreedsAssociation, 'Up-Regulate')
+    cmap_results_down = filter_by_expression(cmap_query, CmapAssociation, 'Down-Regulate')
+    l1000_results_down = filter_by_expression(l1000_query, L1000Association, 'Down-Regulate')
+    creeds_results_down = filter_by_expression(creeds_query, CreedsAssociation, 'Down-Regulate')
+    return (cmap_results_up,
+        l1000_results_up,
+        creeds_results_up,
+        cmap_results_down,
+        l1000_results_down,
+        creeds_results_down)
+
+def make_excel_file(names, objects):
+    # d_df = OrderedDict()
+    str_io = StringIO()
+    writer = ExcelWriter(str_io, engine='xlsxwriter')
+    for name, obj in zip(names, objects):
+        df = pd.DataFrame(obj)
+        df.to_excel(writer, name, index=True)
+    writer.save()
+    return str_io
+
+
 
 @app.route(BASE_URL + '/', methods=['GET', 'POST'])
 def home():
@@ -27,22 +64,21 @@ def home():
             return render_template('home.html', form=form)
         else:
             symbol = request.form['symbol']
-            expression = request.form['expression']
+            # expression = request.form['expression']
 
-            queries = get_rows(db.session, symbol)
-            cmap_query = queries["cmap_query"]
-            l1000_query = queries["l1000_query"]
-            creeds_query = queries["creeds_query"]
+            cmap_results_up, l1000_results_up, creeds_results_up, \
+                cmap_results_down, l1000_results_down, \
+                creeds_results_down = get_all_results_for_gene(symbol)
 
-            cmap_results = filter_by_expression(cmap_query, CmapAssociation, expression)
-            l1000_results = filter_by_expression(l1000_query, L1000Association, expression)
-            creeds_results = filter_by_expression(creeds_query, CreedsAssociation, expression)
             return render_template('output.html',
             symbol=symbol,
-            expression=expression,
-            cmap_results=cmap_results,
-            l1000_results=l1000_results,
-            creeds_results=creeds_results
+            # expression=expression,
+            cmap_results_up=cmap_results_up,
+            l1000_results_up=l1000_results_up,
+            creeds_results_up=creeds_results_up,
+            cmap_results_down=cmap_results_down,
+            l1000_results_down=l1000_results_down,
+            creeds_results_down=creeds_results_down
             )
 
     else:
@@ -62,6 +98,15 @@ def documentation():
 def statistics():
     return render_template('statistics.html')
 
+@app.route(BASE_URL + '/download/<string:gene>')
+def download_table(gene):
+    cmap_results_up, l1000_results_up, creeds_results_up, \
+                    cmap_results_down, l1000_results_down, \
+                    creeds_results_down = get_all_results_for_gene(gene)
+    excel_file = make_excel_file(names, objects)
+    return sendfile(excel_file, 
+        attachment_filename='DGB_results_%s.xlsx' % gene, 
+        as_attachment=True)
 
 # --------------------- Mobile API endpoint ---------------------
 

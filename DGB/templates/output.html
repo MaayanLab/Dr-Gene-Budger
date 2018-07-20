@@ -11,23 +11,25 @@
     <h1 class="symbol-title">
       <a href="http://amp.pharm.mssm.edu/Harmonizome/gene/{{symbol}}" target="_blank">
         {{ symbol }}
-      </a>: {{ expression }}
+      </a>
     </h1>
+
+    <h2>Up-Regulate</h2>
     <ul class="nav nav-tabs">
       <li class="nav active" role="presentation">
-        <a href="#L1000" aria-controls="l1000" role="tab" data-toggle="tab">L1000</a>
+        <a href="#L1000-up" aria-controls="l1000" role="tab" data-toggle="tab">L1000</a>
       </li>
       <li class="nav" role="presentation">
-        <a href="#CREEDS" aria-controls="creeds" role="tab" data-toggle="tab">CREEDS</a>
+        <a href="#CREEDS-up" aria-controls="creeds" role="tab" data-toggle="tab">CREEDS</a>
       </li>
       <li class="nav" role="presentation">
-        <a href="#CMAP" aria-controls="cmap" role="tab" data-toggle="tab">CMAP</a>
+        <a href="#CMAP-up" aria-controls="cmap" role="tab" data-toggle="tab">CMAP</a>
       </li>
     </ul>
 
     <div class="tab-content">
-      <div role="tabpanel" class="tab-pane active" id="L1000">
-        <table id="L1000-table" class="table datatable dn">
+      <div role="tabpanel" class="tab-pane active" id="L1000-up">
+        <table id="L1000-table" class="table datatable dn L1000-table">
           <thead>
             <tr>
               <th>Drug Name</th>
@@ -44,7 +46,7 @@
           </thead>
 
           <tbody>
-          {% for result in l1000_results %}
+          {% for result in l1000_results_up %}
                 <tr>
                   <td>
                     <a href="http://amp.pharm.mssm.edu/dmoa/report/{{ result.signature.pert_id }}" target="_blank">
@@ -104,8 +106,8 @@
         </table>
       </div>
 
-      <div role="tabpanel" class="tab-pane" id="CREEDS">
-        <table id="CREEDS-table" class="table datatable dn">
+      <div role="tabpanel" class="tab-pane" id="CREEDS-up">
+        <table id="CREEDS-table" class="table datatable dn CREEDS-table">
           <thead>
             <tr>
               <th>Drug Name</th>
@@ -121,7 +123,7 @@
           </thead>
 
           <tbody>
-          {% for result in creeds_results %}
+          {% for result in creeds_results_up %}
                 <td>{{ result.signature.drug_name }}</td>
                 <td>
                   <a href="http://amp.pharm.mssm.edu/CREEDS/api?id={{result.signature.creeds_id}}" target="_blank">
@@ -187,8 +189,8 @@
         </table>
       </div>
 
-      <div role="tabpanel" class="tab-pane" id="CMAP">
-        <table id="CMAP-table" class="table datatable dn">
+      <div role="tabpanel" class="tab-pane" id="CMAP-up">
+        <table id="CMAP-table" class="table datatable dn CMAP-table">
           <thead>
             <tr>
               <th>Drug Name</th>
@@ -203,7 +205,7 @@
           </thead>
 
           <tbody>
-          {% for result in cmap_results %}
+          {% for result in cmap_results_up %}
               <tr>
                 <td>{{ result.signature.drug_name }}</td>
                 <td>{{ result.signature.cell_name }}</td>
@@ -244,111 +246,347 @@
         </table>
       </div>
     </div>
+
+
+
+    <h2>Down-Regulate</h2>
+    <ul class="nav nav-tabs">
+      <li class="nav active" role="presentation">
+        <a href="#L1000-down" aria-controls="l1000" role="tab" data-toggle="tab">L1000</a>
+      </li>
+      <li class="nav" role="presentation">
+        <a href="#CREEDS-down" aria-controls="creeds" role="tab" data-toggle="tab">CREEDS</a>
+      </li>
+      <li class="nav" role="presentation">
+        <a href="#CMAP-down" aria-controls="cmap" role="tab" data-toggle="tab">CMAP</a>
+      </li>
+    </ul>
+
+    <div class="tab-content">
+      <div role="tabpanel" class="tab-pane active" id="L1000-down">
+        <table id="L1000-table" class="table datatable dn L1000-table">
+          <thead>
+            <tr>
+              <th>Drug Name</th>
+              <th>LINCS sig_id</th>
+              <th>Cell Line</th>
+              <th>LINCS pert_id</th>
+              <th>Time</th>
+              <th>Dose</th>
+              <th>p&nbsp;&#x2011;&nbsp;value</th>
+              <th>q&nbsp;&#x2011;&nbsp;value</th>
+              <th>Fold Change</th>
+              <th>Specificity</th>
+            </tr>
+          </thead>
+
+          <tbody>
+          {% for result in l1000_results_down %}
+                <tr>
+                  <td>
+                    <a href="http://amp.pharm.mssm.edu/dmoa/report/{{ result.signature.pert_id }}" target="_blank">
+                      {{ result.signature.drug_name }}
+                    </a>
+                  </td>
+                  <td>{{ result.signature.sig_id }}</td>
+                  <td>
+                    <script>
+                      var getCellLineFromSigId = function(sig_id) {
+                        return sig_id.split("_")[1];
+                      }
+                      var sig_id = "{{ result.signature.sig_id|safe }}";
+                      var cellLine = getCellLineFromSigId(sig_id);
+                      document.write("<span>" + cellLine + "</span>");
+                    </script>
+                  </td>
+                  <td>
+                    <a href="http://amp.pharm.mssm.edu/dmoa/report/{{ result.signature.pert_id }}" target="_blank">
+                      {{ result.signature.pert_id }}
+                    </a>
+                  </td>
+                  <td>{{ result.signature.pert_time }} {{ result.signature.pert_time_unit }}</td>
+                  <td>{{ result.signature.pert_dose }} {{ result.signature.pert_dose_unit }}</td>
+                  <td class="p-val">
+                    {{ result.p_value }}
+                    {% if expression is equalto 'Up-Regulate'%}
+                      Up-Regulate
+                    {% else %}
+                      Down-Regulate
+                    {% endif %}
+                  </td>
+                  <td class="q-val">
+                    {{ result.q_value }}
+                  </td>
+                  <td class="fold-change">
+                    {{ result.fold_change }}
+                  </td>
+                  <td class="specificity">
+                    {% if result.fold_change > 0 %}
+                      {% if result.signature.n_sig_up_genes == 0 %}
+                        0
+                      {% else %}
+                        {{ 1/result.signature.n_sig_up_genes }}
+                      {% endif %}
+                    {% else %}
+                      {% if result.signature.n_sig_down_genes == 0 %}
+                        0
+                      {% else %}
+                        {{ 1/result.signature.n_sig_down_genes }}
+                      {% endif %}
+                    {% endif %}
+                  </td>
+              </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <div role="tabpanel" class="tab-pane" id="CREEDS-down">
+        <table id="CREEDS-table" class="table datatable dn CREEDS-table">
+          <thead>
+            <tr>
+              <th>Drug Name</th>
+              <th>CREEDS ID</th>
+              <th>GEO ID</th>
+              <th>Drugbank ID</th>
+              <th>PubChem ID</th>
+              <th>p&nbsp;&#x2011;&nbsp;value</th>
+              <th>q&nbsp;&#x2011;&nbsp;value</th>
+              <th>Fold Change</th>
+              <th>Specificity</th>
+            </tr>
+          </thead>
+
+          <tbody>
+          {% for result in creeds_results_down %}
+                <td>{{ result.signature.drug_name }}</td>
+                <td>
+                  <a href="http://amp.pharm.mssm.edu/CREEDS/api?id={{result.signature.creeds_id}}" target="_blank">
+                    {{ result.signature.creeds_id }}
+                  </a>
+                </td>
+                <td>
+                  <a href="http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc={{result.signature.geo_id}}" target="_blank">
+                    {{ result.signature.geo_id }}
+                  </a>
+                </td>
+                <td>
+                  {% if result.signature.drugbank_id != None %}
+                    <a href="http://www.drugbank.ca/drugs/{{result.signature.drugbank_id}}" target="_blank">
+                      {{ result.signature.drugbank_id }}
+                    </a>
+                  {% else %}
+                    <span>N/A</span>
+                  {% endif %}
+                </td>
+                <td>
+                  {% if result.signature.pubchem_id != None %}
+                    <a href="https://pubchem.ncbi.nlm.nih.gov/compound/{{result.signature.pubchem_id}}" target="_blank">
+                      {{ result.signature.pubchem_id }}
+                    </a>
+                  {% else %}
+                    <span>N/A</span>
+                  {% endif %}
+                </td>
+
+                <td class="p-val">
+                  {{ result.p_value }}
+                  {% if expression is equalto 'Up-Regulate'%}
+                    Up-Regulate
+                  {% else %}
+                    Down-Regulate
+                  {% endif %}
+                </td>
+                <td class="q-val">
+                  {{ result.q_value }}
+                </td>
+                <td class="fold-change">
+                  {{ result.fold_change }}
+                </td>
+                <td class="specificity">
+                  {% if result.fold_change > 0 %}
+                    {% if result.signature.n_sig_up_genes == 0 %}
+                      0
+                    {% else %}
+                      {{ 1/result.signature.n_sig_up_genes }}
+                    {% endif %}
+                  {% else %}
+                    {% if result.signature.n_sig_down_genes == 0 %}
+                      0
+                    {% else %}
+                      {{ 1/result.signature.n_sig_down_genes }}
+                    {% endif %}
+                  {% endif %}
+                </td>
+              </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <div role="tabpanel" class="tab-pane" id="CMAP-down">
+        <table id="CMAP-table" class="table datatable dn CMAP-table">
+          <thead>
+            <tr>
+              <th>Drug Name</th>
+              <th>Cell Line</th>
+              <th>Time</th>
+              <th>Dose</th>
+              <th>p&nbsp;&#x2011;&nbsp;value</th>
+              <th>q&nbsp;&#x2011;&nbsp;value</th>
+              <th>Fold Change</th>
+              <th>Specificity</th>
+            </tr>
+          </thead>
+
+          <tbody>
+          {% for result in cmap_results_down %}
+              <tr>
+                <td>{{ result.signature.drug_name }}</td>
+                <td>{{ result.signature.cell_name }}</td>
+                <td>{{ result.signature.pert_time }} {{ result.signature.pert_time_unit }}</td>
+                <td>{{ result.signature.pert_dose }} {{ result.signature.pert_dose_unit }}</td>
+                <td class="p-val">
+                  {{ result.p_value }}
+                  {% if expression is equalto 'Up-Regulate'%}
+                    Up-Regulate
+                  {% else %}
+                    Down-Regulate
+                  {% endif %}
+                </td>
+                <td class="q-val">
+                  {{ result.q_value }}
+                </td>
+                <td class="fold-change">
+                  {{ result.fold_change }}
+                </td>
+                <td class="specificity">
+                  {% if result.fold_change > 0 %}
+                    {% if result.signature.n_sig_up_genes == 0 %}
+                      0
+                    {% else %}
+                      {{ 1/result.signature.n_sig_up_genes }}
+                    {% endif %}
+                  {% else %}
+                    {% if result.signature.n_sig_down_genes == 0 %}
+                      0
+                    {% else %}
+                      {{ 1/result.signature.n_sig_down_genes }}
+                    {% endif %}
+                  {% endif %}
+                </td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
     <br>
 </div>
 
 <script>
-  var l1000 = ["L1000 Results"];
-  var columns = [
-    "drug_name",
-    "sig_id",
-    "cell_line",
-    "pert_id",
-    "time(hr)",
-    "dose(µM)",
-    "p_value",
-    "q_value",
-    "fold_change",
-    // "specificity"
-  ];
-  l1000.push(columns);
-  {% for result in l1000_results %}
-    var sig_split = "{{result.signature.sig_id}}".split("_");
-    var l1000_result_entry = [
-      '"{{ result.signature.drug_name }}"',
-      "{{ result.signature.sig_id }}",
-      sig_split[1],
-      "{{ result.signature.pert_id }}",
-      "{{ result.signature.pert_time}}",
-      "{{ result.signature.pert_dose}}",
-      "{{ result.p_value }}",
-      "{{ result.q_value }}",
-      "{{ result.fold_change }}",
-    ]
-    l1000.push(l1000_result_entry);
-  {% endfor %}
+  // var l1000 = ["L1000 Results"];
+  // var columns = [
+  //   "drug_name",
+  //   "sig_id",
+  //   "cell_line",
+  //   "pert_id",
+  //   "time(hr)",
+  //   "dose(µM)",
+  //   "p_value",
+  //   "q_value",
+  //   "fold_change",
+  //   // "specificity"
+  // ];
+  // l1000.push(columns);
+  // {% for result in l1000_results %}
+  //   var sig_split = "{{result.signature.sig_id}}".split("_");
+  //   var l1000_result_entry = [
+  //     '"{{ result.signature.drug_name }}"',
+  //     "{{ result.signature.sig_id }}",
+  //     sig_split[1],
+  //     "{{ result.signature.pert_id }}",
+  //     "{{ result.signature.pert_time}}",
+  //     "{{ result.signature.pert_dose}}",
+  //     "{{ result.p_value }}",
+  //     "{{ result.q_value }}",
+  //     "{{ result.fold_change }}",
+  //   ]
+  //   l1000.push(l1000_result_entry);
+  // {% endfor %}
 
-  var creeds = ["CREEDS Results"];
-  var columns = [
-    "drug_name",
-    "creeds_id",
-    "geo_id",
-    "drugbank_id",
-    "pubchem_id",
-    "p_value",
-    "q_value",
-    "fold_change"
-  ];
-  creeds.push(columns);
-  {% for result in creeds_results %}
-    var creeds_result_entry = [
-      '"{{ result.signature.drug_name }}"',
-      "{{ result.signature.creeds_id }}",
-      "{{ result.signature.geo_id }}",
-      "{{ result.signature.drugbank_id }}",
-      "{{ result.signature.pubchem_id }}",
-      "{{ result.p_value }}",
-      "{{ result.q_value }}",
-      "{{ result.fold_change }}",
-    ]
-    creeds.push(creeds_result_entry);
-  {% endfor %}
+  // var creeds = ["CREEDS Results"];
+  // var columns = [
+  //   "drug_name",
+  //   "creeds_id",
+  //   "geo_id",
+  //   "drugbank_id",
+  //   "pubchem_id",
+  //   "p_value",
+  //   "q_value",
+  //   "fold_change"
+  // ];
+  // creeds.push(columns);
+  // {% for result in creeds_results %}
+  //   var creeds_result_entry = [
+  //     '"{{ result.signature.drug_name }}"',
+  //     "{{ result.signature.creeds_id }}",
+  //     "{{ result.signature.geo_id }}",
+  //     "{{ result.signature.drugbank_id }}",
+  //     "{{ result.signature.pubchem_id }}",
+  //     "{{ result.p_value }}",
+  //     "{{ result.q_value }}",
+  //     "{{ result.fold_change }}",
+  //   ]
+  //   creeds.push(creeds_result_entry);
+  // {% endfor %}
 
-  var cmap = ["CMAP Results"];
-  var columns = [
-    "drug_name",
-    "cell_name",
-    "time(hr)",
-    "dose(µM)",
-    "p_value",
-    "q_value",
-    "fold_change",
-  ];
-  cmap.push(columns);
-  {% for result in cmap_results %}
-    var cmap_result_entry = [
-      '"{{ result.signature.drug_name }}"',
-      "{{ result.signature.cell_name }}",
-      "{{ result.signature.pert_time}}",
-      "{{ result.signature.pert_dose}}",
-      "{{ result.p_value }}",
-      "{{ result.q_value }}",
-      "{{ result.fold_change }}",
-    ]
-    cmap.push(cmap_result_entry);
-  {% endfor %}
+  // var cmap = ["CMAP Results"];
+  // var columns = [
+  //   "drug_name",
+  //   "cell_name",
+  //   "time(hr)",
+  //   "dose(µM)",
+  //   "p_value",
+  //   "q_value",
+  //   "fold_change",
+  // ];
+  // cmap.push(columns);
+  // {% for result in cmap_results %}
+  //   var cmap_result_entry = [
+  //     '"{{ result.signature.drug_name }}"',
+  //     "{{ result.signature.cell_name }}",
+  //     "{{ result.signature.pert_time}}",
+  //     "{{ result.signature.pert_dose}}",
+  //     "{{ result.p_value }}",
+  //     "{{ result.q_value }}",
+  //     "{{ result.fold_change }}",
+  //   ]
+  //   cmap.push(cmap_result_entry);
+  // {% endfor %}
 
-  function generateCSV(gene_symbol, expression, input) {
-    window.URL = window.webkitURL || window.URL;
+  // function generateCSV(gene_symbol, expression, input) {
+  //   window.URL = window.webkitURL || window.URL;
 
-    var contentType = 'text/csv';
+  //   var contentType = 'text/csv';
 
-    var csvFile = new Blob([input], {type: contentType});
+  //   var csvFile = new Blob([input], {type: contentType});
 
-    var a = document.createElement('a');
-    a.download = `DGB_${gene_symbol}_${expression}.csv`;
-    a.href = window.URL.createObjectURL(csvFile);
-    a.textContent = 'Download results';
+  //   var a = document.createElement('a');
+  //   a.download = `DGB_${gene_symbol}_${expression}.csv`;
+  //   a.href = window.URL.createObjectURL(csvFile);
+  //   a.textContent = 'Download results';
 
-    a.dataset.downloadurl = [contentType, a.download, a.href].join(':');
-    document.getElementsByClassName("symbol-title")[0].appendChild(a);
-  }
+  //   a.dataset.downloadurl = [contentType, a.download, a.href].join(':');
+  //   document.getElementsByClassName("symbol-title")[0].appendChild(a);
+  // }
 
-  var csv_results = [l1000, creeds, cmap].map(function (dataset) {
-    return dataset.join('\n')
-  }).join('\n\n');
+  // var csv_results = [l1000, creeds, cmap].map(function (dataset) {
+  //   return dataset.join('\n')
+  // }).join('\n\n');
 
-  generateCSV("{{ symbol }}", "{{ expression }}", csv_results);
+  // generateCSV("{{ symbol }}", "{{ expression }}", csv_results);
 
   function calculateOpacity(min, max, input) {
     // This function does the negative log of p-val,
@@ -367,7 +605,7 @@
       $(this).attr('style', `opacity:${opacity}`)
     });
 
-    $("#L1000-table").dataTable({
+    $(".L1000-table").dataTable({
       "columnDefs": [
         {
           "render": function (data, type, row) {
@@ -398,11 +636,11 @@
       ],
       "order": [[7, "asc"]], // sort by q-value by default
       "fnInitComplete": function() {
-        $("#L1000-table").removeClass('dn');
+        $(".L1000-table").removeClass('dn');
       }
     });
 
-    $("#CREEDS-table").dataTable({
+    $(".CREEDS-table").dataTable({
       "columnDefs": [
         {
           "render": function (data, type, row) {
@@ -433,11 +671,11 @@
       ],
       "order": [[6, "asc"]], // sort by q-value by default
       "fnInitComplete": function() {
-        $("#CREEDS-table").removeClass('dn');
+        $(".CREEDS-table").removeClass('dn');
       }
     });
 
-    $("#CMAP-table").dataTable({
+    $(".CMAP-table").dataTable({
       "columnDefs": [
         {
           "render": function (data, type, row) {
@@ -469,7 +707,7 @@
       ],
       "order": [[5, "asc"]], // sort by q-value by default
       "fnInitComplete": function() {
-        $("#CMAP-table").removeClass('dn');
+        $(".CMAP-table").removeClass('dn');
       }
     });
   });

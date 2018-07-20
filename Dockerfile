@@ -7,7 +7,7 @@ RUN apt-get update \
     python-pip \
     python-setuptools \
     apache2 \
-    apache2-prefork-dev \
+    apache2-dev \
     gfortran \
     libopenblas-dev \
     liblapack-dev \

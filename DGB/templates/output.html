@@ -38,8 +38,12 @@
               <th>LINCS pert_id</th>
               <th>Time</th>
               <th>Dose</th>
-              <th>p&nbsp;&#x2011;&nbsp;value</th>
-              <th>q&nbsp;&#x2011;&nbsp;value</th>
+              <th>
+                p&nbsp;&#x2011;&nbsp;value <span class="p-value-info glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" title="Statistical significance of drug-induced differential expression for the gene from the Limma method."></span> 
+              </th>
+              <th>
+                q&nbsp;&#x2011;&nbsp;value <span class="q-value-info glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" title="Benjamini-Hochberg adjusted p-value"></span>
+              </th>
               <th>Fold Change</th>
               <th>Specificity</th>
             </tr>
@@ -115,8 +119,12 @@
               <th>GEO ID</th>
               <th>Drugbank ID</th>
               <th>PubChem ID</th>
-              <th>p&nbsp;&#x2011;&nbsp;value</th>
-              <th>q&nbsp;&#x2011;&nbsp;value</th>
+              <th>
+                p&nbsp;&#x2011;&nbsp;value <span class="p-value-info glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" title="Statistical significance of drug-induced differential expression for the gene from the Limma method."></span> 
+              </th>
+              <th>
+                q&nbsp;&#x2011;&nbsp;value <span class="q-value-info glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" title="Benjamini-Hochberg adjusted p-value"></span>
+              </th>
               <th>Fold Change</th>
               <th>Specificity</th>
             </tr>
@@ -197,8 +205,12 @@
               <th>Cell Line</th>
               <th>Time</th>
               <th>Dose</th>
-              <th>p&nbsp;&#x2011;&nbsp;value</th>
-              <th>q&nbsp;&#x2011;&nbsp;value</th>
+              <th>
+                p&nbsp;&#x2011;&nbsp;value <span class="p-value-info glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" title="Statistical significance of drug-induced differential expression for the gene from the Limma method."></span> 
+              </th>
+              <th>
+                q&nbsp;&#x2011;&nbsp;value <span class="q-value-info glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" title="Benjamini-Hochberg adjusted p-value"></span>
+              </th>
               <th>Fold Change</th>
               <th>Specificity</th>
             </tr>
@@ -273,8 +285,12 @@
               <th>LINCS pert_id</th>
               <th>Time</th>
               <th>Dose</th>
-              <th>p&nbsp;&#x2011;&nbsp;value</th>
-              <th>q&nbsp;&#x2011;&nbsp;value</th>
+              <th>
+                p&nbsp;&#x2011;&nbsp;value <span class="p-value-info glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" title="Statistical significance of drug-induced differential expression for the gene from the Limma method."></span> 
+              </th>
+              <th>
+                q&nbsp;&#x2011;&nbsp;value <span class="q-value-info glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" title="Benjamini-Hochberg adjusted p-value"></span>
+              </th>
               <th>Fold Change</th>
               <th>Specificity</th>
             </tr>
@@ -350,8 +366,12 @@
               <th>GEO ID</th>
               <th>Drugbank ID</th>
               <th>PubChem ID</th>
-              <th>p&nbsp;&#x2011;&nbsp;value</th>
-              <th>q&nbsp;&#x2011;&nbsp;value</th>
+              <th>
+                p&nbsp;&#x2011;&nbsp;value <span class="p-value-info glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" title="Statistical significance of drug-induced differential expression for the gene from the Limma method."></span> 
+              </th>
+              <th>
+                q&nbsp;&#x2011;&nbsp;value <span class="q-value-info glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" title="Benjamini-Hochberg adjusted p-value"></span>
+              </th>
               <th>Fold Change</th>
               <th>Specificity</th>
             </tr>
@@ -432,8 +452,12 @@
               <th>Cell Line</th>
               <th>Time</th>
               <th>Dose</th>
-              <th>p&nbsp;&#x2011;&nbsp;value</th>
-              <th>q&nbsp;&#x2011;&nbsp;value</th>
+              <th>
+                p&nbsp;&#x2011;&nbsp;value <span class="p-value-info glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" title="Statistical significance of drug-induced differential expression for the gene from the Limma method."></span> 
+              </th>
+              <th>
+                q&nbsp;&#x2011;&nbsp;value <span class="q-value-info glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" title="Benjamini-Hochberg adjusted p-value"></span>
+              </th>
               <th>Fold Change</th>
               <th>Specificity</th>
             </tr>
@@ -486,108 +510,6 @@
 </div>
 
 <script>
-  // var l1000 = ["L1000 Results"];
-  // var columns = [
-  //   "drug_name",
-  //   "sig_id",
-  //   "cell_line",
-  //   "pert_id",
-  //   "time(hr)",
-  //   "dose(µM)",
-  //   "p_value",
-  //   "q_value",
-  //   "fold_change",
-  //   // "specificity"
-  // ];
-  // l1000.push(columns);
-  // {% for result in l1000_results %}
-  //   var sig_split = "{{result.signature.sig_id}}".split("_");
-  //   var l1000_result_entry = [
-  //     '"{{ result.signature.drug_name }}"',
-  //     "{{ result.signature.sig_id }}",
-  //     sig_split[1],
-  //     "{{ result.signature.pert_id }}",
-  //     "{{ result.signature.pert_time}}",
-  //     "{{ result.signature.pert_dose}}",
-  //     "{{ result.p_value }}",
-  //     "{{ result.q_value }}",
-  //     "{{ result.fold_change }}",
-  //   ]
-  //   l1000.push(l1000_result_entry);
-  // {% endfor %}
-
-  // var creeds = ["CREEDS Results"];
-  // var columns = [
-  //   "drug_name",
-  //   "creeds_id",
-  //   "geo_id",
-  //   "drugbank_id",
-  //   "pubchem_id",
-  //   "p_value",
-  //   "q_value",
-  //   "fold_change"
-  // ];
-  // creeds.push(columns);
-  // {% for result in creeds_results %}
-  //   var creeds_result_entry = [
-  //     '"{{ result.signature.drug_name }}"',
-  //     "{{ result.signature.creeds_id }}",
-  //     "{{ result.signature.geo_id }}",
-  //     "{{ result.signature.drugbank_id }}",
-  //     "{{ result.signature.pubchem_id }}",
-  //     "{{ result.p_value }}",
-  //     "{{ result.q_value }}",
-  //     "{{ result.fold_change }}",
-  //   ]
-  //   creeds.push(creeds_result_entry);
-  // {% endfor %}
-
-  // var cmap = ["CMAP Results"];
-  // var columns = [
-  //   "drug_name",
-  //   "cell_name",
-  //   "time(hr)",
-  //   "dose(µM)",
-  //   "p_value",
-  //   "q_value",
-  //   "fold_change",
-  // ];
-  // cmap.push(columns);
-  // {% for result in cmap_results %}
-  //   var cmap_result_entry = [
-  //     '"{{ result.signature.drug_name }}"',
-  //     "{{ result.signature.cell_name }}",
-  //     "{{ result.signature.pert_time}}",
-  //     "{{ result.signature.pert_dose}}",
-  //     "{{ result.p_value }}",
-  //     "{{ result.q_value }}",
-  //     "{{ result.fold_change }}",
-  //   ]
-  //   cmap.push(cmap_result_entry);
-  // {% endfor %}
-
-  // function generateCSV(gene_symbol, expression, input) {
-  //   window.URL = window.webkitURL || window.URL;
-
-  //   var contentType = 'text/csv';
-
-  //   var csvFile = new Blob([input], {type: contentType});
-
-  //   var a = document.createElement('a');
-  //   a.download = `DGB_${gene_symbol}_${expression}.csv`;
-  //   a.href = window.URL.createObjectURL(csvFile);
-  //   a.textContent = 'Download results';
-
-  //   a.dataset.downloadurl = [contentType, a.download, a.href].join(':');
-  //   document.getElementsByClassName("symbol-title")[0].appendChild(a);
-  // }
-
-  // var csv_results = [l1000, creeds, cmap].map(function (dataset) {
-  //   return dataset.join('\n')
-  // }).join('\n\n');
-
-  // generateCSV("{{ symbol }}", "{{ expression }}", csv_results);
-
   function calculateOpacity(min, max, input) {
     // This function does the negative log of p-val,
     // linearly scales it to a value between 0 and 1, thereby generating opacity
@@ -710,6 +632,9 @@
         $(".CMAP-table").removeClass('dn');
       }
     });
+
+    $('[data-toggle="tooltip"]').tooltip();
+
   });
 </script>
 {% endblock %}

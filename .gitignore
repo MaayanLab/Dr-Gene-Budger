@@ -3,3 +3,4 @@ config.py
 debug.py
 docs.py
 venv/
+.DS_Store

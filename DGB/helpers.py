@@ -1,4 +1,8 @@
 import json
+from StringIO import StringIO
+import pandas as pd
+from pandas import ExcelWriter
+
 from models import L1000Association, CreedsAssociation, CmapAssociation
 
 def symbol_validate(symbol):
@@ -9,6 +13,20 @@ def filter_by_expression(query_results, association, expression):
     if (expression == 'Up-Regulate'):
         return query_results.having(association.fold_change >= 0).all()
     return query_results.having(association.fold_change < 0).all()
+
+
+def make_excel_file(names, objects):
+    '''Make excel file for the associations to a StringIO object.
+    '''
+    str_io = StringIO()
+    writer = ExcelWriter(str_io, engine='xlsxwriter')
+    for name, obj in zip(names, objects):
+        df = pd.DataFrame([assc.to_table_row() for assc in obj])
+        df.to_excel(writer, name, index=True)
+    writer.save()
+    str_io.seek(0)
+    return str_io
+
 
 # Model Methods
 def get_or_create(session, model, **kwargs):

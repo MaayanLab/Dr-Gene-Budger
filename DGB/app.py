@@ -1,14 +1,9 @@
-from flask import Flask, render_template, flash, request, jsonify
+from flask import Flask, render_template, flash, request, jsonify, send_file
 from flask_sqlalchemy import SQLAlchemy
 # from flask_cors import CORS, cross_origin
 from config import BASE_URL, SECRET_KEY, DATABASE
 from forms import *
 import pdb
-
-from StringIO import StringIO
-# from collections import OrderedDict
-import pandas as pd
-from pandas import ExcelWriter
 
 
 app = Flask(__name__, static_url_path=BASE_URL + '/static')
@@ -20,6 +15,7 @@ db = SQLAlchemy(app)
 
 from models import CmapAssociation, L1000Association, CreedsAssociation
 from helpers import *
+
 
 def get_all_results_for_gene(gene):
     queries = get_rows(db.session, gene)
@@ -39,17 +35,6 @@ def get_all_results_for_gene(gene):
         cmap_results_down,
         l1000_results_down,
         creeds_results_down)
-
-def make_excel_file(names, objects):
-    # d_df = OrderedDict()
-    str_io = StringIO()
-    writer = ExcelWriter(str_io, engine='xlsxwriter')
-    for name, obj in zip(names, objects):
-        df = pd.DataFrame(obj)
-        df.to_excel(writer, name, index=True)
-    writer.save()
-    return str_io
-
 
 
 @app.route(BASE_URL + '/', methods=['GET', 'POST'])
@@ -100,11 +85,21 @@ def statistics():
 
 @app.route(BASE_URL + '/download/<string:gene>')
 def download_table(gene):
+    '''Endpoint to download all 6 tables as an Excel file.
+    '''
     cmap_results_up, l1000_results_up, creeds_results_up, \
                     cmap_results_down, l1000_results_down, \
                     creeds_results_down = get_all_results_for_gene(gene)
-    excel_file = make_excel_file(names, objects)
-    return sendfile(excel_file, 
+    names = ['cmap_results_up', 'l1000_results_up', 'creeds_results_up', 
+        'cmap_results_down', 'l1000_results_down', 'creeds_results_down'
+        ]
+    excel_file = make_excel_file(names, [cmap_results_up, 
+        l1000_results_up, 
+        creeds_results_up, 
+        cmap_results_down, 
+        l1000_results_down, 
+        creeds_results_down])
+    return send_file(excel_file, 
         attachment_filename='DGB_results_%s.xlsx' % gene, 
         as_attachment=True)
 

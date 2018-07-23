@@ -19,7 +19,9 @@ RUN pip install \
     Flask-SQLAlchemy==2.1 \
     Flask-WTF==0.12 \
     WTForms==2.1 \
-    flask-cors==3.0.2
+    flask-cors==3.0.2 \
+    pandas==0.23.3 \
+    xlsxwriter==1.0.5
 
 RUN apt-get clean
 EXPOSE 80

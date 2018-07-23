@@ -1,5 +1,22 @@
+from __future__ import division
+
+from collections import OrderedDict
 from app import db
 from mixin import OutputMixin
+
+def get_specificity(d):
+    '''Helper function to calculate specificity.
+    '''
+    fc = d['fold_change']
+    sp = 0
+    try:
+        if fc > 0:
+            sp = fc/d['signature']['n_sig_up_genes']
+        else:
+            sp = fc/d['signature']['n_sig_down_genes']
+    except ZeroDivisionError:
+        pass
+    return sp
 
 class L1000Signature(OutputMixin, db.Model):
     __tablename__ = 'l1000_signatures'
@@ -28,6 +45,22 @@ class L1000Association(OutputMixin, db.Model):
     q_value = db.Column(db.Float)
     signature = db.relationship("L1000Signature", backref=db.backref("l1000_associations", lazy="dynamic"))
 
+    def to_table_row(self):
+        d = self.to_dict()
+        row = OrderedDict()
+        row['Drug Name'] = d['signature']['drug_name']
+        row['LINCS sig_id'] = d['signature']['sig_id']
+        row['Cell Line'] = d['signature']['sig_id'].split(':')[0].split('_')[1]
+        row['LINCS pert_id'] = d['signature']['pert_id']
+        row['Time'] = '%s %s' % (d['signature']['pert_time'], d['signature']['pert_time_unit'])
+        row['Dose'] = '%s %s' % (d['signature']['pert_dose'], d['signature']['pert_dose_unit'])
+        row['p-value'] = d['p_value']
+        row['q-value'] = d['q_value']
+        row['Fold Change'] = d['fold_change']
+        row['Specificity'] = get_specificity(d)
+        return row
+
+
 class CreedsSignature(OutputMixin, db.Model):
     __tablename__ = 'creeds_signatures'
     id = db.Column(db.Integer, primary_key=True)
@@ -50,6 +83,20 @@ class CreedsAssociation(OutputMixin, db.Model):
     q_value = db.Column(db.Float)
     fold_change = db.Column(db.Float)
     signature = db.relationship("CreedsSignature", backref=db.backref("creeds_associations", lazy="dynamic"))
+
+    def to_table_row(self):
+        d = self.to_dict()
+        row = OrderedDict()
+        row['Drug Name'] = d['signature']['drug_name']
+        row['CREEDS ID'] = d['signature']['creeds_id']
+        row['GEO ID'] = d['signature']['geo_id']
+        row['DrugBank ID'] = d['signature']['drugbank_id']
+        row['p-value'] = d['p_value']
+        row['q-value'] = d['q_value']
+        row['Fold Change'] = d['fold_change']
+        row['Specificity'] = get_specificity(d)
+        return row
+
 
 class CmapSignature(OutputMixin, db.Model):
     __tablename__ = 'cmap_signatures'
@@ -75,3 +122,17 @@ class CmapAssociation(OutputMixin, db.Model):
     p_value = db.Column(db.Float)
     q_value = db.Column(db.Float)
     signature = db.relationship("CmapSignature", backref=db.backref("cmap_associations", lazy="dynamic"))
+    
+    def to_table_row(self):
+        d = self.to_dict()
+        row = OrderedDict()
+        row['Drug Name'] = d['signature']['drug_name']
+        row['Cell Line'] = d['signature']['cell_name']
+        row['Time'] = '%s %s' % (d['signature']['pert_time'], d['signature']['pert_time_unit'])
+        row['Dose'] = '%s %s' % (d['signature']['pert_dose'], d['signature']['pert_dose_unit'])
+        row['p-value'] = d['p_value']
+        row['q-value'] = d['q_value']
+        row['Fold Change'] = d['fold_change']
+        row['Specificity'] = get_specificity(d)
+        return row
+

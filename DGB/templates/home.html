@@ -70,40 +70,51 @@
     });
   });
 
-  $.getJSON('/DGB/static/js/genes_list.json', function(arr){
-      var substringMatcher = function(strs) {
-        return function findMatches(q, cb) {
-          var matches, substringRegex;
 
-          // an array that will be populated with substring matches
-          matches = [];
+  $.getJSON("{{ url_for('static', filename='js/hgnc_symbols.json') }}", function(arr){
 
-          // regex used to determine if a string contains the substring `q`
-          substrRegex = new RegExp(q, 'i');
+    var dataSource = new Bloodhound({
+      datumTokenizer: Bloodhound.tokenizers.obj.whitespace('symbol'),
+      queryTokenizer: Bloodhound.tokenizers.whitespace,
+      // sufficient: 25,
+      local: arr,
+      remote: {
+        url: 'http://mygene.info/v3/query?q=\%QUERY&species=9606&entrezonly=1&size=25',
+        wildcard: '%QUERY',
+        rateLimitWait: 100,
+        transform: function(resp){
+          return resp.hits;
+        }
+      }
 
-          // iterate through the pool of strings and for any string that
-          // contains the substring `q`, add it to the `matches` array
-          $.each(strs, function(i, str) {
-            if (substrRegex.test(str)) {
-              matches.push(str);
-            }
-          });
+    })
 
-          cb(matches);
-        };
-      };
+    $('#search').typeahead({
+      minLength: 1,
+      hint: true,
+      highlight: true,      
+    }, {
+      name: 'name',
+      display: 'symbol',
+      templates: {
+        empty: [
+          '<div class="empty-message">',
+            'unable to find any human genes matching current query',
+          '</div>'
+        ].join('\n'),
 
-      $('#search').typeahead({
-        hint: true,
-        highlight: true,
-        minLength: 1,
+        suggestion: function(data){
+          return '<div>' +data.symbol+ ' – '+data.name+'</div>';
+        }
       },
-      {
-        name: 'arr',
-        source: substringMatcher(arr),
-        limit: 8
-      });
-  });
+      
+      source: dataSource,
+      limit: 15
+    });
+
+  })
+
+
   $('select').togglebutton();
 </script>
 

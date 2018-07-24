@@ -59,14 +59,8 @@
                   </td>
                   <td>{{ result.signature.sig_id }}</td>
                   <td>
-                    <script>
-                      var getCellLineFromSigId = function(sig_id) {
-                        return sig_id.split("_")[1];
-                      }
-                      var sig_id = "{{ result.signature.sig_id|safe }}";
-                      var cellLine = getCellLineFromSigId(sig_id);
-                      document.write("<span>" + cellLine + "</span>");
-                    </script>
+                    {% set sig_id = result.signature.sig_id.split('_') %}
+                    {{ sig_id[1] }}
                   </td>
                   <td>
                     <a href="http://amp.pharm.mssm.edu/dmoa/report/{{ result.signature.pert_id }}" target="_blank">
@@ -77,11 +71,7 @@
                   <td>{{ result.signature.pert_dose }} {{ result.signature.pert_dose_unit }}</td>
                   <td class="p-val">
                     {{ result.p_value }}
-                    {% if expression is equalto 'Up-Regulate'%}
                       Up-Regulate
-                    {% else %}
-                      Down-Regulate
-                    {% endif %}
                   </td>
                   <td class="q-val">
                     {{ result.q_value }}
@@ -164,11 +154,7 @@
 
                 <td class="p-val">
                   {{ result.p_value }}
-                  {% if expression is equalto 'Up-Regulate'%}
                     Up-Regulate
-                  {% else %}
-                    Down-Regulate
-                  {% endif %}
                 </td>
                 <td class="q-val">
                   {{ result.q_value }}
@@ -225,11 +211,7 @@
                 <td>{{ result.signature.pert_dose }} {{ result.signature.pert_dose_unit }}</td>
                 <td class="p-val">
                   {{ result.p_value }}
-                  {% if expression is equalto 'Up-Regulate'%}
                     Up-Regulate
-                  {% else %}
-                    Down-Regulate
-                  {% endif %}
                 </td>
                 <td class="q-val">
                   {{ result.q_value }}
@@ -306,14 +288,8 @@
                   </td>
                   <td>{{ result.signature.sig_id }}</td>
                   <td>
-                    <script>
-                      var getCellLineFromSigId = function(sig_id) {
-                        return sig_id.split("_")[1];
-                      }
-                      var sig_id = "{{ result.signature.sig_id|safe }}";
-                      var cellLine = getCellLineFromSigId(sig_id);
-                      document.write("<span>" + cellLine + "</span>");
-                    </script>
+                    {% set sig_id = result.signature.sig_id.split('_') %}
+                    {{ sig_id[1] }}
                   </td>
                   <td>
                     <a href="http://amp.pharm.mssm.edu/dmoa/report/{{ result.signature.pert_id }}" target="_blank">
@@ -324,11 +300,7 @@
                   <td>{{ result.signature.pert_dose }} {{ result.signature.pert_dose_unit }}</td>
                   <td class="p-val">
                     {{ result.p_value }}
-                    {% if expression is equalto 'Up-Regulate'%}
-                      Up-Regulate
-                    {% else %}
                       Down-Regulate
-                    {% endif %}
                   </td>
                   <td class="q-val">
                     {{ result.q_value }}
@@ -411,11 +383,7 @@
 
                 <td class="p-val">
                   {{ result.p_value }}
-                  {% if expression is equalto 'Up-Regulate'%}
-                    Up-Regulate
-                  {% else %}
                     Down-Regulate
-                  {% endif %}
                 </td>
                 <td class="q-val">
                   {{ result.q_value }}
@@ -472,11 +440,7 @@
                 <td>{{ result.signature.pert_dose }} {{ result.signature.pert_dose_unit }}</td>
                 <td class="p-val">
                   {{ result.p_value }}
-                  {% if expression is equalto 'Up-Regulate'%}
-                    Up-Regulate
-                  {% else %}
                     Down-Regulate
-                  {% endif %}
                 </td>
                 <td class="q-val">
                   {{ result.q_value }}
@@ -520,12 +484,12 @@
   }
 
   $(document).ready(function() {
-    $(".p-val-dot").each(function(idx) {
-      var min = 0;
-      var max = 0;
-      var opacity = calculateOpacity(min, max, Number($(this).attr('val')));
-      $(this).attr('style', `opacity:${opacity}`)
-    });
+    // $(".p-val-dot").each(function(idx) {
+    //   var min = 0;
+    //   var max = 0;
+    //   var opacity = calculateOpacity(min, max, Number($(this).attr('val')));
+    //   $(this).attr('style', `opacity:${opacity}`)
+    // });
 
     $(".L1000-table").dataTable({
       "columnDefs": [
@@ -534,9 +498,9 @@
             var dataSplit = data.split(" ");
             var res = '<div>' + Number(dataSplit[0]).toExponential(2);
             if (dataSplit[dataSplit.length - 1] === 'Up-Regulate') {
-              res += ' <span class="p-val-dot green-dot" val="{{ data }}"></span></div>'
+              res += ' <span class="p-val-dot green-dot"></span></div>'
             } else {
-              res += ' <span class="p-val-dot red-dot" val="{{ data }}"></span></div>'
+              res += ' <span class="p-val-dot red-dot"></span></div>'
             }
             return res;
           },
@@ -569,9 +533,9 @@
             var dataSplit = data.split(" ");
             var res = '<div>' + Number(dataSplit[0]).toExponential(2);
             if (dataSplit[dataSplit.length - 1] === 'Up-Regulate') {
-              res += ' <span class="p-val-dot green-dot" val="{{ data }}"></span></div>'
+              res += ' <span class="p-val-dot green-dot"></span></div>'
             } else {
-              res += ' <span class="p-val-dot red-dot" val="{{ data }}"></span></div>'
+              res += ' <span class="p-val-dot red-dot"></span></div>'
             }
             return res;
           },
@@ -604,9 +568,9 @@
             var dataSplit = data.split(" ");
             var res = '<div>' + Number(dataSplit[0]).toExponential(2);
             if (dataSplit[dataSplit.length - 1] === 'Up-Regulate') {
-              res += ' <span class="p-val-dot green-dot" val="{{ data }}"></span></div>'
+              res += ' <span class="p-val-dot green-dot"></span></div>'
             } else {
-              res += ' <span class="p-val-dot red-dot" val="{{ data }}"></span></div>'
+              res += ' <span class="p-val-dot red-dot"></span></div>'
             }
             return res;
           },
@@ -639,15 +603,3 @@
 </script>
 {% endblock %}
 
-
-<!-- // {% if expression is equalto 'Up-Regulate'%}
-//   <span class="p-val-dot green-dot" val="{{ result.p_value }}"></span>
-// {% else %}
-//   <span class="p-val-dot red-dot" val="{{ result.p_value }}"></span>
-// {% endif %} -->
-
-<!-- {% if expression is equalto 'Up-Regulate'%}
-  <span class="p-val-dot green-dot" val="{{ result.p_value }}"></span>
-{% else %}
-  <span class="p-val-dot red-dot" val="{{ result.p_value }}"></span>
-{% endif %} -->

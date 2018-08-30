@@ -4,3 +4,5 @@ debug.py
 docs.py
 venv/
 .DS_Store
+.ipynb_checkpoints
+*.ipynb

@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <title>Drug Gene Budger</title>
     <link rel="shortcut icon" href="{{ url_for('static', filename='image/favicon.ico') }}">
-    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" >
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/table.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css') }}">
@@ -18,113 +19,114 @@
     <script type=text/javascript src="{{ url_for('static', filename='js/spin.js') }}"></script>
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Josefin+Slab" rel="stylesheet">
-    <link href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css" rel="stylesheet" >
+    <link href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-6277639-34"></script>
     <script src="{{ url_for('static', filename='js/ga.js') }}"></script>
     <script type=text/javascript src="{{ url_for('static', filename='js/scientific.js') }}"></script>
-  </head>
+</head>
 
-  <body>
+<body>
     <div id="navbar-wrapper" class="navbar-static-top">
-    	<div class="container">
-    		<h1 class="pull-left">
-          <!-- <span class="navbar-logo-wrapper">
+        <div class="container">
+            <h1 class="pull-left">
+                <!-- <span class="navbar-logo-wrapper">
             <img src="{{ url_for('static', filename='image/dgb_logo.png') }}" class="navbar-logo">
           </span> -->
-    			<a href="{{ url_for('home') }}">
-    				<span class="project-title">Drug Gene Budger</span>
-    				<span class="credits">Identify drugs and small molecules to regulate expression of target genes</span>
-    			</a>
-    		</h1>
+                <a href="{{ url_for('home') }}">
+                    <span class="project-title">Drug Gene Budger</span>
+                    <span class="credits">Identify drugs and small molecules to regulate expression of target genes</span>
+                </a>
+            </h1>
 
-    		<!-- This is the dropdown button for the mobile version of the site -->
-    		<div id="menu-dropdown" class="navbar-header">
-    			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menu" aria-expanded="false" aria-controls="navbar">
+            <!-- This is the dropdown button for the mobile version of the site -->
+            <div id="menu-dropdown" class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menu" aria-expanded="false" aria-controls="navbar">
     			<span class="sr-only">Toggle navigation</span>
     				<span class="icon-bar"></span>
     				<span class="icon-bar"></span>
     				<span class="icon-bar"></span>
     			</button>
-    		</div>
+            </div>
 
-    		<div id="menu" class="navbar-collapse collapse pull-right">
-        	<ul class="nav navbar-nav list-inline">
-            <li>
-              <a href="{{ url_for('home') }}">Home</a>
-            </li>
-        		<li>
-        			<a href="{{ url_for('documentation') }}">Documentation</a>
-        		</li>
-        		<li>
-        			<a href="{{ url_for('statistics') }}">Statistics</a>
-        		</li>
-        	</ul>
+            <div id="menu" class="navbar-collapse collapse pull-right">
+                <ul class="nav navbar-nav list-inline">
+                    <li>
+                        <a href="{{ url_for('home') }}">Home</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('documentation') }}">Documentation</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('statistics') }}">Statistics</a>
+                    </li>
+                </ul>
+            </div>
         </div>
-    	</div>
     </div>
 
     <main>
-      {% with messages = get_flashed_messages() %}
-        {% if messages %}
-          <script>
-            var messages = {{ messages | safe }};
-            for (var i=0; i<messages.length; i++) {
-              alert(messages[i]);
+        {% with messages = get_flashed_messages() %} {% if messages %}
+        <script>
+            var messages = {
+                {
+                    messages | safe
+                }
+            };
+            for (var i = 0; i < messages.length; i++) {
+                alert(messages[i]);
             }
-          </script>
-        {% endif %}
-      {% endwith %}
-      {% block content %}
-      {% endblock %}
+        </script>
+        {% endif %} {% endwith %} {% block content %} {% endblock %}
     </main>
 
 
     <footer style="width: 100%; padding-top: 0;" class="footer">
-      <div class="container">
-        <div class="row">
-          <br>
-          <div class="col-sm-6">
-            <ul id="contact" class="list-inline">
-              <li>
-                <a href="http://icahn.mssm.edu/research/labs/maayan-laboratory" target="_blank">Ma'ayan Lab<span class="hide-on-mobile">oratory of Computational Systems Biology</span></a>
-              </li>
-            </ul>
+        <div class="container">
+            <div class="row">
+                <br>
+                <div class="col-sm-6">
+                    <ul id="contact" class="list-inline">
+                        <li>
+                            <a href="http://icahn.mssm.edu/research/labs/maayan-laboratory" target="_blank">Ma'ayan Lab<span class="hide-on-mobile">oratory of Computational Systems Biology</span></a>
+                        </li>
+                    </ul>
 
-            <div>
-              <h6>Funding</h6>
-              <ul id="funders">
-                <li>
-                    <a href="http://lincs-dcic.org/" target="_blank">BD2K-LINCS Data Coordination and Integration Center</a>
-                </li>
-                <li>
-                    <a href="http://www.targetcentral.ws/KMC_ISMMS" target="_blank">Mount Sinai Knowledge Management Center for IDG</a>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <share>
-            <div id="share" class="col-sm-6 hide-on-mobile">
-              <span style="float: right">
+                    <div>
+                        <h6>Funding</h6>
+                        <ul id="funders">
+                            <li>
+                                <a href="http://lincs-dcic.org/" target="_blank">BD2K-LINCS Data Coordination and Integration Center</a>
+                            </li>
+                            <li>
+                                <a href="http://www.targetcentral.ws/KMC_ISMMS" target="_blank">Mount Sinai Knowledge Management Center for IDG</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <share>
+                    <div id="share" class="col-sm-6 hide-on-mobile">
+                        <span style="float: right">
                 <a href="https://www.linkedin.com/shareArticle?url=http://amp.pharm.mssm.edu/DGB/" target="_blank" class="push-right">
-                  <img src="http://amp.pharm.mssm.edu/DGB/static/image/share/linkedin.png" height="24" width="24">
+                  <img src="https://amp.pharm.mssm.edu/DGB/static/image/share/linkedin.png" height="24" width="24">
                 </a>
                 <a href="https://plus.google.com/share?url=http://amp.pharm.mssm.edu/DGB/" target="_blank">
-                  <img src="http://amp.pharm.mssm.edu/DGB/static/image/share/googleplus.png" height="24" width="24">
+                  <img src="https://amp.pharm.mssm.edu/DGB/static/image/share/googleplus.png" height="24" width="24">
                 </a>
                 <a href="http://www.facebook.com/sharer/sharer.php?u=http://amp.pharm.mssm.edu/DGB/" target="_blank">
-                  <img src="http://amp.pharm.mssm.edu/DGB/static/image/share/facebook.png" height="24" width="24">
+                  <img src="https://amp.pharm.mssm.edu/DGB/static/image/share/facebook.png" height="24" width="24">
                 </a>
                 <a href="http://twitter.com/share" target="_blank">
-                  <img src="http://amp.pharm.mssm.edu/DGB/static/image/share/twitter.png" height="24" width="24">
+                  <img src="https://amp.pharm.mssm.edu/DGB/static/image/share/twitter.png" height="24" width="24">
                 </a>
               </span>
+                    </div>
+                </share>
             </div>
-          </share>
         </div>
-      </div>
     </footer>
-  </body>
+</body>
+
 </html>

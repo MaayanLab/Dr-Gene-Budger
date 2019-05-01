@@ -11,9 +11,9 @@ def get_specificity(d):
     sp = 0
     try:
         if fc > 0:
-            sp = fc/d['signature']['n_sig_up_genes']
+            sp = 1/d['signature']['n_sig_up_genes']
         else:
-            sp = fc/d['signature']['n_sig_down_genes']
+            sp = 1/d['signature']['n_sig_down_genes']
     except ZeroDivisionError:
         pass
     return sp

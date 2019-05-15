@@ -24,6 +24,11 @@ RUN pip install \
     xlsxwriter==1.0.5
 
 RUN apt-get clean
+
+ENV BASE_URL = ""
+ENV SECRET_KEY ""
+ENV DATABASE ""
+
 EXPOSE 80
 ADD . /DGB
 CMD /DGB/boot.sh

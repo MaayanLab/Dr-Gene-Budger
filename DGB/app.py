@@ -1,7 +1,13 @@
 from flask import Flask, render_template, flash, request, jsonify, send_file
 from flask_sqlalchemy import SQLAlchemy
 # from flask_cors import CORS, cross_origin
-from config import BASE_URL, SECRET_KEY, DATABASE
+try:
+    from config import BASE_URL, SECRET_KEY, DATABASE
+except:
+    import os
+    BASE_URL = os.environ['BASE_URL']
+    SECRET_KEY = os.environ['SECRET_KEY']
+    DATABASE = os.environ['DATABASE']
 from forms import *
 import pdb
 

@@ -4,3 +4,4 @@ venv/
 .git/
 .ipynb_checkpoints
 *.ipynb
+config.py
